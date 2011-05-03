@@ -1,0 +1,30 @@
+plugin.tx_gbevents {
+	view {
+		templateRootPath = {$plugin.tx_gbevents.view.templateRootPath}
+		partialRootPath = {$plugin.tx_gbevents.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_gbevents.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_gbevents.persistence.storagePid}
+	}
+}
+
+plugin.tx_gbevents._CSS_DEFAULT_STYLE (
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	.tx-gbevents-pi1 table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.tx-gbevents-pi1 table th {
+		font-weight:bold;
+	}
+
+	.tx-gbevents-pi1 table td {
+		vertical-align:top;
+	}
+)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the Terminkalender extension in the FRONTEND</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_gbevents_domain_model_event">A single event</label>
+			<label index="tx_gbevents_domain_model_event.title">The title of the event</label>
+			<label index="tx_gbevents_domain_model_event.teaser">A short teaser text</label>
+			<label index="tx_gbevents_domain_model_event.description">A detailed description of the event</label>
+			<label index="tx_gbevents_domain_model_event.location">The location of the event</label>
+			<label index="tx_gbevents_domain_model_event.event_date">The date when the event happens</label>
+			<label index="tx_gbevents_domain_model_event.event_time">The time the event happens</label>
+		</languageKey>
+	</data>
+</T3locallang>
