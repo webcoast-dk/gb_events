@@ -54,13 +54,61 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 
 
   /**
-	 * Displays all Events as a browseable calendard
-	 *
+	 * Displays all Events as a browseable calendar
+   *
+   * @param string $start
 	 * @return void
 	 */
-	public function calendarAction() {
-		$events = $this->eventRepository->findAll();
-		$this->view->assign('events', $events);
+  public function calendarAction($start = 'today') {
+    // Startdatum setzen
+    $startDate = new DateTime('today');
+    try {
+      $startDate->modify($start);
+    } catch(Exception $e) {
+      $startDate->modify('midnight');
+    }
+
+    // Start für Kalenderanzeige bestimmen
+    $preDate = clone($startDate);
+    if($startDate->format("N") !== 1) {
+      $preDate->modify('previous monday');
+    }
+
+    // Ende des Monats bestimmen
+    $stopDate = clone($startDate);
+    $stopDate->modify('last day of this month');
+
+    $postDate = clone($stopDate);
+    if($stopDate->format("N") !== 7) {
+      $postDate->modify('next sunday');
+    }
+
+    // Navigational dates
+    $nextMonth = clone($startDate);
+    $nextMonth->modify('first day of next month');
+    $previousMonth = clone($startDate);
+    $previousMonth->modify('first day of previous month');
+
+    $days = array();
+    $runDate = clone($preDate);
+    while($runDate <= $postDate) {
+      $days[$runDate->format("Y-m-d")] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
+      $runDate->modify('tomorrow');
+    }
+
+    $events = $this->eventRepository->findAllBetween($startDate, $stopDate);
+    foreach($events as $event) {
+      $days[$event->getEventDate()->format('Y-m-d')]['events'][] = $event;
+    }
+    $weeks = array();
+    for($i = 0; $i < floor(count($days)/7); $i++) {
+      $weeks[] = array_slice($days, $i*7, 7, TRUE);
+    }
+    $this->view->assignMultiple(array(
+      'calendar' => $weeks,
+      'nextMonth' => $nextMonth->format('Y-m-d'),
+      'prevMonth' => $previousMonth->format('Y-m-d')
+    ));
 	}
 
 
@@ -81,8 +129,8 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_GbEvents_Domain_Model_Event $event the Event to display
 	 * @return string The rendered view
 	 */
-  public function upcomingActions() {
-    $events = $this->eventRepository->findUpcoming();
+  public function upcomingAction() {
+    $events = $this->eventRepository->findUpcoming($this->settings['upcoming']['entries']);
 		$this->view->assign('events', $events);
 	}
 }
