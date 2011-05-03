@@ -3,7 +3,7 @@
 *  Copyright notice
 *
 *  (c) 2011 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
-*  
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,11 +36,10 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 	/**
 	 * @param Tx_GbEvents_Domain_Repository_EventRepository $eventRepository
  	 * @return void
--	 */
+	 */
 	public function injectEventRepository(Tx_GbEvents_Domain_Repository_EventRepository $eventRepository) {
 		$this->eventRepository = $eventRepository;
 	}
-
 
 
 	/**
@@ -54,6 +53,17 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 	}
 
 
+  /**
+	 * Displays all Events as a browseable calendard
+	 *
+	 * @return void
+	 */
+	public function calendarAction() {
+		$events = $this->eventRepository->findAll();
+		$this->view->assign('events', $events);
+	}
+
+
 	/**
 	 * Displays a single Event
 	 *
@@ -62,71 +72,17 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 	 */
 	public function showAction(Tx_GbEvents_Domain_Model_Event $event) {
 		$this->view->assign('event', $event);
-	}
+  }
 
 
-	/**
-	 * Displays a form for creating a new  Event
-	 *
-	 * @param Tx_GbEvents_Domain_Model_Event $newEvent a fresh Event object which has not yet been added to the repository
-	 * @return void
-	 * @dontvalidate $newEvent
-	 */
-	public function newAction(Tx_GbEvents_Domain_Model_Event $newEvent = NULL) {
-		$this->view->assign('newEvent', $newEvent);
-	}
-
-
-	/**
-	 * Creates a new Event and forwards to the list action.
-	 *
-	 * @param Tx_GbEvents_Domain_Model_Event $newEvent a fresh Event object which has not yet been added to the repository
-	 * @return void
-	 */
-	public function createAction(Tx_GbEvents_Domain_Model_Event $newEvent) {
-		$this->eventRepository->add($newEvent);
-		$this->flashMessageContainer->add('Your new Event was created.');
-		$this->redirect('list');
-	}
-
-
-	
-	/**
-	 * Displays a form for editing an existing Event
+  /**
+	 * Displays the upcoming events
 	 *
 	 * @param Tx_GbEvents_Domain_Model_Event $event the Event to display
-	 * @return string A form to edit a Event 
+	 * @return string The rendered view
 	 */
-	public function editAction(Tx_GbEvents_Domain_Model_Event $event) {
-		$this->view->assign('event', $event);
+  public function upcomingActions() {
+    $events = $this->eventRepository->findUpcoming();
+		$this->view->assign('events', $events);
 	}
-
-
-
-	/**
-	 * Updates an existing Event and forwards to the list action afterwards.
-	 *
-	 * @param Tx_GbEvents_Domain_Model_Event $event the Event to display
-	 */
-	public function updateAction(Tx_GbEvents_Domain_Model_Event $event) {
-		$this->eventRepository->update($event);
-		$this->flashMessageContainer->add('Your Event was updated.');
-		$this->redirect('list');
-	}
-
-
-			/**
-	 * Deletes an existing Event
-	 *
-	 * @param Tx_GbEvents_Domain_Model_Event $event the Event to be deleted
-	 * @return void
-	 */
-	public function deleteAction(Tx_GbEvents_Domain_Model_Event $event) {
-		$this->eventRepository->remove($event);
-		$this->flashMessageContainer->add('Your Event was removed.');
-		$this->redirect('list');
-	}
-
-
 }
-?>

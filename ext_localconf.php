@@ -7,13 +7,11 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	$_EXTKEY,
 	'Main',
 	array(
-		'Event' => 'list, show, new, create, edit, update, delete',
-		
+		'Event' => 'list, calendar, upcoming, show',
+
 	),
 	array(
-		'Event' => 'create, update, delete',
-		
+		'Event' => 'list, calendar, upcoming, show',
+
 	)
 );
-
-?>

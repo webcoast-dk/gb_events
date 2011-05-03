@@ -1,0 +1,43 @@
+<T3DataStructure>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.sheetTitle</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <switchableControllerActions>
+            <TCEforms>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="0" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.upcoming</numIndex>
+                    <numIndex index="1">Event->upcoming;Event->list;Event->calendar;Event->show</numIndex>
+                  </numIndex>
+                  <numIndex index="1" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.list</numIndex>
+                    <numIndex index="1">Event->list;Event->upcoming;Event->calendar;Event->show</numIndex>
+                  </numIndex>
+                  <numIndex index="2" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.calendar</numIndex>
+                    <numIndex index="1">Event->calendar;Event->upcoming;Event->list;Event->show</numIndex>
+                  </numIndex>
+                  <numIndex index="2" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.details</numIndex>
+                    <numIndex index="1">Event->show;Event->list;Event->upcoming;Event->calendar</numIndex>
+                  </numIndex>
+                </items>
+                <maxitems>1</maxitems>
+                <size>1</size>
+              </config>
+            </TCEforms>
+          </switchableControllerActions>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>
+
