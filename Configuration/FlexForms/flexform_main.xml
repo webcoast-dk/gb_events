@@ -25,7 +25,7 @@
                     <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.calendar</numIndex>
                     <numIndex index="1">Event->calendar;Event->upcoming;Event->list;Event->show</numIndex>
                   </numIndex>
-                  <numIndex index="2" type="array">
+                  <numIndex index="3" type="array">
                     <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.details</numIndex>
                     <numIndex index="1">Event->show;Event->list;Event->upcoming;Event->calendar</numIndex>
                   </numIndex>
