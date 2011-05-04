@@ -9,7 +9,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time',
   ),
   'types' => array(
-    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description, location, event_date, event_time,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
   ),
   'palettes' => array(
     '1' => array('showitem' => ''),
