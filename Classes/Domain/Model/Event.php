@@ -74,6 +74,20 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   protected $eventTime;
 
   /**
+   * The images for this event
+   *
+   * @var string
+   */
+  protected $images;
+
+  /**
+   * The downloads for this event
+   *
+   * @var string
+   */
+  protected $downloads;
+
+  /**
    * @param string $title
    * @return void
    */
@@ -163,4 +177,35 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
     return $this->eventTime;
   }
 
+  /**
+   * @param string $images
+   * @return void
+   */
+  public function setImages($images) {
+    $this->images = $images;
+  }
+
+  /**
+   * @return array
+   */
+  public function getImages() {
+    $mapFunc = create_function('$i', 'return "uploads/tx_gbevents/" . $i;');
+    return array_map($mapFunc, t3lib_div::trimExplode(',', $this->images, TRUE));
+  }
+
+  /**
+   * @param string $downloads
+   * @return void
+   */
+  public function setDownloads($downloads) {
+    $this->downloads = $downloads;
+  }
+
+  /**
+   * @return array
+   */
+  public function getDownloads() {
+    $mapFunc = create_function('$i', 'return array("file" => "uploads/tx_gbevents/" . $i, "name" => basename($i));');
+    return array_map($mapFunc, t3lib_div::trimExplode(',', $this->downloads, TRUE));
+  }
 }

@@ -19,6 +19,8 @@
       <label index="tx_gbevents_domain_model_event.location">Location</label>
       <label index="tx_gbevents_domain_model_event.event_date">Event Date</label>
       <label index="tx_gbevents_domain_model_event.event_time">Event Time</label>
+      <label index="tx_gbevents_domain_model_event.images">Images</label>
+      <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
     </languageKey>
     <languageKey index="de" type="array">
       <label index="flexform.default.sheetTitle">Einstellungen</label>
@@ -34,6 +36,8 @@
       <label index="tx_gbevents_domain_model_event.location">Ort</label>
       <label index="tx_gbevents_domain_model_event.event_date">Datum</label>
       <label index="tx_gbevents_domain_model_event.event_time">Uhrzeit</label>
+      <label index="tx_gbevents_domain_model_event.images">Bilder</label>
+      <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
     </languageKey>
   </data>
 </T3locallang>

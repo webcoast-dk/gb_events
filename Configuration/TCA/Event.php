@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_gbevents_domain_model_event'] = array(
   'ctrl' => $TCA['tx_gbevents_domain_model_event']['ctrl'],
   'interface' => array(
-    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time',
+    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time, images, downloads',
   ),
   'types' => array(
-    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, images, downloads,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
   ),
   'palettes' => array(
     '1' => array('showitem' => ''),
@@ -148,6 +148,37 @@ $TCA['tx_gbevents_domain_model_event'] = array(
         'type' => 'input',
         'size' => 30,
         'eval' => 'trim'
+      ),
+    ),
+    'images' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.images',
+      'config' => array (
+        'type' => 'group',
+        'internal_type' => 'file',
+        'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+        'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
+        'uploadfolder' => 'uploads/tx_gbevents',
+        'show_thumbs' => 1,
+        'size' => 5,
+        'minitems' => 0,
+        'maxitems' => 5,
+      ),
+    ),
+    'downloads' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.downloads',
+      'config' => array (
+        'type' => 'group',
+        'internal_type' => 'file',
+        'allowed' => '*',
+        'disallowed' => 'php',
+        'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
+        'uploadfolder' => 'uploads/tx_gbevents',
+        'show_thumbs' => 0,
+        'size' => 5,
+        'minitems' => 0,
+        'maxitems' => 5,
       ),
     ),
   ),

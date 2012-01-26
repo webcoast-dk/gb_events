@@ -47,4 +47,22 @@
       {event.eventTime}
     </td>
   </tr>
+  <f:if condition="{event.images}">
+    <tr>
+      <td>
+        <f:for each="{event.images}" as="image">
+          <f:image src="{image}" width="120" height="120" alt="Image" />
+        </f:for>
+      </td>
+    </tr>
+  </f:if>
+  <f:if condition="{event.downloads}">
+    <tr>
+      <td>
+        <f:for each="{event.downloads}" as="download">
+          <f:link.page pageUid="{download.file}">{download.name}</f:link.page>
+        </f:for>
+      </td>
+    </tr>
+  </f:if>
 </table>

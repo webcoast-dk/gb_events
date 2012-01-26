@@ -13,6 +13,8 @@
       <label index="location.description">The location of the event</label>
       <label index="event_date.description">The date when the event happens</label>
       <label index="event_time.description">The time the event happens</label>
+      <label index="images.description">Images to preview this event</label>
+      <label index="downloads.description">Attachments/Downloads for this event</label>
     </languageKey>
   </data>
 </T3locallang>
