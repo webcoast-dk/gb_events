@@ -13,6 +13,25 @@
       <label index="tx_gbevents_domain_model_event.location">The location of the event</label>
       <label index="tx_gbevents_domain_model_event.event_date">The date when the event happens</label>
       <label index="tx_gbevents_domain_model_event.event_time">The time the event happens</label>
+      <label index="header.list">Upcoming Events</label>
+      <label index="table.date">Date</label>
+      <label index="table.place">Place/Event</label>
+      <label index="table.title">Title</label>
+      <label index="back">back</label>
+    </languageKey>
+    <languageKey index="de" type="array">
+      <label index="tx_gbevents_domain_model_event">Ein einzelnes Event</label>
+      <label index="tx_gbevents_domain_model_event.title">Titel der Veranstaltung</label>
+      <label index="tx_gbevents_domain_model_event.teaser">Kurzbeschreibung</label>
+      <label index="tx_gbevents_domain_model_event.description">Beschreibung</label>
+      <label index="tx_gbevents_domain_model_event.location">Ort</label>
+      <label index="tx_gbevents_domain_model_event.event_date">Datum</label>
+      <label index="tx_gbevents_domain_model_event.event_time">Uhrzeit</label>
+      <label index="header.list">Terminübersicht</label>
+      <label index="table.date">Datum</label>
+      <label index="table.place">Ort/Anlass</label>
+      <label index="table.title">Titel</label>
+      <label index="back">zurück</label>
     </languageKey>
   </data>
 </T3locallang>
