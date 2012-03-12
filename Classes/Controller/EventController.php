@@ -71,12 +71,13 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
     // Start für Kalenderanzeige bestimmen
     $preDate = clone($startDate);
     if($startDate->format("N") !== 1) {
-      $preDate->modify('previous monday');
+      $preDate->modify('last monday of previous month');
     }
 
     // Ende des Monats bestimmen
     $stopDate = clone($startDate);
     $stopDate->modify('last day of this month');
+    $stopDate->modify('+86399 seconds');
 
     $postDate = clone($stopDate);
     if($stopDate->format("N") !== 7) {
@@ -96,14 +97,18 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
       $runDate->modify('tomorrow');
     }
 
-    $events = $this->eventRepository->findAllBetween($startDate, $stopDate);
+    $events = $this->eventRepository->findAllBetween($preDate, $postDate);
     foreach($events as $event) {
-      $days[$event->getEventDate()->format('Y-m-d')]['events'][] = $event;
+      foreach($event->getEventDates($preDate, $postDate) as $eventDate) {
+        $days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $event;
+      }
     }
+
     $weeks = array();
     for($i = 0; $i < floor(count($days)/7); $i++) {
       $weeks[] = array_slice($days, $i*7, 7, TRUE);
     }
+
     $this->view->assignMultiple(array(
       'calendar' => $weeks,
       'nextMonth' => $nextMonth->format('Y-m-d'),

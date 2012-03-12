@@ -14,6 +14,9 @@ CREATE TABLE tx_gbevents_domain_model_event (
   event_time varchar(255) DEFAULT '' NOT NULL,
   images text,
   downloads text,
+  recurring_weeks int(11) DEFAULT '0' NOT NULL,
+  recurring_days int(11) DEFAULT '0' NOT NULL,
+  recurring_stop int(11) DEFAULT '0' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
