@@ -147,4 +147,3 @@ class Tx_GbEvents_Domain_Model_EventTest extends Tx_Extbase_Tests_Unit_BaseTestC
     }
 
 }
-?>
