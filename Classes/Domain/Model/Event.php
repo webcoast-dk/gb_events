@@ -109,6 +109,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   protected $recurringStop;
 
   /**
+   * The date when the event ends
+   *
+   * @var DateTime
+   */
+  protected $eventStopDate;
+
+
+  /**
    * @param string $title
    * @return void
    */
@@ -182,12 +190,12 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
    * @return DateTime
    */
   public function getEventDate() {
-    return $this->eventDate;
+    return $this->eventDate->modify('midnight');
   }
 
   /**
    * This returns the initial event dates including
-   * all recurring events up to and includeing the
+   * all recurring events up to and including the
    * stopDate, taking the defined end of recurrance
    * into account
    *
@@ -220,6 +228,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
             $workDate->modify(sprintf("%s %s of this month", $week, $day));
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
+              $re_StartDate = clone($workDate);
+              $difference = $this->getEventDate()->diff($re_StartDate);
+              $re_StopDate = clone($this->getEventStopDate());
+              $re_StopDate->add($difference);
+              while($re_StartDate <= $re_StopDate) {
+                $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
+                $re_StartDate->modify('+1 day');
+              }
             }
           }
         }
@@ -256,12 +272,27 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
           if($addCurrentDay) {
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
+              $re_StartDate = clone($workDate);
+              $difference = $this->getEventDate()->diff($re_StartDate);
+              $re_StopDate = clone($this->getEventStopDate());
+              $re_StopDate->add($difference);
+              while($re_StartDate <= $re_StopDate) {
+                $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
+                $re_StartDate->modify('+1 day');
+              }
             }
           }
           $workDate->add($oneDay);
         }
       }
     }
+    $myStartDate = clone($this->getEventDate());
+    $myStopDate = $this->getEventStopDate();
+    while($myStartDate <= $myStopDate) {
+      $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
+      $myStartDate->modify('+1 day');
+    }
+
     $eventDates[$this->getEventDate()->format('Y-m-d')] = $this->getEventDate();
     ksort($eventDates);
     return $eventDates;
@@ -439,5 +470,26 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
    */
   public function getRecurringStop() {
     return $this->recurringStop;
+  }
+
+  /**
+   * Set the event stop date
+   *
+   * @param DateTime $eventStopDate
+   * @return void
+   */
+  public function setEventStopDate($eventStopDate)
+  {
+    $this->eventStopDate = $eventStopDate;
+  }
+
+  /**
+   * Get the event stop date
+   *
+   * @return DateTime
+   */
+  public function getEventStopDate()
+  {
+    return ($this->eventStopDate == '') ? $this->eventDate : $this->eventStopDate;
   }
 }

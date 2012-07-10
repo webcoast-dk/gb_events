@@ -13,6 +13,7 @@
       <label index="tx_gbevents_domain_model_event.location">The location of the event</label>
       <label index="tx_gbevents_domain_model_event.event_date">The date when the event happens</label>
       <label index="tx_gbevents_domain_model_event.event_time">The time the event happens</label>
+      <label index="tx_gbevents_domain_model_event.event_stop_date">The date when the event ends</label>
       <label index="tx_gbevents_domain_model_event.images">Images</label>
       <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
       <label index="header.list">Upcoming Events</label>
@@ -27,8 +28,9 @@
       <label index="tx_gbevents_domain_model_event.teaser">Kurzbeschreibung</label>
       <label index="tx_gbevents_domain_model_event.description">Beschreibung</label>
       <label index="tx_gbevents_domain_model_event.location">Ort</label>
-      <label index="tx_gbevents_domain_model_event.event_date">Datum</label>
+      <label index="tx_gbevents_domain_model_event.event_date">Datum (Start der Veranstaltung)</label>
       <label index="tx_gbevents_domain_model_event.event_time">Uhrzeit</label>
+      <label index="tx_gbevents_domain_model_event.event_stop_date">Datum (Ende der Veranstaltung)</label>
       <label index="tx_gbevents_domain_model_event.images">Bilder</label>
       <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
       <label index="header.list">Terminübersicht</label>

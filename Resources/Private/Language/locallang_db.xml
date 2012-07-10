@@ -19,6 +19,7 @@
       <label index="tx_gbevents_domain_model_event.location">Location</label>
       <label index="tx_gbevents_domain_model_event.event_date">Event Date</label>
       <label index="tx_gbevents_domain_model_event.event_time">Event Time</label>
+      <label index="tx_gbevents_domain_model_event.event_stop_date">Event date (end)</label>
       <label index="tx_gbevents_domain_model_event.images">Images</label>
       <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
       <label index="tx_gbevents_domain_model_event.recurring">Recurring</label>
@@ -51,8 +52,9 @@
       <label index="tx_gbevents_domain_model_event.teaser">Kurztext</label>
       <label index="tx_gbevents_domain_model_event.description">Beschreibung</label>
       <label index="tx_gbevents_domain_model_event.location">Ort</label>
-      <label index="tx_gbevents_domain_model_event.event_date">Datum</label>
+      <label index="tx_gbevents_domain_model_event.event_date">Datum (Start der Veranstaltung)</label>
       <label index="tx_gbevents_domain_model_event.event_time">Uhrzeit</label>
+      <label index="tx_gbevents_domain_model_event.event_stop_date">Datum (Ende der Veranstaltung)</label>
       <label index="tx_gbevents_domain_model_event.images">Bilder</label>
       <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
       <label index="tx_gbevents_domain_model_event.recurring">Wiederholung</label>

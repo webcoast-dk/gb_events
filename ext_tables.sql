@@ -18,6 +18,8 @@ CREATE TABLE tx_gbevents_domain_model_event (
   recurring_days int(11) DEFAULT '0' NOT NULL,
   recurring_stop int(11) DEFAULT '0' NOT NULL,
 
+  event_stop_date int(11) DEFAULT '0' NOT NULL,
+
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
   deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
