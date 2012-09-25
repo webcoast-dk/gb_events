@@ -39,6 +39,7 @@
       <label index="tx_gbevents_domain_model_event.recurring_days.5">Saturday</label>
       <label index="tx_gbevents_domain_model_event.recurring_days.6">Sunday</label>
       <label index="tx_gbevents_domain_model_event.recurring_stop">Repeat until</label>
+      <label index="tx_gbevents_kesearch_event.indexer_name">Events</label>
     </languageKey>
     <languageKey index="de" type="array">
       <label index="flexform.default.sheetTitle">Einstellungen</label>
@@ -74,6 +75,7 @@
       <label index="tx_gbevents_domain_model_event.recurring_days.5">Samstag</label>
       <label index="tx_gbevents_domain_model_event.recurring_days.6">Sonntag</label>
       <label index="tx_gbevents_domain_model_event.recurring_stop">Letze Wiederholung am/vor</label>
+      <label index="tx_gbevents_kesearch_event.indexer_name">Termine</label>
     </languageKey>
   </data>
 </T3locallang>
