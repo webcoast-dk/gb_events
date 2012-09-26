@@ -11,8 +11,8 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Terminkalender',
-	'description' => 'Very simple calendar for upcoming events.',
+	'title' => 'Event calendar',
+	'description' => 'A simple calendar for upcoming events.',
 	'category' => 'plugin',
 	'author' => 'Morton Jonuschat',
 	'author_email' => 'm.jonuschat@gute-botschafter.de',
@@ -33,8 +33,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'cms' => '',
-			'extbase' => '',
-			'fluid' => '',
+			'extbase' => '1.3.0-0.0.0',
+			'fluid' => '1.3.0-0.0.0',
 		),
 		'conflicts' => array(
 		),
