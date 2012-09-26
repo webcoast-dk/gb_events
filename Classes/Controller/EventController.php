@@ -138,4 +138,24 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
     $events = $this->eventRepository->findUpcoming($this->settings['upcoming']['entries']);
     $this->view->assign('events', $events);
   }
+
+
+  /**
+   * Exports a single Event as iCalendar file
+   *
+   * @param Tx_GbEvents_Domain_Model_Event $event the Event to export
+   * @return string The rendered view
+   */
+  public function exportAction(Tx_GbEvents_Domain_Model_Event $event) {
+    $this->response->setHeader('Cache-control', 'public', TRUE);
+    $this->response->setHeader('Content-Description', 'iCalendar Event File', TRUE);
+    $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $event->iCalendarFilename(). '"', TRUE);
+    $this->response->setHeader('Content-Type', 'text/calendar', TRUE);
+    $this->response->setHeader('Content-Transfer-Encoding', 'binary', TRUE);
+    $this->response->sendHeaders();
+
+    // $this->media is my domain model, add you own file path here :-)
+    echo $event->iCalendarData();
+    exit();
+  }
 }

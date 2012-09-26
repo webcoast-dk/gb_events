@@ -492,4 +492,124 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   {
     return ($this->eventStopDate == '') ? $this->eventDate : $this->eventStopDate;
   }
+
+  /**
+   * Return a suggested filename for sending the iCalendar file to the client
+   *
+   * @return string $filename;
+   */
+  public function iCalendarFilename() {
+    return sprintf("%s - %s.ics", $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
+  }
+
+  /**
+   * Return an iCalendar file as string representation suitable for sending to the client
+   *
+   * @return string $iCalendarData
+   */
+  public function iCalendarData() {
+    $now = new DateTime();
+    $startDate = clone($this->getEventDate());
+    $startDate->add($this->getEventTimeAsDateInterval());
+    $stopDate = clone($this->getEventStopDate());
+    $stopDate->add($this->getEventTimeAsDateInterval())->add(new DateInterval("PT1H"));
+
+    $iCalData = array();
+    $iCalData[] = "BEGIN:VCALENDAR";
+    $iCalData[] = "VERSION:2.0";
+    $iCalData[] = "PRODID:gb_events TYPO3 Extension";
+    $iCalData[] = "METHOD:PUBLISH";
+    $iCalData[] = "BEGIN:VEVENT";
+    $iCalData[] = "UID:" . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
+    $iCalData[] = "LOCATION:" . $this->getLocation();
+    $iCalData[] = "SUMMARY:" . $this->getTitle();
+    $iCalData[] = "DESCRIPTION:" . strip_tags($this->getDescription());
+    $iCalData[] = "CLASS:PUBLIC";
+    $iCalData[] = "DTSTART:" . $startDate->format('Ymd\THis');
+    $iCalData[] = "DTEND:" . $stopDate->format('Ymd\THis');
+    $iCalData[] = "DTSTAMP:" . $now->format('Ymd\THis');
+    $iCalData[] = "RRULE:" . $this->buildRecurrenceRule();
+    $iCalData[] = "END:VEVENT";
+    $iCalData[] = "END:VCALENDAR";
+
+    return join("\n", $iCalData);
+  }
+
+  /**
+   * Tries an intelligent guess as to the start time of an event
+   *
+   * @return DateInterval
+   */
+  protected function getEventTimeAsDateInterval() {
+    $hours = $minutes = 0;
+    $matches = array();
+    if(preg_match('#(\d{1,2}):?(\d{2})#', $this->getEventTime(), $matches)) {
+      $hours = $matches[1];
+      $minutes = $matches[2];
+    }
+    return new DateInterval(sprintf("PT%dH%dM0S", $hours, $minutes));
+  }
+
+  /**
+   * Builds iCalendar recurrence rule
+   *
+   * @return string $rRule
+   */
+  protected function buildRecurrenceRule() {
+    $rRule = '';
+
+    $shortDays = array(
+      'Monday' => 'MO',
+      'Tuesday' => 'TU',
+      'Wednesday' => 'WE',
+      'Thursday' => 'TH',
+      'Friday' => 'FR',
+      'Saturday' => 'SA',
+      'Sunday' => 'SU'
+    );
+
+    $weeks = array();
+    if($this->getRecurringWeeks() & 1) {
+      $weeks[] = '1';
+    }
+    if($this->getRecurringWeeks() & 2) {
+      $weeks[] = '2';
+    }
+    if($this->getRecurringWeeks() & 4) {
+      $weeks[] = '3';
+    }
+    if($this->getRecurringWeeks() & 8) {
+      $weeks[] = '4';
+    }
+    if($this->getRecurringWeeks() & 16) {
+      $weeks[] = '5';
+    }
+    if($this->getRecurringWeeks() & 32) {
+      $weeks[] = '-1';
+    }
+
+    $days = $this->getRecurringDaysAsText();
+    foreach($days as $index => $value) {
+      $days[$index] = $shortDays[$value];
+    }
+
+    if(count($weeks) !== 0) {
+      $rRule = 'FREQ=MONTHLY;BYDAY=';
+      $byDays = array();
+      foreach($weeks as $week) {
+        foreach($days as $day) {
+          $byDays[] = sprintf("%s%s", $week, $day);
+        }
+      }
+      $rRule .= join(",", $byDays);
+    } else {
+      $rRule = 'FREQ=WEEKLY;BYDAY=';
+      $byDays = array();
+      foreach($days as $day) {
+        $byDays[] = $day;
+      }
+      $rRule .= join(",", $byDays);
+    }
+    return $rRule;
+  }
 }

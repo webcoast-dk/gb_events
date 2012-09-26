@@ -7,10 +7,10 @@ Tx_Extbase_Utility_Extension::configurePlugin(
   $_EXTKEY,
   'Main',
   array(
-    'Event' => 'list, calendar, upcoming, show',
+    'Event' => 'list, calendar, upcoming, show, export',
   ),
   array(
-    'Event' => 'list, calendar, upcoming, show',
+    'Event' => 'list, calendar, upcoming, show, export',
   )
 );
 
