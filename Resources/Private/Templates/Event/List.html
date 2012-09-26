@@ -26,8 +26,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <th><f:translate key="tx_gbevents_domain_model_event.event_date" /></th>
     <th><f:translate key="tx_gbevents_domain_model_event.event_time" /></th>
     <th> </th>
-    <th> </th>
-    <th> </th>
   </tr>
 
   <f:for each="{events}" as="event">
@@ -38,12 +36,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <td><f:link.action action="show" arguments="{event : event}"> {event.location}</f:link.action></td>
       <td><f:link.action action="show" arguments="{event : event}"> {event.eventDate -> f:format.date()}</f:link.action></td>
       <td><f:link.action action="show" arguments="{event : event}"> {event.eventTime}</f:link.action></td>
-      <td><f:link.action action="export" arguments="{event : event}">Download</f:link.action></td>
-      <td><f:link.action action="edit" arguments="{event : event}">Edit</f:link.action></td>
-      <td><f:link.action action="delete" arguments="{event : event}">Delete</f:link.action></td>
+      <td><f:link.action action="export" arguments="{event : event}"><f:translate key="tx_gbevents_domain_model_event.export" /></f:link.action></td>
     </tr>
   </f:for>
 </table>
 
-<f:link.action action="new">New Event</f:link.action>
 </f:section>
