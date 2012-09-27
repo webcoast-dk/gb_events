@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_gbevents_domain_model_event'] = array(
   'ctrl' => $TCA['tx_gbevents_domain_model_event']['ctrl'],
   'interface' => array(
-    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time, images, downloads',
+    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time, event_stop_date, images, downloads, recurring_weeks, recurring_days, recurring_stop',
   ),
   'types' => array(
-    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, images, downloads,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, event_stop_date, images, downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring, recurring_weeks, recurring_days, recurring_stop,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
   ),
   'palettes' => array(
     '1' => array('showitem' => ''),
@@ -136,9 +136,8 @@ $TCA['tx_gbevents_domain_model_event'] = array(
         'type' => 'input',
         'size' => 12,
         'max' => 20,
-        'eval' => 'datetime,required',
-        'checkbox' => 1,
-        'default' => time()
+        'eval' => 'date,required',
+        'checkbox' => 1
       ),
     ),
     'event_time' => array(
@@ -148,6 +147,61 @@ $TCA['tx_gbevents_domain_model_event'] = array(
         'type' => 'input',
         'size' => 30,
         'eval' => 'trim'
+      ),
+    ),
+    'event_stop_date' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.event_stop_date',
+      'config' => array(
+        'type' => 'input',
+        'size' => 12,
+        'max' => 20,
+        'eval' => 'date',
+        'checkbox' => 1
+      ),
+    ),
+    'recurring_weeks' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks',
+      'config' => array(
+        'type' => 'check',
+        'items' => array(
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.0', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.1', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.2', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.3', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.4', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.5', ''),
+        ),
+        'suppress_icons' => 1,
+      ),
+    ),
+    'recurring_days' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days',
+      'config' => array(
+        'type' => 'check',
+        'items' => array(
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.0', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.1', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.2', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.3', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.4', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.5', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.6', ''),
+        ),
+        'suppress_icons' => 1,
+      ),
+    ),
+    'recurring_stop' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_stop',
+      'config' => array(
+        'type' => 'input',
+        'size' => 12,
+        'max' => 20,
+        'eval' => 'datetime',
+        'checkbox' => 1,
       ),
     ),
     'images' => array(

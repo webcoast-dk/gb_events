@@ -8,6 +8,7 @@
   <data type="array">
     <languageKey index="default" type="array">
       <label index="title.description">The title of the event</label>
+      <label index="subject.description">The subject of the event</label>
       <label index="teaser.description">A short teaser text</label>
       <label index="description.description">A detailed description of the event</label>
       <label index="location.description">The location of the event</label>

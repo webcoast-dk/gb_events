@@ -13,14 +13,34 @@
       <label index="flexform.default.switchableControllerActions.calendar">Calendar View</label>
       <label index="flexform.default.switchableControllerActions.details">Details</label>
       <label index="tx_gbevents_domain_model_event">Event</label>
+      <label index="tx_gbevents_domain_model_event.export">Download .ics</label>
       <label index="tx_gbevents_domain_model_event.title">Title</label>
       <label index="tx_gbevents_domain_model_event.teaser">Teaser</label>
       <label index="tx_gbevents_domain_model_event.description">Description</label>
       <label index="tx_gbevents_domain_model_event.location">Location</label>
       <label index="tx_gbevents_domain_model_event.event_date">Event Date</label>
       <label index="tx_gbevents_domain_model_event.event_time">Event Time</label>
+      <label index="tx_gbevents_domain_model_event.event_stop_date">Event date (end)</label>
       <label index="tx_gbevents_domain_model_event.images">Images</label>
       <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
+      <label index="tx_gbevents_domain_model_event.recurring">Recurring</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks">Each</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.0">1. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.1">2. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.2">3. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.3">4. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.4">5. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.5">Letzte Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days">Every</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.0">Monday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.1">Tuesday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.2">Wednesday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.3">Thursday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.4">Friday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.5">Saturday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.6">Sunday</label>
+      <label index="tx_gbevents_domain_model_event.recurring_stop">Repeat until</label>
+      <label index="tx_gbevents_kesearch_event.indexer_name">Events</label>
     </languageKey>
     <languageKey index="de" type="array">
       <label index="flexform.default.sheetTitle">Einstellungen</label>
@@ -30,14 +50,34 @@
       <label index="flexform.default.switchableControllerActions.calendar">Kalender</label>
       <label index="flexform.default.switchableControllerActions.details">Einzelansicht</label>
       <label index="tx_gbevents_domain_model_event">Termin</label>
+      <label index="tx_gbevents_domain_model_event.export">Export als .ics</label>
       <label index="tx_gbevents_domain_model_event.title">Titel</label>
       <label index="tx_gbevents_domain_model_event.teaser">Kurztext</label>
       <label index="tx_gbevents_domain_model_event.description">Beschreibung</label>
       <label index="tx_gbevents_domain_model_event.location">Ort</label>
-      <label index="tx_gbevents_domain_model_event.event_date">Datum</label>
+      <label index="tx_gbevents_domain_model_event.event_date">Datum (Start der Veranstaltung)</label>
       <label index="tx_gbevents_domain_model_event.event_time">Uhrzeit</label>
+      <label index="tx_gbevents_domain_model_event.event_stop_date">Datum (Ende der Veranstaltung)</label>
       <label index="tx_gbevents_domain_model_event.images">Bilder</label>
       <label index="tx_gbevents_domain_model_event.downloads">Downloads</label>
+      <label index="tx_gbevents_domain_model_event.recurring">Wiederholung</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks">Jede</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.0">1. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.1">2. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.2">3. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.3">4. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.4">5. Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_weeks.5">Letzte Woche</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days">Jeden</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.0">Montag</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.1">Dienstag</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.2">Mittwoch</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.3">Donnerstag</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.4">Freitag</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.5">Samstag</label>
+      <label index="tx_gbevents_domain_model_event.recurring_days.6">Sonntag</label>
+      <label index="tx_gbevents_domain_model_event.recurring_stop">Letze Wiederholung am/vor</label>
+      <label index="tx_gbevents_kesearch_event.indexer_name">Termine</label>
     </languageKey>
   </data>
 </T3locallang>

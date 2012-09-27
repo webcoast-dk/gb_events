@@ -32,9 +32,27 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
     $query->matching(
-      $query->logicalAnd(
-        $query->greaterThanOrEqual('event_date', $startDate),
-        $query->lessThanOrEqual('event_date', $stopDate)
+      $query->logicalOr(
+        # Einzelne Veranstaltung im gesuchten Zeitfenster
+        $query->logicalAnd(
+          $query->greaterThanOrEqual('event_date', $startDate),
+          $query->lessThanOrEqual('event_date', $stopDate)
+        ),
+        # Wiederkehrende Veranstaltung
+        $query->logicalAnd(
+          # Beginnt vor dem Ende des gesuchten Zeitraums
+          $query->lessThanOrEqual('event_date', $stopDate),
+          # Mindestens ein Wiederholungskriterium gesetzt
+          $query->logicalOr(
+            $query->greaterThan('recurringDays', 0),
+            $query->greaterThan('recurringWeeks', 0)
+          ),
+          # Kein Enddatum oder Enddatum im/nach dem gesuchten Startdatum
+          $query->logicalOr(
+            $query->equals('recurringStop', 0),
+            $query->greaterThanOrEqual('recurringStop', $startDate)
+          )
+        )
       )
     );
     return $query->execute();
