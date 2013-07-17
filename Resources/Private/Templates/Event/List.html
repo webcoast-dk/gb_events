@@ -31,11 +31,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
   <f:for each="{events}" as="event">
     <tr>
       <td><f:link.action action="show" arguments="{event : event}"> {event.title}</f:link.action></td>
-      <td><f:link.action action="show" arguments="{event : event}"> {event.teaser}</f:link.action></td>
-      <td><f:link.action action="show" arguments="{event : event}"> {event.description}</f:link.action></td>
-      <td><f:link.action action="show" arguments="{event : event}"> {event.location}</f:link.action></td>
-      <td><f:link.action action="show" arguments="{event : event}"> {event.eventDate -> f:format.date()}</f:link.action></td>
-      <td><f:link.action action="show" arguments="{event : event}"> {event.eventTime}</f:link.action></td>
+      <td>{event.teaser}</td>
+      <td>{event.description -> f:format.html()}</td>
+      <td>{event.location}</td>
+      <td>{event.eventDate -> f:format.date()}</td>
+      <td>{event.eventTime}</td>
       <td><f:link.action action="export" arguments="{event : event}"><f:translate key="tx_gbevents_domain_model_event.export" /></f:link.action></td>
     </tr>
   </f:for>
