@@ -12,6 +12,8 @@
       <label index="flexform.default.switchableControllerActions.upcoming">Upcoming Events</label>
       <label index="flexform.default.switchableControllerActions.calendar">Calendar View</label>
       <label index="flexform.default.switchableControllerActions.details">Details</label>
+      <label index="flexform.default.settings.limit">No of events to show</label>
+      <label index="flexform.default.settings.years">Limit output to this many years</label>
       <label index="tx_gbevents_domain_model_event">Event</label>
       <label index="tx_gbevents_domain_model_event.export">Download .ics</label>
       <label index="tx_gbevents_domain_model_event.title">Title</label>
@@ -49,6 +51,8 @@
       <label index="flexform.default.switchableControllerActions.upcoming">Nächste Termine</label>
       <label index="flexform.default.switchableControllerActions.calendar">Kalender</label>
       <label index="flexform.default.switchableControllerActions.details">Einzelansicht</label>
+      <label index="flexform.default.settings.limit">Anzahl der Termine</label>
+      <label index="flexform.default.settings.years">Termine der nächsten n Jahre</label>
       <label index="tx_gbevents_domain_model_event">Termin</label>
       <label index="tx_gbevents_domain_model_event.export">Export als .ics</label>
       <label index="tx_gbevents_domain_model_event.title">Titel</label>

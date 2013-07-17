@@ -42,9 +42,13 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
     return $this->resolveRecurringEvents($query->execute(), $grouped = TRUE, $startDate, $stopDate);
   }
 
-  public function findAll() {
+  public function findAll($years = NULL) {
+    if(intval($years) === 0) {
+      $years = 1;
+    }
+
     $startDate = new DateTime('midnight');
-    $stopDate = new DateTime('midnight + 5 years');
+    $stopDate = new DateTime(sprintf("midnight + %d years", intval($years)));
 
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
@@ -54,6 +58,10 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
   }
 
   public function findUpcoming($limit = 3) {
+    if(intval($limit) === 0) {
+      $limit = 3;
+    }
+
     $startDate = new DateTime('midnight');
     $stopDate = new DateTime('midnight + 5 years');
 

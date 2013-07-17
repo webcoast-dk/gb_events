@@ -135,7 +135,7 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
    * @return string The rendered view
    */
   public function upcomingAction() {
-    $events = $this->eventRepository->findUpcoming($this->settings['upcoming']['entries']);
+    $events = $this->eventRepository->findUpcoming($this->settings['limit']);
     $this->view->assign('events', $events);
   }
 
