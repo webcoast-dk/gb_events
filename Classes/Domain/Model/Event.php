@@ -222,12 +222,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
     $recurringDays = $this->getRecurringDaysAsText();
     $eventDates = array();
     foreach($recurringMonths as $workDate) {
+      $workingMonth = $workDate->format('n');
+
       # Weeks have been selected, check every nth week / day combination
       if(count($recurringWeeks) !== 0) {
         foreach($this->getRecurringWeeksAsText() as $week) {
           foreach($this->getRecurringDaysAsText() as $day) {
             $workDate->modify(sprintf("%s %s of this month", $week, $day));
-            if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
+            if($workingMonth === $workDate->format('n') && $workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
               $re_StartDate = clone($workDate);
               $difference = $this->getEventDate()->diff($re_StartDate);
