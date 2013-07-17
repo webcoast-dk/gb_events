@@ -212,7 +212,8 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
     $stopMonth = clone($stopDate);
     $stopMonth->modify('last day of this month');
     $recurringMonths = array();
-    while($startMonth < $stopMonth) {
+
+    while($startMonth <= $stopMonth) {
       $recurringMonths[] = clone($startMonth);
       $startMonth->add($oneMonth);
     }
