@@ -48,7 +48,7 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
    * @return void
    */
   public function listAction() {
-    $events = $this->eventRepository->findAll();
+    $events = $this->eventRepository->findAll($this->settings['years']);
     $this->view->assign('events', $events);
   }
 
