@@ -120,7 +120,7 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
     $days = array();
     foreach($events as $event) {
       foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {
-        if($eventDate->format('U') < $today->format('U')) {
+        if(($grouped === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
           continue;
         }
         $recurringEvent = clone($event);
