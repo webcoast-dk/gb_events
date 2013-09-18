@@ -539,6 +539,15 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
+    * Get plain description with no HTML
+    *
+    * @return string
+    */
+  public function getPlainDescription() {
+    return preg_replace('/&nbsp;/', ' ', strip_tags($this->description));
+  }
+
+  /**
    * Tries an intelligent guess as to the start time of an event
    *
    * @return DateInterval
