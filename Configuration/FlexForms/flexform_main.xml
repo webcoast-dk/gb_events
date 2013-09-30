@@ -33,8 +33,33 @@
                 <maxitems>1</maxitems>
                 <size>1</size>
               </config>
+              <onChange>reload</onChange>
             </TCEforms>
           </switchableControllerActions>
+          <settings.limit>
+            <TCEforms>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.settings.limit</label>
+              <config>
+                <type>input</type>
+                <eval>int</eval>
+                <size>5</size>
+                <default>3</default>
+              </config>
+              <displayCond>FIELD:switchableControllerActions:=:Event->upcoming;Event->list;Event->calendar;Event->show;Event->export</displayCond>
+            </TCEforms>
+          </settings.limit>
+          <settings.years>
+            <TCEforms>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.settings.years</label>
+              <config>
+                <type>input</type>
+                <eval>int</eval>
+                <size>5</size>
+                <default>1</default>
+              </config>
+              <displayCond>FIELD:switchableControllerActions:=:Event->list;Event->upcoming;Event->calendar;Event->show;Event->export</displayCond>
+            </TCEforms>
+          </settings.years>
         </el>
       </ROOT>
     </sDEF>

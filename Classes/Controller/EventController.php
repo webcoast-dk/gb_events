@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
+ *  (c) 2011-2013 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
  *
  *  All rights reserved
  *
@@ -48,7 +48,7 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
    * @return void
    */
   public function listAction() {
-    $events = $this->eventRepository->findAll();
+    $events = $this->eventRepository->findAll($this->settings['years']);
     $this->view->assign('events', $events);
   }
 
@@ -98,10 +98,8 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
     }
 
     $events = $this->eventRepository->findAllBetween($preDate, $postDate);
-    foreach($events as $event) {
-      foreach($event->getEventDates($preDate, $postDate) as $eventDate) {
-        $days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $event;
-      }
+    foreach($events as $eventDay => $eventsThisDay) {
+      $days[$eventDay]['events'] = $eventsThisDay;
     }
 
     $weeks = array();
@@ -135,7 +133,7 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
    * @return string The rendered view
    */
   public function upcomingAction() {
-    $events = $this->eventRepository->findUpcoming($this->settings['upcoming']['entries']);
+    $events = $this->eventRepository->findUpcoming($this->settings['limit']);
     $this->view->assign('events', $events);
   }
 

@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
+ *  (c) 2011-2013 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
  *
  *  All rights reserved
  *
@@ -162,6 +162,15 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
+    * Get plain description with no HTML
+    *
+    * @return string
+    */
+  public function getPlainDescription() {
+    return mb_convert_encoding(strip_tags($this->getDescription()), 'UTF-8', 'HTML-ENTITIES');
+  }
+
+  /**
    * @param string $location
    * @return void
    */
@@ -212,7 +221,8 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
     $stopMonth = clone($stopDate);
     $stopMonth->modify('last day of this month');
     $recurringMonths = array();
-    while($startMonth < $stopMonth) {
+
+    while($startMonth <= $stopMonth) {
       $recurringMonths[] = clone($startMonth);
       $startMonth->add($oneMonth);
     }
@@ -221,12 +231,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
     $recurringDays = $this->getRecurringDaysAsText();
     $eventDates = array();
     foreach($recurringMonths as $workDate) {
+      $workingMonth = $workDate->format('n');
+
       # Weeks have been selected, check every nth week / day combination
       if(count($recurringWeeks) !== 0) {
         foreach($this->getRecurringWeeksAsText() as $week) {
           foreach($this->getRecurringDaysAsText() as $day) {
             $workDate->modify(sprintf("%s %s of this month", $week, $day));
-            if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
+            if($workingMonth === $workDate->format('n') && $workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
               $re_StartDate = clone($workDate);
               $difference = $this->getEventDate()->diff($re_StartDate);
@@ -534,6 +546,15 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
 
     return join("\n", $iCalData);
   }
+
+  /**
+   * Is it a one-day event?
+   *
+   * @return bool
+   */
+   public function getIsOneDayEvent() {
+     return $this->getEventStopDate() == $this->getEventDate()
+   }
 
   /**
    * Tries an intelligent guess as to the start time of an event

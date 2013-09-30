@@ -1,15 +1,10 @@
 plugin.tx_gbevents {
-	view {
-		templateRootPath = {$plugin.tx_gbevents.view.templateRootPath}
-		partialRootPath = {$plugin.tx_gbevents.view.partialRootPath}
-		layoutRootPath = {$plugin.tx_gbevents.view.layoutRootPath}
-	}
-	persistence {
-		storagePid = {$plugin.tx_gbevents.persistence.storagePid}
-	}
-  settings {
-    upcoming {
-      entries = 3
-    }
+  view {
+    templateRootPath = {$plugin.tx_gbevents.view.templateRootPath}
+    partialRootPath = {$plugin.tx_gbevents.view.partialRootPath}
+    layoutRootPath = {$plugin.tx_gbevents.view.layoutRootPath}
+  }
+  persistence {
+    storagePid = {$plugin.tx_gbevents.persistence.storagePid}
   }
 }
