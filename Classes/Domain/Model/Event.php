@@ -162,6 +162,15 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
+    * Get plain description with no HTML
+    *
+    * @return string
+    */
+  public function getPlainDescription() {
+    return mb_convert_encoding(strip_tags($this->getDescription()), 'UTF-8', 'HTML-ENTITIES');
+  }
+
+  /**
    * @param string $location
    * @return void
    */
@@ -536,15 +545,6 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
     $iCalData[] = "END:VCALENDAR";
 
     return join("\n", $iCalData);
-  }
-
-  /**
-    * Get plain description with no HTML
-    *
-    * @return string
-    */
-  public function getPlainDescription() {
-    return preg_replace('/&nbsp;/', ' ', strip_tags($this->description));
   }
 
   /**
