@@ -553,7 +553,7 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
    * @return bool
    */
    public function getIsOneDayEvent() {
-     return ($this->getEventStopDate() == $this->getEventDate()) ? true : false;
+     return $this->getEventStopDate() == $this->getEventDate()
    }
 
   /**
