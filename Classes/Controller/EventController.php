@@ -99,7 +99,7 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 
     $events = $this->eventRepository->findAllBetween($preDate, $postDate);
     foreach($events as $eventDay => $eventsThisDay) {
-      $days[$eventDay]['events'] = $eventsThisDay;
+      $days[$eventDay]['events'] = $eventsThisDay['events'];
     }
 
     $weeks = array();
