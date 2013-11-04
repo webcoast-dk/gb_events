@@ -99,7 +99,7 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 
     $events = $this->eventRepository->findAllBetween($preDate, $postDate);
     foreach($events as $eventDay => $eventsThisDay) {
-      $days[$eventDay]['events'] = $eventsThisDay;
+      $days[$eventDay]['events'] = $eventsThisDay['events'];
     }
 
     $weeks = array();
@@ -109,6 +109,11 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
 
     $this->view->assignMultiple(array(
       'calendar' => $weeks,
+      'navigation' => array(
+        'previous' => $previousMonth,
+        'current' => $startDate,
+        'next' => $nextMonth
+      ),
       'nextMonth' => $nextMonth->format('Y-m-d'),
       'prevMonth' => $previousMonth->format('Y-m-d')
     ));
