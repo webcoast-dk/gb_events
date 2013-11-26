@@ -27,7 +27,7 @@ $EM_CONF[$_EXTKEY] = array (
   'modify_tables' => '',
   'clearCacheOnLoad' => 0,
   'lockType' => '',
-  'version' => '1.3.3',
+  'version' => '1.3.4',
   'constraints' =>
   array (
     'depends' =>
@@ -44,7 +44,7 @@ $EM_CONF[$_EXTKEY] = array (
     array (
     ),
   ),
-  'comment' => 'Small bugfixes',
+  'comment' => 'Bugfixes for KeSearch and record creation',
   'user' => 'gutebotschafter',
 );
 
