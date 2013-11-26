@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')){
 Tx_Extbase_Utility_Extension::registerPlugin(
   $_EXTKEY,
   'Main',
-  'Terminkalender'
+  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents.main.title'
 );
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_main'] = 'pi_flexform';
@@ -43,13 +43,15 @@ $TCA['tx_gbevents_domain_model_event'] = array(
 );
 
 # Add custom indexer to ke_search
-t3lib_div::loadTCA('tx_kesearch_indexerconfig');
+if(t3lib_extMgm::isLoaded('ke_search')) {
+  t3lib_div::loadTCA('tx_kesearch_indexerconfig');
 
-$TCA['tx_kesearch_indexerconfig']['columns']['type']['config']['items'][] = array (
-  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
-  'gbevents_event',
-  t3lib_extMgm::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif',
-);
+  $TCA['tx_kesearch_indexerconfig']['columns']['type']['config']['items'][] = array (
+    'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
+    'gbevents_event',
+    t3lib_extMgm::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif',
+  );
 
-$TCA['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
-$TCA['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
+  $TCA['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
+  $TCA['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
+}

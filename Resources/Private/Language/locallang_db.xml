@@ -6,6 +6,7 @@
   </meta>
   <data type="array">
     <languageKey index="default" type="array">
+      <label index="tx_gbevents.main.title">Event calendar</label>
       <label index="flexform.default.sheetTitle">Defaults</label>
       <label index="flexform.default.switchableControllerActions">Default view</label>
       <label index="flexform.default.switchableControllerActions.list">List of Events</label>
@@ -45,6 +46,7 @@
       <label index="tx_gbevents_kesearch_event.indexer_name">Events</label>
     </languageKey>
     <languageKey index="de" type="array">
+      <label index="tx_gbevents.main.title">Terminkalender</label>
       <label index="flexform.default.sheetTitle">Einstellungen</label>
       <label index="flexform.default.switchableControllerActions">Ausgabe view</label>
       <label index="flexform.default.switchableControllerActions.list">Terminliste</label>
