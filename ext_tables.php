@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')){
 Tx_Extbase_Utility_Extension::registerPlugin(
   $_EXTKEY,
   'Main',
-  'Terminkalender'
+  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents.main.title'
 );
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_main'] = 'pi_flexform';
