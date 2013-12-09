@@ -1,4 +1,5 @@
 <?php
+namespace GuteBotschafter\GbEvents\Hooks;
 
 /***************************************************************
  *  Copyright notice
@@ -32,20 +33,20 @@
  *
  */
 
-class gb_events_kesearch_indexer {
+class KeSearchIndexer {
   /**
    * Pages to index
-   * @var array
+   * @var \array
    */
   protected $indexPids = '';
   /**
    * Array containing data of all pages
-   * @var array
+   * @var \array
    */
   protected $pageRecords;
   /**
    * Status information for user
-   * @var string
+   * @var \string
    */
   protected $content = '';
   /**
@@ -55,7 +56,7 @@ class gb_events_kesearch_indexer {
   protected $indexerObject;
   /**
    * The indexer configuration
-   * @var array
+   * @var \array
    */
   protected $indexerConfig;
 
@@ -63,9 +64,9 @@ class gb_events_kesearch_indexer {
    * Custom index for ke_search to index content provided
    * by the extension gb_events
    *
-   * @param   array $indexerConfig
-   * @param   array $indexerObject
-   * @return  string $output
+   * @param   \array $indexerConfig
+   * @param   \array $indexerObject
+   * @return  \string $output
    * @author  Morton Jonuschat <mj@gute-botschafter.de>
    */
   public function customIndexer(&$indexerConfig, &$indexerObject) {
@@ -92,8 +93,8 @@ class gb_events_kesearch_indexer {
     $where = 'pages.uid IN (' . $this->indexPids . ')';
     $where .= ' AND pages.tx_kesearch_tags <> "" ';
     $where .= ' AND FIND_IN_SET(tx_kesearch_filteroptions.uid, pages.tx_kesearch_tags)';
-    $where .= t3lib_befunc::BEenableFields('tx_kesearch_filteroptions');
-    $where .= t3lib_befunc::deleteClause('tx_kesearch_filteroptions');
+    $where .= \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('tx_kesearch_filteroptions');
+    $where .= \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tx_kesearch_filteroptions');
 
     $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, $table, $where, 'pages.uid', '', '');
     while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -104,8 +105,8 @@ class gb_events_kesearch_indexer {
     $fields = 'automated_tagging, tag';
     $table = 'tx_kesearch_filteroptions';
     $where = 'automated_tagging <> "" ';
-    $where .= t3lib_befunc::BEenableFields('tx_kesearch_filteroptions');
-    $where .= t3lib_befunc::deleteClause('tx_kesearch_filteroptions');
+    $where .= \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('tx_kesearch_filteroptions');
+    $where .= \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tx_kesearch_filteroptions');
 
     $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($fields, $table, $where);
 
@@ -116,7 +117,7 @@ class gb_events_kesearch_indexer {
 
     foreach($rows as $row) {
       $tempTags = array();
-      $pageList = t3lib_div::trimExplode(',', $this->queryGen->getTreeList($row['automated_tagging'], 99, 0, $where));
+      $pageList = \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->queryGen->getTreeList($row['automated_tagging'], 99, 0, $where));
       foreach($pageList as $uid) {
         if($this->pageRecords[$uid]['tags']) {
           $this->pageRecords[$uid]['tags'] .= ',' . $tagChar . $row['tag'] . $tagChar;

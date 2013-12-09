@@ -47,5 +47,3 @@ $EM_CONF[$_EXTKEY] = array (
   'comment' => 'Bugfixes for KeSearch and record creation',
   'user' => 'gutebotschafter',
 );
-
-?>

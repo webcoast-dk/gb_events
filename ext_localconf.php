@@ -3,7 +3,7 @@ if (!defined ('TYPO3_MODE')) {
   die ('Access denied.');
 }
 
-Tx_Extbase_Utility_Extension::configurePlugin(
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
   $_EXTKEY,
   'Main',
   array(
@@ -15,4 +15,6 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 );
 
 # ke_search indexer
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['customIndexer'][] = 'EXT:gb_events/Classes/Hooks/EventIndexer.php:user_gbevents_kesearch_event';
+if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
+  $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['customIndexer'][] = '\GuteBotschafter\GbEvents\Hooks\EventIndexer';
+}
