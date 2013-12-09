@@ -28,7 +28,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
 /**
  * A single event
  */
-class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements EventInterface {
 
   /**
    * The title of the event
@@ -116,7 +116,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
    * @var \DateTime
    */
   protected $eventStopDate;
-
 
   /**
    * @param \string $title
@@ -212,6 +211,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
    *
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
+   * @return \array $eventDates
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
     $monthNames = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
@@ -416,6 +416,91 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
   }
 
   /**
+   * @param \DateTime $recurringStop
+   * @return void
+   */
+  public function setRecurringStop($recurringStop) {
+    $this->recurringStop = $recurringStop;
+  }
+
+  /**
+   * @return \DateTime
+   */
+  public function getRecurringStop() {
+    return $this->recurringStop;
+  }
+
+  /**
+   * Set the event stop date
+   *
+   * @param \DateTime $eventStopDate
+   * @return void
+   */
+  public function setEventStopDate($eventStopDate) {
+    $this->eventStopDate = $eventStopDate;
+  }
+
+  /**
+   * Get the event stop date
+   *
+   * @return \DateTime
+   */
+  public function getEventStopDate() {
+    return ($this->eventStopDate == '') ? $this->eventDate : $this->eventStopDate;
+  }
+
+  /**
+   * Is it a one-day event?
+   *
+   * @return \bool
+   */
+   public function getIsOneDayEvent() {
+     return $this->getEventStopDate() == $this->getEventDate();
+  }
+
+  /**
+   * Return a suggested filename for sending the iCalendar file to the client
+   *
+   * @return \string $filename;
+   */
+  public function iCalendarFilename() {
+    return sprintf("%s - %s.ics", $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
+  }
+
+  /**
+   * Return an iCalendar file as string representation suitable for sending to the client
+   *
+   * @return \string $iCalendarData
+   */
+  public function iCalendarData() {
+    $now = new \DateTime();
+    $startDate = clone($this->getEventDate());
+    $startDate->add($this->getEventTimeAsDateInterval());
+    $stopDate = clone($this->getEventStopDate());
+    $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval("PT1H"));
+
+    $iCalData = array();
+    $iCalData[] = "BEGIN:VCALENDAR";
+    $iCalData[] = "VERSION:2.0";
+    $iCalData[] = "PRODID:gb_events TYPO3 Extension";
+    $iCalData[] = "METHOD:PUBLISH";
+    $iCalData[] = "BEGIN:VEVENT";
+    $iCalData[] = "UID:" . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
+    $iCalData[] = "LOCATION:" . $this->getLocation();
+    $iCalData[] = "SUMMARY:" . $this->getTitle();
+    $iCalData[] = "DESCRIPTION:" . strip_tags($this->getDescription());
+    $iCalData[] = "CLASS:PUBLIC";
+    $iCalData[] = "DTSTART:" . $startDate->format('Ymd\THis');
+    $iCalData[] = "DTEND:" . $stopDate->format('Ymd\THis');
+    $iCalData[] = "DTSTAMP:" . $now->format('Ymd\THis');
+    $iCalData[] = "RRULE:" . $this->buildRecurrenceRule();
+    $iCalData[] = "END:VEVENT";
+    $iCalData[] = "END:VCALENDAR";
+
+    return join("\n", $iCalData);
+  }
+
+  /**
    * @return \array
    */
   protected function getRecurringDaysAsText() {
@@ -470,93 +555,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     }
     return $days;
   }
-
-  /**
-   * @param \DateTime $recurringStop
-   * @return void
-   */
-  public function setRecurringStop($recurringStop) {
-    $this->recurringStop = $recurringStop;
-  }
-
-  /**
-   * @return \DateTime
-   */
-  public function getRecurringStop() {
-    return $this->recurringStop;
-  }
-
-  /**
-   * Set the event stop date
-   *
-   * @param \DateTime $eventStopDate
-   * @return void
-   */
-  public function setEventStopDate($eventStopDate)
-  {
-    $this->eventStopDate = $eventStopDate;
-  }
-
-  /**
-   * Get the event stop date
-   *
-   * @return \DateTime
-   */
-  public function getEventStopDate()
-  {
-    return ($this->eventStopDate == '') ? $this->eventDate : $this->eventStopDate;
-  }
-
-  /**
-   * Return a suggested filename for sending the iCalendar file to the client
-   *
-   * @return \string $filename;
-   */
-  public function iCalendarFilename() {
-    return sprintf("%s - %s.ics", $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
-  }
-
-  /**
-   * Return an iCalendar file as string representation suitable for sending to the client
-   *
-   * @return \string $iCalendarData
-   */
-  public function iCalendarData() {
-    $now = new \DateTime();
-    $startDate = clone($this->getEventDate());
-    $startDate->add($this->getEventTimeAsDateInterval());
-    $stopDate = clone($this->getEventStopDate());
-    $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval("PT1H"));
-
-    $iCalData = array();
-    $iCalData[] = "BEGIN:VCALENDAR";
-    $iCalData[] = "VERSION:2.0";
-    $iCalData[] = "PRODID:gb_events TYPO3 Extension";
-    $iCalData[] = "METHOD:PUBLISH";
-    $iCalData[] = "BEGIN:VEVENT";
-    $iCalData[] = "UID:" . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
-    $iCalData[] = "LOCATION:" . $this->getLocation();
-    $iCalData[] = "SUMMARY:" . $this->getTitle();
-    $iCalData[] = "DESCRIPTION:" . strip_tags($this->getDescription());
-    $iCalData[] = "CLASS:PUBLIC";
-    $iCalData[] = "DTSTART:" . $startDate->format('Ymd\THis');
-    $iCalData[] = "DTEND:" . $stopDate->format('Ymd\THis');
-    $iCalData[] = "DTSTAMP:" . $now->format('Ymd\THis');
-    $iCalData[] = "RRULE:" . $this->buildRecurrenceRule();
-    $iCalData[] = "END:VEVENT";
-    $iCalData[] = "END:VCALENDAR";
-
-    return join("\n", $iCalData);
-  }
-
-  /**
-   * Is it a one-day event?
-   *
-   * @return \bool
-   */
-   public function getIsOneDayEvent() {
-     return $this->getEventStopDate() == $this->getEventDate();
-   }
 
   /**
    * Tries an intelligent guess as to the start time of an event
