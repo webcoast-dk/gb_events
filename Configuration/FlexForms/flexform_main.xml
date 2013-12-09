@@ -3,30 +3,30 @@
     <sDEF>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.sheetTitle</sheetTitle>
+          <sheetTitle>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.sheetTitle</sheetTitle>
         </TCEforms>
         <type>array</type>
         <el>
           <switchableControllerActions>
             <TCEforms>
-              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions</label>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.switchableControllerActions</label>
               <config>
                 <type>select</type>
                 <items type="array">
                   <numIndex index="0" type="array">
-                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.upcoming</numIndex>
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.switchableControllerActions.upcoming</numIndex>
                     <numIndex index="1">Event->upcoming;Event->list;Event->calendar;Event->show;Event->export</numIndex>
                   </numIndex>
                   <numIndex index="1" type="array">
-                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.list</numIndex>
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.switchableControllerActions.list</numIndex>
                     <numIndex index="1">Event->list;Event->upcoming;Event->calendar;Event->show;Event->export</numIndex>
                   </numIndex>
                   <numIndex index="2" type="array">
-                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.calendar</numIndex>
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.switchableControllerActions.calendar</numIndex>
                     <numIndex index="1">Event->calendar;Event->upcoming;Event->list;Event->show;Event->export</numIndex>
                   </numIndex>
                   <numIndex index="3" type="array">
-                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.switchableControllerActions.details</numIndex>
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.switchableControllerActions.details</numIndex>
                     <numIndex index="1">Event->show;Event->list;Event->upcoming;Event->calendar;Event->export</numIndex>
                   </numIndex>
                 </items>
@@ -38,7 +38,7 @@
           </switchableControllerActions>
           <settings.limit>
             <TCEforms>
-              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.settings.limit</label>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.limit</label>
               <config>
                 <type>input</type>
                 <eval>int</eval>
@@ -50,7 +50,7 @@
           </settings.limit>
           <settings.years>
             <TCEforms>
-              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:flexform.default.settings.years</label>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.years</label>
               <config>
                 <type>input</type>
                 <eval>int</eval>

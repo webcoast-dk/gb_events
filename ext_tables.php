@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')){
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
   'GuteBotschafter.' . $_EXTKEY,
   'Main',
-  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents.main.title'
+  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.main.title'
 );
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_main'] = 'pi_flexform';
@@ -16,11 +16,11 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist']['gbevents_main'] = '
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Terminkalender');
 
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_gbevents_domain_model_event', 'EXT:gb_events/Resources/Private/Language/locallang_csh_tx_gbevents_domain_model_event.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_gbevents_domain_model_event', 'EXT:gb_events/Resources/Private/Language/locallang_csh_tx_gbevents_domain_model_event.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_gbevents_domain_model_event');
 $TCA['tx_gbevents_domain_model_event'] = array(
   'ctrl' => array(
-    'title'                     => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event',
+    'title'                     => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event',
     'label'                     => 'title',
     'tstamp'                    => 'tstamp',
     'crdate'                    => 'crdate',
@@ -45,7 +45,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
 # Add custom indexer to ke_search
 if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
   $TCA['tx_kesearch_indexerconfig']['columns']['type']['config']['items'][] = array (
-    'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
+    'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_kesearch_event.indexer_name',
     'gbevents_event',
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif',
   );

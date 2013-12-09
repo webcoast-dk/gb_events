@@ -9,7 +9,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time, event_stop_date, images, downloads, recurring_weeks, recurring_days, recurring_stop',
   ),
   'types' => array(
-    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, event_stop_date, images, downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring, recurring_weeks, recurring_days, recurring_stop,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, event_stop_date, images, downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring, recurring_weeks, recurring_days, recurring_stop,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
   ),
   'palettes' => array(
     '1' => array('showitem' => ''),
@@ -93,7 +93,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'title' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.title',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.title',
       'config' => array(
         'type' => 'input',
         'size' => 30,
@@ -102,7 +102,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'teaser' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.teaser',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.teaser',
       'config' => array(
         'type' => 'text',
         'cols' => 40,
@@ -112,7 +112,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'description' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.description',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.description',
       'config' => array(
         'type' => 'text',
         'cols' => 40,
@@ -122,7 +122,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'location' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.location',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.location',
       'config' => array(
         'type' => 'input',
         'size' => 30,
@@ -131,7 +131,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'event_date' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.event_date',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.event_date',
       'config' => array(
         'type' => 'input',
         'size' => 12,
@@ -142,7 +142,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'event_time' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.event_time',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.event_time',
       'config' => array(
         'type' => 'input',
         'size' => 30,
@@ -151,7 +151,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'event_stop_date' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.event_stop_date',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.event_stop_date',
       'config' => array(
         'type' => 'input',
         'size' => 12,
@@ -162,40 +162,40 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'recurring_weeks' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks',
       'config' => array(
         'type' => 'check',
         'items' => array(
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.0', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.1', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.2', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.3', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.4', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_weeks.5', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks.0', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks.1', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks.2', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks.3', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks.4', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_weeks.5', ''),
         ),
         'suppress_icons' => 1,
       ),
     ),
     'recurring_days' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days',
       'config' => array(
         'type' => 'check',
         'items' => array(
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.0', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.1', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.2', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.3', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.4', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.5', ''),
-          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_days.6', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.0', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.1', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.2', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.3', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.4', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.5', ''),
+          array('LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_days.6', ''),
         ),
         'suppress_icons' => 1,
       ),
     ),
     'recurring_stop' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.recurring_stop',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_stop',
       'config' => array(
         'type' => 'input',
         'size' => 12,
@@ -206,7 +206,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'images' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.images',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.images',
       'config' => array (
         'type' => 'group',
         'internal_type' => 'file',
@@ -221,7 +221,7 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     ),
     'downloads' => array(
       'exclude' => 0,
-      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_domain_model_event.downloads',
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.downloads',
       'config' => array (
         'type' => 'group',
         'internal_type' => 'file',
