@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE')){
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-  $_EXTKEY,
+  'GuteBotschafter.' . $_EXTKEY,
   'Main',
   'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents.main.title'
 );

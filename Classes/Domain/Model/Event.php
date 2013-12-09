@@ -524,9 +524,9 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
   public function iCalendarData() {
     $now = new \DateTime();
     $startDate = clone($this->getEventDate());
-    $startDate->add($this->getEventTimeAs\DateInterval());
+    $startDate->add($this->getEventTimeAsDateInterval());
     $stopDate = clone($this->getEventStopDate());
-    $stopDate->add($this->getEventTimeAs\DateInterval())->add(new \DateInterval("PT1H"));
+    $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval("PT1H"));
 
     $iCalData = array();
     $iCalData[] = "BEGIN:VCALENDAR";
@@ -563,7 +563,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
    *
    * @return \DateInterval
    */
-  protected function getEventTimeAs\DateInterval() {
+  protected function getEventTimeAsDateInterval() {
     $hours = $minutes = 0;
     $matches = array();
     if(preg_match('#(\d{1,2}):?(\d{2})#', $this->getEventTime(), $matches)) {
