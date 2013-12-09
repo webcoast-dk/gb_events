@@ -44,8 +44,6 @@ $TCA['tx_gbevents_domain_model_event'] = array(
 
 # Add custom indexer to ke_search
 if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
-  t3lib_div::loadTCA('tx_kesearch_indexerconfig');
-
   $TCA['tx_kesearch_indexerconfig']['columns']['type']['config']['items'][] = array (
     'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
     'gbevents_event',
