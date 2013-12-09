@@ -96,13 +96,13 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   /**
    * Add conditions to retrieve recurring dates from the database
    *
-   * @param mixed $query The query object
-   * @param mixed $conditions The query conditions
+   * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query The query object
+   * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions The query conditions
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
-   * @return mixed $query
+   * @return \void
    */
-  protected function applyRecurringConditions(&$query, $conditions, $startDate, $stopDate) {
+  protected function applyRecurringConditions(\TYPO3\CMS\Extbase\Persistence\QueryInterface &$query, \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions, \DateTime $startDate, \DateTime $stopDate) {
     $query->matching(
       $query->logicalOr(
         $conditions,
@@ -129,13 +129,14 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    * Resolve the recurring events into current dates honoring start and stopdates as well as limits
    * on the amount of dates returned
    *
-   * @param mixed $events
+   * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events
+   * @param \bool $grouped
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
    * @param \integer $limit
    * @return \array $days
    */
-  protected function resolveRecurringEvents($events, $grouped = FALSE, $startDate, $stopDate, $limit = NULL) {
+  protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $limit = NULL) {
     $today = new \DateTime('midnight');
     $days = array();
     foreach($events as $event) {
