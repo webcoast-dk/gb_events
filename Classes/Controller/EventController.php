@@ -1,4 +1,6 @@
 <?php
+namespace GuteBotschafter\GbEvents\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,26 +28,19 @@
 /**
  * Controller for the Event object
  */
-class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_ActionController {
+class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
   /**
-   * @var Tx_GbEvents_Domain_Repository_EventRepository
+   * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
+   * @inject
    */
   protected $eventRepository;
-
-  /**
-   * @param Tx_GbEvents_Domain_Repository_EventRepository $eventRepository
-   * @return void
-   */
-  public function injectEventRepository(Tx_GbEvents_Domain_Repository_EventRepository $eventRepository) {
-    $this->eventRepository = $eventRepository;
-  }
 
 
   /**
    * Displays all Events
    *
-   * @return void
+   * @return \string The rendered view
    */
   public function listAction() {
     $events = $this->eventRepository->findAll($this->settings['years']);
@@ -56,12 +51,12 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
   /**
    * Displays all Events as a browseable calendar
    *
-   * @param string $start
-   * @return void
+   * @param \string $start
+   * @return \string The rendered view
    */
   public function calendarAction($start = 'today') {
     // Startdatum setzen
-    $startDate = new DateTime('today');
+    $startDate = new \DateTime('today');
     try {
       $startDate->modify($start);
     } catch(Exception $e) {
@@ -123,10 +118,10 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
   /**
    * Displays a single Event
    *
-   * @param Tx_GbEvents_Domain_Model_Event $event the Event to display
-   * @return string The rendered view
+   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to display
+   * @return \string The rendered view
    */
-  public function showAction(Tx_GbEvents_Domain_Model_Event $event) {
+  public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
     $this->view->assign('event', $event);
   }
 
@@ -134,8 +129,8 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
   /**
    * Displays the upcoming events
    *
-   * @param Tx_GbEvents_Domain_Model_Event $event the Event to display
-   * @return string The rendered view
+   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to display
+   * @return \string The rendered view
    */
   public function upcomingAction() {
     $events = $this->eventRepository->findUpcoming($this->settings['limit']);
@@ -146,10 +141,10 @@ class Tx_GbEvents_Controller_EventController extends Tx_Extbase_MVC_Controller_A
   /**
    * Exports a single Event as iCalendar file
    *
-   * @param Tx_GbEvents_Domain_Model_Event $event the Event to export
-   * @return string The rendered view
+   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to export
+   * @return \string The rendered view
    */
-  public function exportAction(Tx_GbEvents_Domain_Model_Event $event) {
+  public function exportAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
     $this->response->setHeader('Cache-control', 'public', TRUE);
     $this->response->setHeader('Content-Description', 'iCalendar Event File', TRUE);
     $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $event->iCalendarFilename(). '"', TRUE);

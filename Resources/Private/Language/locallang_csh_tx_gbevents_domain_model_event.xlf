@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-12-09T13:09:45Z" product-name="gb_events">
+		<header/>
+		<body>
+			<trans-unit id="title.description" xml:space="preserve">
+				<source>The title of the event</source>
+			</trans-unit>
+			<trans-unit id="subject.description" xml:space="preserve">
+				<source>The subject of the event</source>
+			</trans-unit>
+			<trans-unit id="teaser.description" xml:space="preserve">
+				<source>A short teaser text</source>
+			</trans-unit>
+			<trans-unit id="description.description" xml:space="preserve">
+				<source>A detailed description of the event</source>
+			</trans-unit>
+			<trans-unit id="location.description" xml:space="preserve">
+				<source>The location of the event</source>
+			</trans-unit>
+			<trans-unit id="event_date.description" xml:space="preserve">
+				<source>The date when the event happens</source>
+			</trans-unit>
+			<trans-unit id="event_time.description" xml:space="preserve">
+				<source>The time the event happens</source>
+			</trans-unit>
+			<trans-unit id="images.description" xml:space="preserve">
+				<source>Images to preview this event</source>
+			</trans-unit>
+			<trans-unit id="downloads.description" xml:space="preserve">
+				<source>Attachments/Downloads for this event</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
