@@ -1,4 +1,6 @@
 <?php
+namespace GuteBotschafter\GbEvents\Domain\Repository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,12 +27,18 @@
 
 
 /**
- * Repository for Tx_GbEvents_Domain_Model_Event
+ * Repository for GuteBotschafter\GbEvents\Domain\Model\Event
  */
-class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persistence_Repository {
-  public function findAllBetween(DateTime $startDate, DateTime $stopDate) {
+class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+  /**
+   * Find all events between $startDate and $stopDate
+   * @param  \DateTime $startDate
+   * @param  \DateTime $stopDate
+   * @return \array $events
+   */
+  public function findAllBetween(\DateTime $startDate, \DateTime $stopDate) {
     $query = $this->createQuery();
-    $query->setOrderings(array('event_date' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+    $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
     $conditions = $query->logicalOr(
       # Einzelne Veranstaltung im gesuchten Zeitfenster
       $query->logicalAnd(
@@ -42,16 +50,21 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
     return $this->resolveRecurringEvents($query->execute(), $grouped = TRUE, $startDate, $stopDate);
   }
 
+  /**
+   * Find all events (limited to a amount of years)
+   * @param  \integer $years
+   * @return \array $events
+   */
   public function findAll($years = NULL) {
     if(intval($years) === 0) {
       $years = 1;
     }
 
-    $startDate = new DateTime('midnight');
-    $stopDate = new DateTime(sprintf("midnight + %d years", intval($years)));
+    $startDate = new \DateTime('midnight');
+    $stopDate = new \DateTime(sprintf("midnight + %d years", intval($years)));
 
     $query = $this->createQuery();
-    $query->setOrderings(array('event_date' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+    $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
     $conditions = $query->logicalAnd(
       $query->greaterThanOrEqual('event_date', $startDate),
       $query->lessThanOrEqual('event_date', $stopDate)
@@ -60,16 +73,21 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
     return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate);
   }
 
+  /**
+   * Find upcoming events (limited to a count of n)
+   * @param  \integer $limit
+   * @return \array
+   */
   public function findUpcoming($limit = 3) {
     if(intval($limit) === 0) {
       $limit = 3;
     }
 
-    $startDate = new DateTime('midnight');
-    $stopDate = new DateTime('midnight + 5 years');
+    $startDate = new \DateTime('midnight');
+    $stopDate = new \DateTime('midnight + 5 years');
 
     $query = $this->createQuery();
-    $query->setOrderings(array('event_date' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+    $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
     $conditions = $query->greaterThanOrEqual('event_date', $startDate);
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
     return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $limit);
@@ -78,13 +96,13 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
   /**
    * Add conditions to retrieve recurring dates from the database
    *
-   * @param mixed $query The query object
-   * @param mixed $conditions The query conditions
-   * @param DateTime $startDate
-   * @param DateTime $stopDate
-   * @return mixed $query
+   * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query The query object
+   * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions The query conditions
+   * @param \DateTime $startDate
+   * @param \DateTime $stopDate
+   * @return \void
    */
-  protected function applyRecurringConditions(&$query, $conditions, $startDate, $stopDate) {
+  protected function applyRecurringConditions(\TYPO3\CMS\Extbase\Persistence\QueryInterface &$query, \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions, \DateTime $startDate, \DateTime $stopDate) {
     $query->matching(
       $query->logicalOr(
         $conditions,
@@ -105,21 +123,21 @@ class Tx_GbEvents_Domain_Repository_EventRepository extends Tx_Extbase_Persisten
         )
       )
     );
-
   }
 
   /**
    * Resolve the recurring events into current dates honoring start and stopdates as well as limits
    * on the amount of dates returned
    *
-   * @param mixed $events
-   * @param DateTime $startDate
-   * @param DateTime $stopDate
-   * @param integer $limit
-   * @return array $events
+   * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events
+   * @param \bool $grouped
+   * @param \DateTime $startDate
+   * @param \DateTime $stopDate
+   * @param \integer $limit
+   * @return \array $days
    */
-  protected function resolveRecurringEvents($events, $grouped = FALSE, $startDate, $stopDate, $limit = NULL) {
-    $today = new DateTime('midnight');
+  protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $limit = NULL) {
+    $today = new \DateTime('midnight');
     $days = array();
     foreach($events as $event) {
       foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {

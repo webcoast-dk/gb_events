@@ -1,5 +1,5 @@
 <?php
-require_once t3lib_extMgm::extPath('gb_events') . 'Classes/Hooks/KeSearchIndexer.php';
+namespace GuteBotschafter\GbEvents\Hooks;
 
 /***************************************************************
  *  Copyright notice
@@ -33,7 +33,7 @@ require_once t3lib_extMgm::extPath('gb_events') . 'Classes/Hooks/KeSearchIndexer
  *
  */
 
-class user_gbevents_kesearch_event extends gb_events_kesearch_indexer {
+class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
   /**
    * Indexed events
    * @var integer
@@ -44,9 +44,9 @@ class user_gbevents_kesearch_event extends gb_events_kesearch_indexer {
    * Custom index for ke_search to index content provided
    * by the extension gb_events
    *
-   * @param   array $indexerConfig
-   * @param   array $indexerObject
-   * @return  string $output
+   * @param   \array $indexerConfig
+   * @param   \array $indexerObject
+   * @return  \string $output
    * @author  Morton Jonuschat <mj@gute-botschafter.de>
    */
   public function customIndexer(&$indexerConfig, &$indexerObject) {
@@ -57,7 +57,7 @@ class user_gbevents_kesearch_event extends gb_events_kesearch_indexer {
       return FALSE;
     }
 
-    foreach(t3lib_div::trimExplode(',', $this->indexerConfig['sysfolder'], true) as $pid) {
+    foreach(\TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], true) as $pid) {
       $this->indexEvents($pid);
     }
     $this->content .= '<p><b>Indexer "' . $this->indexerConfig['title'] . '": ' . $this->eventCount . ' events have been indexed.</b></p>' . "\n";
@@ -69,8 +69,8 @@ class user_gbevents_kesearch_event extends gb_events_kesearch_indexer {
    * Join all fields to make up the content auf the event record
    * This is the text information that will be indexed
    *
-   * @param array $event
-   * @return string $content
+   * @param  \array $event
+   * @return \string $content
    */
   protected function renderEventContent($event) {
     $content = array(
@@ -84,8 +84,8 @@ class user_gbevents_kesearch_event extends gb_events_kesearch_indexer {
   /**
    * Process all title/book records for a given page id
    *
-   * @param integer $pageId
-   * @return void
+   * @param  \integer $pageId
+   * @return \void
    */
   protected function indexEvents($pageId) {
     $events = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -118,7 +118,7 @@ class user_gbevents_kesearch_event extends gb_events_kesearch_indexer {
       # Honor hooks to modify the indexed data
       if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyEventIndexEntry'])) {
         foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyEventIndexEntry'] as $_classRef) {
-          $_procObj = & t3lib_div::getUserObj($_classRef);
+          $_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
           $_procObj->modifyEventIndexEntry(
             $indexTitle,
             $abstract,

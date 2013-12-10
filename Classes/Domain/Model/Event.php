@@ -1,4 +1,6 @@
 <?php
+namespace GuteBotschafter\GbEvents\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,12 +28,12 @@
 /**
  * A single event
  */
-class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEntity {
+class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements EventInterface {
 
   /**
    * The title of the event
    *
-   * @var string
+   * @var \string
    * @validate NotEmpty
    */
   protected $title;
@@ -39,14 +41,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   /**
    * A short teaser text
    *
-   * @var string
+   * @var \string
    */
   protected $teaser;
 
   /**
    * A detailed description of the event
    *
-   * @var string
+   * @var \string
    * @validate NotEmpty
    */
   protected $description;
@@ -54,14 +56,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   /**
    * The location of the event
    *
-   * @var string
+   * @var \string
    */
   protected $location;
 
   /**
    * The date when the event happens
    *
-   * @var DateTime
+   * @var \DateTime
    * @validate NotEmpty
    */
   protected $eventDate;
@@ -69,55 +71,54 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   /**
    * The time the event happens
    *
-   * @var string
+   * @var \string
    */
   protected $eventTime;
 
   /**
    * The images for this event
    *
-   * @var string
+   * @var \string
    */
   protected $images;
 
   /**
    * The downloads for this event
    *
-   * @var string
+   * @var \string
    */
   protected $downloads;
 
   /**
    * The weeks of the month the event should occur at
    *
-   * @var integer
+   * @var \integer
    */
   protected $recurringWeeks;
 
   /**
    * The days of the week the event should occur at
    *
-   * @var integer
+   * @var \integer
    */
   protected $recurringDays;
 
   /**
    * The date until which a recurring event should repeat
    *
-   * @var DateTime
+   * @var \DateTime
    */
   protected $recurringStop;
 
   /**
    * The date when the event ends
    *
-   * @var DateTime
+   * @var \DateTime
    */
   protected $eventStopDate;
 
-
   /**
-   * @param string $title
+   * @param \string $title
    * @return void
    */
   public function setTitle($title) {
@@ -125,14 +126,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return string
+   * @return \string
    */
   public function getTitle() {
     return $this->title;
   }
 
   /**
-   * @param string $teaser
+   * @param \string $teaser
    * @return void
    */
   public function setTeaser($teaser) {
@@ -140,14 +141,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return string
+   * @return \string
    */
   public function getTeaser() {
     return $this->teaser;
   }
 
   /**
-   * @param string $description
+   * @param \string $description
    * @return void
    */
   public function setDescription($description) {
@@ -155,7 +156,7 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return string
+   * @return \string
    */
   public function getDescription() {
     return $this->description;
@@ -164,14 +165,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   /**
     * Get plain description with no HTML
     *
-    * @return string
+    * @return \string
     */
   public function getPlainDescription() {
     return mb_convert_encoding(strip_tags($this->getDescription()), 'UTF-8', 'HTML-ENTITIES');
   }
 
   /**
-   * @param string $location
+   * @param \string $location
    * @return void
    */
   public function setLocation($location) {
@@ -179,24 +180,24 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return string
+   * @return \string
    */
   public function getLocation() {
     return $this->location;
   }
 
   /**
-   * @param DateTime $eventDate
+   * @param \DateTime $eventDate
    * @return void
    */
-  public function setEventDate(DateTime $eventDate) {
+  public function setEventDate(\DateTime $eventDate) {
     $this->eventDate = $eventDate;
   }
 
   /**
    * This only returns the initial event date
    *
-   * @return DateTime
+   * @return \DateTime
    */
   public function getEventDate() {
     return $this->eventDate->modify('midnight');
@@ -208,13 +209,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
    * stopDate, taking the defined end of recurrance
    * into account
    *
-   * @param DateTime $startDate
-   * @param DateTime $stopDate
+   * @param \DateTime $startDate
+   * @param \DateTime $stopDate
+   * @return \array $eventDates
    */
-  public function getEventDates(DateTime $startDate, DateTime $stopDate) {
+  public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
     $monthNames = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-    $oneDay = new DateInterval('P1D');
-    $oneMonth = new DateInterval('P1M');
+    $oneDay = new \DateInterval('P1D');
+    $oneMonth = new \DateInterval('P1M');
 
     $startMonth = clone($startDate);
     $startMonth->modify('first day of this month');
@@ -311,7 +313,7 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @param string $eventTime
+   * @param \string $eventTime
    * @return void
    */
   public function setEventTime($eventTime) {
@@ -319,14 +321,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return string
+   * @return \string
    */
   public function getEventTime() {
     return $this->eventTime;
   }
 
   /**
-   * @param string $images
+   * @param \string $images
    * @return void
    */
   public function setImages($images) {
@@ -334,15 +336,15 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return array
+   * @return \array
    */
   public function getImages() {
     $mapFunc = create_function('$i', 'return "uploads/tx_gbevents/" . $i;');
-    return array_map($mapFunc, t3lib_div::trimExplode(',', $this->images, TRUE));
+    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->images, TRUE));
   }
 
   /**
-   * @param string $downloads
+   * @param \string $downloads
    * @return void
    */
   public function setDownloads($downloads) {
@@ -350,15 +352,15 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return array
+   * @return \array
    */
   public function getDownloads() {
     $mapFunc = create_function('$i', 'return array("file" => "uploads/tx_gbevents/" . $i, "name" => basename($i));');
-    return array_map($mapFunc, t3lib_div::trimExplode(',', $this->downloads, TRUE));
+    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->downloads, TRUE));
   }
 
   /**
-   * @param integer $recurringWeeks
+   * @param \integer $recurringWeeks
    * @return void
    */
   public function setRecurringWeeks($recurringWeeks) {
@@ -366,14 +368,14 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @return integer
+   * @return \integer
    */
   public function getRecurringWeeks() {
     return $this->recurringWeeks;
   }
 
   /**
-   * @return array
+   * @return \array
    */
   protected function getRecurringWeeksAsText() {
     $weeks = array();
@@ -399,22 +401,107 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @param integer $recurringDays
-   * @return void+
+   * @param \integer $recurringDays
+   * @return void
    */
   public function setRecurringDays($recurringDays) {
     $this->recurringDays = $recurringDays;
   }
 
   /**
-   * @return integer
+   * @return \integer
    */
   public function getRecurringDays() {
     return $this->recurringDays;
   }
 
   /**
-   * @return array
+   * @param \DateTime $recurringStop
+   * @return void
+   */
+  public function setRecurringStop($recurringStop) {
+    $this->recurringStop = $recurringStop;
+  }
+
+  /**
+   * @return \DateTime
+   */
+  public function getRecurringStop() {
+    return $this->recurringStop;
+  }
+
+  /**
+   * Set the event stop date
+   *
+   * @param \DateTime $eventStopDate
+   * @return void
+   */
+  public function setEventStopDate($eventStopDate) {
+    $this->eventStopDate = $eventStopDate;
+  }
+
+  /**
+   * Get the event stop date
+   *
+   * @return \DateTime
+   */
+  public function getEventStopDate() {
+    return ($this->eventStopDate == '') ? $this->eventDate : $this->eventStopDate;
+  }
+
+  /**
+   * Is it a one-day event?
+   *
+   * @return \bool
+   */
+   public function getIsOneDayEvent() {
+     return $this->getEventStopDate() == $this->getEventDate();
+  }
+
+  /**
+   * Return a suggested filename for sending the iCalendar file to the client
+   *
+   * @return \string $filename;
+   */
+  public function iCalendarFilename() {
+    return sprintf("%s - %s.ics", $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
+  }
+
+  /**
+   * Return an iCalendar file as string representation suitable for sending to the client
+   *
+   * @return \string $iCalendarData
+   */
+  public function iCalendarData() {
+    $now = new \DateTime();
+    $startDate = clone($this->getEventDate());
+    $startDate->add($this->getEventTimeAsDateInterval());
+    $stopDate = clone($this->getEventStopDate());
+    $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval("PT1H"));
+
+    $iCalData = array();
+    $iCalData[] = "BEGIN:VCALENDAR";
+    $iCalData[] = "VERSION:2.0";
+    $iCalData[] = "PRODID:gb_events TYPO3 Extension";
+    $iCalData[] = "METHOD:PUBLISH";
+    $iCalData[] = "BEGIN:VEVENT";
+    $iCalData[] = "UID:" . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
+    $iCalData[] = "LOCATION:" . $this->getLocation();
+    $iCalData[] = "SUMMARY:" . $this->getTitle();
+    $iCalData[] = "DESCRIPTION:" . strip_tags($this->getDescription());
+    $iCalData[] = "CLASS:PUBLIC";
+    $iCalData[] = "DTSTART:" . $startDate->format('Ymd\THis');
+    $iCalData[] = "DTEND:" . $stopDate->format('Ymd\THis');
+    $iCalData[] = "DTSTAMP:" . $now->format('Ymd\THis');
+    $iCalData[] = "RRULE:" . $this->buildRecurrenceRule();
+    $iCalData[] = "END:VEVENT";
+    $iCalData[] = "END:VCALENDAR";
+
+    return join("\n", $iCalData);
+  }
+
+  /**
+   * @return \array
    */
   protected function getRecurringDaysAsText() {
     $days = array();
@@ -470,96 +557,9 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
   }
 
   /**
-   * @param DateTime $recurringStop
-   * @return void
-   */
-  public function setRecurringStop($recurringStop) {
-    $this->recurringStop = $recurringStop;
-  }
-
-  /**
-   * @return DateTime
-   */
-  public function getRecurringStop() {
-    return $this->recurringStop;
-  }
-
-  /**
-   * Set the event stop date
-   *
-   * @param DateTime $eventStopDate
-   * @return void
-   */
-  public function setEventStopDate($eventStopDate)
-  {
-    $this->eventStopDate = $eventStopDate;
-  }
-
-  /**
-   * Get the event stop date
-   *
-   * @return DateTime
-   */
-  public function getEventStopDate()
-  {
-    return ($this->eventStopDate == '') ? $this->eventDate : $this->eventStopDate;
-  }
-
-  /**
-   * Return a suggested filename for sending the iCalendar file to the client
-   *
-   * @return string $filename;
-   */
-  public function iCalendarFilename() {
-    return sprintf("%s - %s.ics", $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
-  }
-
-  /**
-   * Return an iCalendar file as string representation suitable for sending to the client
-   *
-   * @return string $iCalendarData
-   */
-  public function iCalendarData() {
-    $now = new DateTime();
-    $startDate = clone($this->getEventDate());
-    $startDate->add($this->getEventTimeAsDateInterval());
-    $stopDate = clone($this->getEventStopDate());
-    $stopDate->add($this->getEventTimeAsDateInterval())->add(new DateInterval("PT1H"));
-
-    $iCalData = array();
-    $iCalData[] = "BEGIN:VCALENDAR";
-    $iCalData[] = "VERSION:2.0";
-    $iCalData[] = "PRODID:gb_events TYPO3 Extension";
-    $iCalData[] = "METHOD:PUBLISH";
-    $iCalData[] = "BEGIN:VEVENT";
-    $iCalData[] = "UID:" . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
-    $iCalData[] = "LOCATION:" . $this->getLocation();
-    $iCalData[] = "SUMMARY:" . $this->getTitle();
-    $iCalData[] = "DESCRIPTION:" . strip_tags($this->getDescription());
-    $iCalData[] = "CLASS:PUBLIC";
-    $iCalData[] = "DTSTART:" . $startDate->format('Ymd\THis');
-    $iCalData[] = "DTEND:" . $stopDate->format('Ymd\THis');
-    $iCalData[] = "DTSTAMP:" . $now->format('Ymd\THis');
-    $iCalData[] = "RRULE:" . $this->buildRecurrenceRule();
-    $iCalData[] = "END:VEVENT";
-    $iCalData[] = "END:VCALENDAR";
-
-    return join("\n", $iCalData);
-  }
-
-  /**
-   * Is it a one-day event?
-   *
-   * @return bool
-   */
-   public function getIsOneDayEvent() {
-     return $this->getEventStopDate() == $this->getEventDate();
-   }
-
-  /**
    * Tries an intelligent guess as to the start time of an event
    *
-   * @return DateInterval
+   * @return \DateInterval
    */
   protected function getEventTimeAsDateInterval() {
     $hours = $minutes = 0;
@@ -568,13 +568,13 @@ class Tx_GbEvents_Domain_Model_Event extends Tx_Extbase_DomainObject_AbstractEnt
       $hours = $matches[1];
       $minutes = $matches[2];
     }
-    return new DateInterval(sprintf("PT%dH%dM0S", $hours, $minutes));
+    return new \DateInterval(sprintf("PT%dH%dM0S", $hours, $minutes));
   }
 
   /**
    * Builds iCalendar recurrence rule
    *
-   * @return string $rRule
+   * @return \string $rRule
    */
   protected function buildRecurrenceRule() {
     $rRule = '';

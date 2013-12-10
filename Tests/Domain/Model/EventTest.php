@@ -1,4 +1,5 @@
 <?php
+namespace GuteBotschafter\GbEvents\Tests;
 
 /***************************************************************
  *  Copyright notice
@@ -36,14 +37,14 @@
  *
  * @author Morton Jonuschat <m.jonuschat@gute-botschafter.de>
  */
-class Tx_GbEvents_Domain_Model_EventTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class EventTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
   /**
    * @var Tx_GbEvents_Domain_Model_Event
    */
   protected $fixture;
 
   public function setUp() {
-    $this->fixture = new Tx_GbEvents_Domain_Model_Event();
+    $this->fixture = new \GuteBotschafter\GbEvents\Domain\Model\Event();
   }
 
   public function tearDown() {
