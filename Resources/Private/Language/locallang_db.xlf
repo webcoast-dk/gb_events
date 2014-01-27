@@ -30,6 +30,9 @@
 			<trans-unit id="flexform.default.settings.years" xml:space="preserve">
 				<source>Limit output to this many years</source>
 			</trans-unit>
+			<trans-unit id="flexform.default.settings.startDateOnly" xml:space="preserve" approved="yes">
+				<source>Show only start date in lists for events spanning multiple days</source>
+			</trans-unit>
 			<trans-unit id="tx_gbevents_domain_model_event" xml:space="preserve">
 				<source>Event</source>
 			</trans-unit>
