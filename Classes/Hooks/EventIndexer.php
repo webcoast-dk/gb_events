@@ -41,6 +41,24 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
   protected $eventCount = 0;
 
   /**
+   * Register the indexer configuration
+   *
+   * @param  array $params
+   * @param  array $pObj
+   * @return void
+   */
+  function registerIndexerConfiguration(&$params, $pObj) {
+    // add item to "type" field
+    $params['items'][] = array(
+      'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
+      'gbevents_event',
+      t3lib_extMgm::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif'
+    );
+    $TCA['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
+    $TCA['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
+  }
+
+  /**
    * Custom index for ke_search to index content provided
    * by the extension gb_events
    *
