@@ -29,6 +29,12 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  * A single event
  */
 class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements EventInterface {
+  /**
+   * Configuration Manager
+   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+   * @inject
+   */
+  protected $configurationManager;
 
   /**
    * The title of the event
@@ -214,6 +220,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return \array $eventDates
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
+    $settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
     $monthNames = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
@@ -242,13 +249,15 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
             $workDate->modify(sprintf("%s %s of this month", $week, $day));
             if($workingMonth === $workDate->format('n') && $workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              $re_StartDate = clone($workDate);
-              $difference = $this->getEventDate()->diff($re_StartDate);
-              $re_StopDate = clone($this->getEventStopDate());
-              $re_StopDate->add($difference);
-              while($re_StartDate <= $re_StopDate) {
-                $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
-                $re_StartDate->modify('+1 day');
+              if(!$settings['startDateOnly']) {
+                $re_StartDate = clone($workDate);
+                $difference = $this->getEventDate()->diff($re_StartDate);
+                $re_StopDate = clone($this->getEventStopDate());
+                $re_StopDate->add($difference);
+                while($re_StartDate <= $re_StopDate) {
+                  $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
+                  $re_StartDate->modify('+1 day');
+                }
               }
             }
           }
@@ -286,13 +295,15 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
           if($addCurrentDay) {
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              $re_StartDate = clone($workDate);
-              $difference = $this->getEventDate()->diff($re_StartDate);
-              $re_StopDate = clone($this->getEventStopDate());
-              $re_StopDate->add($difference);
-              while($re_StartDate <= $re_StopDate) {
-                $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
-                $re_StartDate->modify('+1 day');
+              if(!$settings['startDateOnly']) {
+                $re_StartDate = clone($workDate);
+                $difference = $this->getEventDate()->diff($re_StartDate);
+                $re_StopDate = clone($this->getEventStopDate());
+                $re_StopDate->add($difference);
+                while($re_StartDate <= $re_StopDate) {
+                  $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
+                  $re_StartDate->modify('+1 day');
+                }
               }
             }
           }
@@ -301,10 +312,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       }
     }
     $myStartDate = clone($this->getEventDate());
-    $myStopDate = $this->getEventStopDate();
-    while($myStartDate <= $myStopDate) {
+    $myStopDate = clone($this->getEventStopDate());
+    if(!$settings['startDateOnly']) {
+      while($myStartDate <= $myStopDate) {
+        $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
+        $myStartDate->modify('+1 day');
+      }
+    } else {
       $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
-      $myStartDate->modify('+1 day');
     }
 
     $eventDates[$this->getEventDate()->format('Y-m-d')] = $this->getEventDate();

@@ -41,15 +41,3 @@ $TCA['tx_gbevents_domain_model_event'] = array(
     'iconfile'                  => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_gbevents_domain_model_event.gif'
   ),
 );
-
-# Add custom indexer to ke_search
-if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
-  $TCA['tx_kesearch_indexerconfig']['columns']['type']['config']['items'][] = array (
-    'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_kesearch_event.indexer_name',
-    'gbevents_event',
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif',
-  );
-
-  $TCA['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
-  $TCA['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
-}
