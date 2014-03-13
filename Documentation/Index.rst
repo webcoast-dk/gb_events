@@ -13,12 +13,12 @@ Extension Name
 
 :Extension name: Event Calendar
 :Extension key: gb_events
-:Version: 1.3.4
+:Version: 6.0.1
 :Description: Manuals covering TYPO3 extension "Event Calendar"
 :Language: en
 :Author: Morton Jonuschat
-:Creation: 2013-12-04
-:Generation: 09:53
+:Creation: 2011-05-03
+:Generation: 11:20
 :Licence: Open Content License available from `www.opencontent.org/opl.shtml <http://www.opencontent.org/opl.shtml>`_
 
 The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from `www.typo3.org
