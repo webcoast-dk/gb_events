@@ -166,7 +166,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $this->excludedDates = array();
 
     # Global excludes
-    if($this->getRecurringExcludeHolidays() === TRUE) {
+    if(intval($this->settings['forceExcludeHolidays']) !== 0 || $this->getRecurringExcludeHolidays() === TRUE) {
       if(is_array($this->settings['holidays']) && count($this->settings['holidays']) !== 0) {
         foreach($this->settings['holidays'] as $holiday) {
           try {
