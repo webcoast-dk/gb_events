@@ -37,6 +37,18 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   protected $configurationManager;
 
   /**
+   * Extension settings
+   * @var array
+   */
+  protected $settings;
+
+  /**
+   * Extension settings
+   * @var array
+   */
+  protected $excludedDates;
+
+  /**
    * The title of the event
    *
    * @var \string
@@ -122,6 +134,70 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @var \DateTime
    */
   protected $eventStopDate;
+
+  /**
+   * Exclude national holidays from the recurring events list
+   *
+   * @var \boolean
+   */
+  protected $recurringExcludeHolidays;
+
+  /**
+   * Dates on which recurring events do not occur
+   *
+   * @var \string
+   */
+  protected $recurringExcludeDates;
+
+  /**
+   * Setup for the Event object
+   *
+   * @return void
+   */
+  public function initializeSettings() {
+    if(is_null($this->settings)) {
+      $this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+    }
+  }
+
+  /**
+   * Setup the excluded dates
+   *
+   * @return void
+   */
+  public function initializeExcludedDates() {
+    $this->initializeSettings();
+    if(is_array($this->excludedDates)) {
+      return;
+    }
+    $this->excludedDates = array();
+
+    # Global excludes
+    if(intval($this->settings['forceExcludeHolidays']) !== 0 || $this->getRecurringExcludeHolidays() === TRUE) {
+      if(is_array($this->settings['holidays']) && count($this->settings['holidays']) !== 0) {
+        foreach($this->settings['holidays'] as $holiday) {
+          try {
+            $date = $this->expandExcludeDate($holiday);
+            $this->excludedDates[$date->format('Y')][$date->format('m-d')] = 1;
+          } catch(\Exception $e) {
+            continue;
+          }
+        }
+      }
+    }
+    # Per event excludes
+    foreach($this->getRecurringExcludeDatesArray() as $excludedDate) {
+      if(trim($excludedDate) === '') {
+        continue;
+      }
+      try {
+        $date = $this->expandExcludeDate($excludedDate);
+        $this->excludedDates[$date->format('Y')][$date->format('m-d')] = 1;
+      } catch(\Exception $e) {
+        continue;
+      }
+    }
+  }
 
   /**
    * @param \string $title
@@ -220,7 +296,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return \array $eventDates
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
-    $settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+    $this->initializeSettings();
     $monthNames = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
@@ -248,8 +324,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
           foreach($this->getRecurringDaysAsText() as $day) {
             $workDate->modify(sprintf("%s %s of this month", $week, $day));
             if($workingMonth === $workDate->format('n') && $workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
+              if($this->isExcludedDate($workDate)) {
+                continue;
+              }
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              if(!$settings['startDateOnly']) {
+              if(!$this->settings['startDateOnly']) {
                 $re_StartDate = clone($workDate);
                 $difference = $this->getEventDate()->diff($re_StartDate);
                 $re_StopDate = clone($this->getEventStopDate());
@@ -294,8 +373,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
           }
           if($addCurrentDay) {
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
+              if($this->isExcludedDate($workDate)) {
+                continue;
+              }
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              if(!$settings['startDateOnly']) {
+              if(!$this->settings['startDateOnly']) {
                 $re_StartDate = clone($workDate);
                 $difference = $this->getEventDate()->diff($re_StartDate);
                 $re_StopDate = clone($this->getEventStopDate());
@@ -313,8 +395,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     }
     $myStartDate = clone($this->getEventDate());
     $myStopDate = clone($this->getEventStopDate());
-    if(!$settings['startDateOnly']) {
+    if(!$this->settings['startDateOnly']) {
       while($myStartDate <= $myStopDate) {
+        if($this->isExcludedDate($workDate)) {
+          continue;
+        }
         $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
         $myStartDate->modify('+1 day');
       }
@@ -443,6 +528,21 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getRecurringStop() {
     return $this->recurringStop;
+  }
+
+  /**
+   * @param \boolean $recurringExcludeHolidays
+   * @return void
+   */
+  function setRecurringExcludeHolidays($recurringExcludeHolidays) {
+    $this->recurringExcludeHolidays = $recurringExcludeHolidays;
+  }
+
+  /**
+   * @return \boolean
+   */
+  function getRecurringExcludeHolidays() {
+    return $this->recurringExcludeHolidays;
   }
 
   /**
@@ -647,5 +747,65 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $rRule .= join(",", $byDays);
     }
     return $rRule;
+  }
+
+  /**
+   * Gets the Dates on which recurring events do not occur.
+   *
+   * @return \string
+   */
+  public function getRecurringExcludeDates() {
+    return $this->recurringExcludeDates;
+  }
+
+  /**
+   * Gets the Dates on which recurring events do not occur.
+   *
+   * @return \string
+   */
+  protected function getRecurringExcludeDatesArray() {
+    return preg_split("#[\r\n]+|$#", $this->getRecurringExcludeDates());
+  }
+
+  /**
+   * Sets the Dates on which recurring events do not occur.
+   *
+   * @param \string $recurringExcludeDates the recurring exclude dates
+   * @return void
+   */
+  public function setRecurringExcludeDates(\string $recurringExcludeDates) {
+    $this->recurringExcludeDates = $recurringExcludeDates;
+  }
+
+  /**
+   * Check if the given date is to be excluded from the list of recurring events
+   *
+   * @param  DateTime $date
+   * @return boolean
+   */
+  protected function isExcludedDate(\DateTime $date) {
+    $this->initializeExcludedDates();
+    if(array_key_exists($date->format('Y'), $this->excludedDates) && array_key_exists($date->format('m-d'), $this->excludedDates[$date->format('Y')])) {
+      return TRUE;
+    }
+    if(array_key_exists('0000', $this->excludedDates) && array_key_exists($date->format('m-d'), $this->excludedDates['0000'])) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
+   * Expand the given date to include a year (if missing) and convert to a
+   * DateTime object
+   * @param  \string $excludeDate
+   * @return \DateTime
+   */
+  protected function expandExcludeDate($excludeDate) {
+    if(preg_match('#^\d{1,2}\.\d{1,2}\.?$#', $excludeDate)) {
+      $excludeDate = str_replace('..', '.', sprintf("%s.%s", $excludeDate, '0000'));
+    } else if(preg_match('#^\d{1,2}-\d{1,2}$#', $excludeDate)) {
+      $excludeDate = sprintf("%s-%s", '0000', $excludeDate);
+    }
+    return new \DateTime($excludeDate);
   }
 }

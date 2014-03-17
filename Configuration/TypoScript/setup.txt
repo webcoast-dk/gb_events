@@ -12,4 +12,24 @@ plugin.tx_gbevents {
   #    className = GuteBotschafter\GbEvents\Domain\Model\FullEvent
   #   }
   # }
+  settings {
+    forceExcludeHolidays = 0
+    holidays {
+      neujahr = 01.01.
+      maifeiertag = 01.05.
+      tag_der_deutschen_einheit = 03.10.
+      erster_weihnachtstag = 25.12.
+      zweiter_weihnachtstag = 26.12.
+
+      karfreitag_2014 = 18.04.2014
+      ostermontag_2014 = 21.04.2014
+      christ_himmelfahrt_2014 = 29.05.2014
+      pfingstmontag_2014 = 09.06.2014
+
+      karfreitag_2015 = 03.04.2015
+      ostermontag_2015 = 06.04.2015
+      christ_himmelfahrt_2015 = 14.05.2015
+      pfingstmontag_2015 = 25.05.2015
+    }
+  }
 }
