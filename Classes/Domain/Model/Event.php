@@ -136,6 +136,13 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   protected $eventStopDate;
 
   /**
+   * Exclude national holidays from the recurring events list
+   *
+   * @var \boolean
+   */
+  protected $recurringExcludeHolidays;
+
+  /**
    * Setup for the Event object
    *
    * @return void
@@ -159,13 +166,15 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $this->excludedDates = array();
 
     # Global excludes
-    if(is_array($this->settings['holidays']) && count($this->settings['holidays']) !== 0) {
-      foreach($this->settings['holidays'] as $holiday) {
-        try {
-          $date = new \DateTime($holiday);
-          $this->excludedDates[$date->format('Y-m-d')] = 1;
-        } catch(\Exception $e) {
-          continue;
+    if($this->getRecurringExcludeHolidays() === TRUE) {
+      if(is_array($this->settings['holidays']) && count($this->settings['holidays']) !== 0) {
+        foreach($this->settings['holidays'] as $holiday) {
+          try {
+            $date = new \DateTime($holiday);
+            $this->excludedDates[$date->format('Y-m-d')] = 1;
+          } catch(\Exception $e) {
+            continue;
+          }
         }
       }
     }
@@ -500,6 +509,21 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getRecurringStop() {
     return $this->recurringStop;
+  }
+
+  /**
+   * @param \boolean $recurringExcludeHolidays
+   * @return void
+   */
+  function setRecurringExcludeHolidays($recurringExcludeHolidays) {
+    $this->recurringExcludeHolidays = $recurringExcludeHolidays;
+  }
+
+  /**
+   * @return \boolean
+   */
+  function getRecurringExcludeHolidays() {
+    return $this->recurringExcludeHolidays;
   }
 
   /**

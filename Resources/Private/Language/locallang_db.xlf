@@ -117,6 +117,9 @@
 			<trans-unit id="tx_gbevents_domain_model_event.recurring_stop" xml:space="preserve">
 				<source>Repeat until</source>
 			</trans-unit>
+			<trans-unit id="tx_gbevents_domain_model_event.recurring_exclude_holidays" xml:space="preserve">
+				<source>Event does not happen on national holidays</source>
+			</trans-unit>
 			<trans-unit id="tx_gbevents_kesearch_event.indexer_name" xml:space="preserve">
 				<source>Events</source>
 			</trans-unit>

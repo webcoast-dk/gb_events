@@ -171,6 +171,17 @@ interface EventInterface {
   function getRecurringStop();
 
   /**
+   * @param \boolean $recurringExcludeHolidays
+   * @return void
+   */
+  function setRecurringExcludeHolidays($recurringExcludeHolidays);
+
+  /**
+   * @return \boolean
+   */
+  function getRecurringExcludeHolidays();
+
+  /**
    * Set the event stop date
    *
    * @param \DateTime $eventStopDate

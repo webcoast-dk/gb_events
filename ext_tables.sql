@@ -17,6 +17,7 @@ CREATE TABLE tx_gbevents_domain_model_event (
   recurring_weeks int(11) DEFAULT '0' NOT NULL,
   recurring_days int(11) DEFAULT '0' NOT NULL,
   recurring_stop int(11) DEFAULT '0' NOT NULL,
+  recurring_exclude_holidays tinyint(4) DEFAULT '0' NOT NULL,
 
   event_stop_date int(11) DEFAULT '0' NOT NULL,
 
