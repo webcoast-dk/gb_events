@@ -20,6 +20,53 @@ Please note that the included default templates for the list mode and the upcomi
 
 All output options can be configured in the backend using flexforms. For the „Upcoming Events“ you can set the number of events to show (defaults to 3), for the „List of Events“ you can configure the number of years in the future you want to display. This defaults to one year which means that all events from today up to the same date one year from now will be displayed.
 
+The following options are available for configuration by TypoScript:
+
+plugin.tx\_gbevents.settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _holidays:
+
+holidays
+""""""""
+
+.. container:: table-row
+
+    Property
+        holidays
+
+    Data type
+        array
+
+    Description
+        Define a global list of national holidays or dates on which no recurring events
+        will occur. An entry on this list doesn't automaticall exclude events on these
+        dates. This has to be activated bei either setting forceExcludeHolidays or
+        ticking the respective checkbox within an event.
+
+    Default
+        National holidays for Germany 2014 & 2015
+
+.. _forceExcludeHolidays:
+
+forceExcludeHolidays
+""""""""""""""""""""
+
+.. container:: table-row
+
+    Property
+        forceExcludeHolidays
+
+    Data type
+        boolean
+
+    Description
+        Ignore the per event setting to exclude reccuring events on dates on the global
+        exclusion list and forcefully prevent events to occur on these dates.
+
+    Default
+        false
+
 Output Modes
 ============
 
