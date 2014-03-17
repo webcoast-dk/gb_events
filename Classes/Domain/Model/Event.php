@@ -37,6 +37,12 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   protected $configurationManager;
 
   /**
+   * Extension settings
+   * @var array
+   */
+  protected $settings;
+
+  /**
    * The title of the event
    *
    * @var \string
@@ -122,6 +128,17 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @var \DateTime
    */
   protected $eventStopDate;
+
+  /**
+   * Setup for the Event object
+   *
+   * @return void
+   */
+  public function initializeSettings() {
+    if(is_null($this->settings)) {
+      $this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+    }
+  }
 
   /**
    * @param \string $title
@@ -220,7 +237,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return \array $eventDates
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
-    $settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+    $this->initializeSettings();
     $monthNames = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
@@ -249,7 +266,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
             $workDate->modify(sprintf("%s %s of this month", $week, $day));
             if($workingMonth === $workDate->format('n') && $workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              if(!$settings['startDateOnly']) {
+              if(!$this->settings['startDateOnly']) {
                 $re_StartDate = clone($workDate);
                 $difference = $this->getEventDate()->diff($re_StartDate);
                 $re_StopDate = clone($this->getEventStopDate());
@@ -295,7 +312,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
           if($addCurrentDay) {
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              if(!$settings['startDateOnly']) {
+              if(!$this->settings['startDateOnly']) {
                 $re_StartDate = clone($workDate);
                 $difference = $this->getEventDate()->diff($re_StartDate);
                 $re_StopDate = clone($this->getEventStopDate());
@@ -313,7 +330,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     }
     $myStartDate = clone($this->getEventDate());
     $myStopDate = clone($this->getEventStopDate());
-    if(!$settings['startDateOnly']) {
+    if(!$this->settings['startDateOnly']) {
       while($myStartDate <= $myStopDate) {
         $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
         $myStartDate->modify('+1 day');
