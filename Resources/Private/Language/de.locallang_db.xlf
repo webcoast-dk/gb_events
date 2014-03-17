@@ -159,6 +159,10 @@
 				<source>Event does not happen on national holidays</source>
 				<target>Termin findet an bundesweit einheitlichen Feiertagen nicht statt</target>
 			</trans-unit>
+			<trans-unit id="tx_gbevents_domain_model_event.recurring_exclude_dates" xml:space="preserve" approved="yes">
+				<source>Event does not happen on these dates</source>
+				<target>Termin findet an den folgenden Tagen nicht statt</target>
+			</trans-unit>
 			<trans-unit id="tx_gbevents_kesearch_event.indexer_name" xml:space="preserve" approved="yes">
 				<source>Events</source>
 				<target>Termine</target>

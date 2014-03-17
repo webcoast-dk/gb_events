@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_gbevents_domain_model_event'] = array(
   'ctrl' => $TCA['tx_gbevents_domain_model_event']['ctrl'],
   'interface' => array(
-    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time, event_stop_date, images, downloads, recurring_weeks, recurring_days, recurring_stop, recurring_exclude_holidays',
+    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, teaser, description, location, event_date, event_time, event_stop_date, images, downloads, recurring_weeks, recurring_days, recurring_stop, recurring_exclude_holidays, recurring_exclude_dates',
   ),
   'types' => array(
-    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, event_stop_date, images, downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring, recurring_weeks, recurring_days, recurring_stop, recurring_exclude_holidays,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+    '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, teaser, description;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_gbevents/rte/], location, event_date, event_time, event_stop_date, images, downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring, recurring_weeks, recurring_days, recurring_stop, recurring_exclude_holidays, recurring_exclude_dates,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
   ),
   'palettes' => array(
     '1' => array('showitem' => ''),
@@ -210,6 +210,16 @@ $TCA['tx_gbevents_domain_model_event'] = array(
       'config' => array(
         'type' => 'check',
         'default' => 0,
+      ),
+    ),
+    'recurring_exclude_dates' => array(
+      'exclude' => 0,
+      'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring_exclude_dates',
+      'config' => array(
+        'type' => 'text',
+        'cols' => 40,
+        'rows' => 15,
+        'eval' => 'trim'
       ),
     ),
     'images' => array(

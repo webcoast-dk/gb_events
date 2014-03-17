@@ -143,6 +143,13 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   protected $recurringExcludeHolidays;
 
   /**
+   * Dates on which recurring events do not occur
+   *
+   * @var \string
+   */
+  protected $recurringExcludeDates;
+
+  /**
    * Setup for the Event object
    *
    * @return void
@@ -176,6 +183,18 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
             continue;
           }
         }
+      }
+    }
+    # Per event excludes
+    foreach($this->getRecurringExcludeDatesArray() as $excludedDate) {
+      if(trim($excludedDate) === '') {
+        continue;
+      }
+      try {
+        $date = new \DateTime($excludedDate);
+        $this->excludedDates[$date->format('Y-m-d')] = 1;
+      } catch(\Exception $e) {
+        continue;
       }
     }
   }
@@ -739,5 +758,33 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   protected function isExcludedDate(\DateTime $date) {
     $this->initializeExcludedDates();
     return array_key_exists($date->format('Y-m-d'), $this->excludedDates);
+  }
+
+  /**
+   * Gets the Dates on which recurring events do not occur.
+   *
+   * @return \string
+   */
+  public function getRecurringExcludeDates() {
+    return $this->recurringExcludeDates;
+  }
+
+  /**
+   * Gets the Dates on which recurring events do not occur.
+   *
+   * @return \string
+   */
+  public function getRecurringExcludeDatesArray() {
+    return preg_split("#[\r\n]+|$#", $this->getRecurringExcludeDates());
+  }
+
+  /**
+   * Sets the Dates on which recurring events do not occur.
+   *
+   * @param \string $recurringExcludeDates the recurring exclude dates
+   * @return void
+   */
+  public function setRecurringExcludeDates(\string $recurringExcludeDates) {
+    $this->recurringExcludeDates = $recurringExcludeDates;
   }
 }
