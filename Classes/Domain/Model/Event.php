@@ -250,7 +250,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     * @return \string
     */
   public function getPlainDescription() {
-    return mb_convert_encoding(strip_tags($this->getDescription()), 'UTF-8', 'HTML-ENTITIES');
+    return strip_tags($this->getDescription());
   }
 
   /**
