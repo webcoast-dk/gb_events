@@ -25,7 +25,7 @@ $EM_CONF[$_EXTKEY] = array(
   'modify_tables' => '',
   'clearCacheOnLoad' => 0,
   'lockType' => '',
-  'version' => '6.1.0',
+  'version' => '6.1.1',
   'constraints' => array(
     'depends' => array(
       'extbase' => '6.0.0-6.2.99',
@@ -35,6 +35,6 @@ $EM_CONF[$_EXTKEY] = array(
     'conflicts' => array() ,
     'suggests' => array() ,
   ) ,
-  'comment' => 'Feature: Exclude dates from recurring events',
+  'comment' => 'No changes - allow installation on TYPO3 6.2',
   'user' => 'gutebotschafter',
 );
