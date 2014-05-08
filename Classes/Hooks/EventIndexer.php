@@ -52,7 +52,7 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
     $params['items'][] = array(
       'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
       'gbevents_event',
-      t3lib_extMgm::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif'
+      \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif'
     );
     $TCA['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
     $TCA['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
