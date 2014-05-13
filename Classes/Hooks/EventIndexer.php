@@ -70,12 +70,12 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
   public function customIndexer(&$indexerConfig, &$indexerObject) {
     parent::customIndexer($indexerConfig, $indexerObject);
 
-    # bail out if we are passed a config that is not of our type
+    // bail out if we are passed a config that is not of our type
     if($indexerConfig['type'] !== 'gbevents_event') {
       return FALSE;
     }
 
-    foreach(\TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], true) as $pid) {
+    foreach(\TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], TRUE) as $pid) {
       $this->indexEvents($pid);
     }
     $this->content .= '<p><b>Indexer "' . $this->indexerConfig['title'] . '": ' . $this->eventCount . ' events have been indexed.</b></p>' . "\n";
@@ -126,14 +126,14 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
         'tx_gbevents_main[event]' => $event['uid'],
       );
 
-      # Additional fields for the indexer
+      // Additional fields for the indexer
       $additionalFields = array(
         'sortdate' => $event['tstamp'],
         'orig_uid' => $event['uid'],
         'orig_pid' => $event['pid'],
       );
 
-      # Honor hooks to modify the indexed data
+      // Honor hooks to modify the indexed data
       if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyEventIndexEntry'])) {
         foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyEventIndexEntry'] as $_classRef) {
           $_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
@@ -149,7 +149,7 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
         }
       }
 
-      # Store the record in the index
+      // Store the record in the index
       $this->indexerObject->storeInIndex(
         $this->indexerConfig['storagepid'],
         $indexTitle,
@@ -163,7 +163,7 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
         $starttime = 0,
         $endtime = 0,
         $feGroup = 0,
-        $debug = false,
+        $debug = FALSE,
         $additionalFields
       );
 

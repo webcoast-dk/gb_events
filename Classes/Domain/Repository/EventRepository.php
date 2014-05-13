@@ -40,7 +40,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
     $conditions = $query->logicalOr(
-      # Einzelne Veranstaltung im gesuchten Zeitfenster
+      // Einzelne Veranstaltung im gesuchten Zeitfenster
       $query->logicalAnd(
         $query->greaterThanOrEqual('event_date', $startDate),
         $query->lessThanOrEqual('event_date', $stopDate)
@@ -61,7 +61,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     }
 
     $startDate = new \DateTime('midnight');
-    $stopDate = new \DateTime(sprintf("midnight + %d years", intval($years)));
+    $stopDate = new \DateTime(sprintf('midnight + %d years', intval($years)));
 
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
@@ -106,16 +106,16 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     $query->matching(
       $query->logicalOr(
         $conditions,
-        # Wiederkehrende Veranstaltung
+        // Wiederkehrende Veranstaltung
         $query->logicalAnd(
-          # Beginnt vor dem Ende des gesuchten Zeitraums
+          // Beginnt vor dem Ende des gesuchten Zeitraums
           $query->lessThanOrEqual('event_date', $stopDate),
-          # Mindestens ein Wiederholungskriterium gesetzt
+          // Mindestens ein Wiederholungskriterium gesetzt
           $query->logicalOr(
             $query->greaterThan('recurringDays', 0),
             $query->greaterThan('recurringWeeks', 0)
           ),
-          # Kein Enddatum oder Enddatum im/nach dem gesuchten Startdatum
+          // Kein Enddatum oder Enddatum im/nach dem gesuchten Startdatum
           $query->logicalOr(
             $query->equals('recurringStop', 0),
             $query->greaterThanOrEqual('recurringStop', $startDate)
@@ -149,7 +149,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
         if($grouped) {
           $days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $recurringEvent;
         } else {
-          $days[$eventDate->format('Y-m-d') . "_" . $event->getTitle()] = $recurringEvent;
+          $days[$eventDate->format('Y-m-d') . '_' . $event->getTitle()] = $recurringEvent;
         }
       }
     }

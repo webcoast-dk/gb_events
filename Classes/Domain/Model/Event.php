@@ -172,7 +172,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     }
     $this->excludedDates = array();
 
-    # Global excludes
+    // Global excludes
     if(intval($this->settings['forceExcludeHolidays']) !== 0 || $this->getRecurringExcludeHolidays() === TRUE) {
       if(is_array($this->settings['holidays']) && count($this->settings['holidays']) !== 0) {
         foreach($this->settings['holidays'] as $holiday) {
@@ -185,7 +185,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
         }
       }
     }
-    # Per event excludes
+    // Per event excludes
     foreach($this->getRecurringExcludeDatesArray() as $excludedDate) {
       if(trim($excludedDate) === '') {
         continue;
@@ -318,11 +318,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     foreach($recurringMonths as $workDate) {
       $workingMonth = $workDate->format('n');
 
-      # Weeks have been selected, check every nth week / day combination
+      // Weeks have been selected, check every nth week / day combination
       if(count($recurringWeeks) !== 0) {
         foreach($this->getRecurringWeeksAsText() as $week) {
           foreach($this->getRecurringDaysAsText() as $day) {
-            $workDate->modify(sprintf("%s %s of this month", $week, $day));
+            $workDate->modify(sprintf('%s %s of this month', $week, $day));
             if($workingMonth === $workDate->format('n') && $workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               if($this->isExcludedDate($workDate)) {
                 continue;
@@ -342,7 +342,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
           }
         }
       } else {
-        # Check the weekdays only, ignoring the weeks of the month
+        // Check the weekdays only, ignoring the weeks of the month
         $stopDay = clone($workDate);
         $stopDay->modify('last day of this month');
         while($workDate <= $stopDay) {
@@ -534,14 +534,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @param \boolean $recurringExcludeHolidays
    * @return void
    */
-  function setRecurringExcludeHolidays($recurringExcludeHolidays) {
+  public function setRecurringExcludeHolidays($recurringExcludeHolidays) {
     $this->recurringExcludeHolidays = $recurringExcludeHolidays;
   }
 
   /**
    * @return \boolean
    */
-  function getRecurringExcludeHolidays() {
+  public function getRecurringExcludeHolidays() {
     return $this->recurringExcludeHolidays;
   }
 
@@ -579,7 +579,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return \string $filename;
    */
   public function iCalendarFilename() {
-    return sprintf("%s - %s.ics", $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
+    return sprintf('%s - %s.ics', $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
   }
 
   /**
@@ -592,25 +592,25 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $startDate = clone($this->getEventDate());
     $startDate->add($this->getEventTimeAsDateInterval());
     $stopDate = clone($this->getEventStopDate());
-    $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval("PT1H"));
+    $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval('PT1H'));
 
     $iCalData = array();
-    $iCalData[] = "BEGIN:VCALENDAR";
-    $iCalData[] = "VERSION:2.0";
-    $iCalData[] = "PRODID:gb_events TYPO3 Extension";
-    $iCalData[] = "METHOD:PUBLISH";
-    $iCalData[] = "BEGIN:VEVENT";
-    $iCalData[] = "UID:" . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
-    $iCalData[] = "LOCATION:" . $this->getLocation();
-    $iCalData[] = "SUMMARY:" . $this->getTitle();
-    $iCalData[] = "DESCRIPTION:" . strip_tags($this->getDescription());
-    $iCalData[] = "CLASS:PUBLIC";
-    $iCalData[] = "DTSTART:" . $startDate->format('Ymd\THis');
-    $iCalData[] = "DTEND:" . $stopDate->format('Ymd\THis');
-    $iCalData[] = "DTSTAMP:" . $now->format('Ymd\THis');
-    $iCalData[] = "RRULE:" . $this->buildRecurrenceRule();
-    $iCalData[] = "END:VEVENT";
-    $iCalData[] = "END:VCALENDAR";
+    $iCalData[] = 'BEGIN:VCALENDAR';
+    $iCalData[] = 'VERSION:2.0';
+    $iCalData[] = 'PRODID:gb_events TYPO3 Extension';
+    $iCalData[] = 'METHOD:PUBLISH';
+    $iCalData[] = 'BEGIN:VEVENT';
+    $iCalData[] = 'UID:' . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
+    $iCalData[] = 'LOCATION:' . $this->getLocation();
+    $iCalData[] = 'SUMMARY:' . $this->getTitle();
+    $iCalData[] = 'DESCRIPTION:' . strip_tags($this->getDescription());
+    $iCalData[] = 'CLASS:PUBLIC';
+    $iCalData[] = 'DTSTART:' . $startDate->format('Ymd\THis');
+    $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis');
+    $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis');
+    $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
+    $iCalData[] = 'END:VEVENT';
+    $iCalData[] = 'END:VCALENDAR';
 
     return join("\n", $iCalData);
   }
@@ -683,7 +683,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $hours = $matches[1];
       $minutes = $matches[2];
     }
-    return new \DateInterval(sprintf("PT%dH%dM0S", $hours, $minutes));
+    return new \DateInterval(sprintf('PT%dH%dM0S', $hours, $minutes));
   }
 
   /**
@@ -734,7 +734,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $byDays = array();
       foreach($weeks as $week) {
         foreach($days as $day) {
-          $byDays[] = sprintf("%s%s", $week, $day);
+          $byDays[] = sprintf('%s%s', $week, $day);
         }
       }
       $rRule .= join(",", $byDays);
@@ -744,7 +744,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       foreach($days as $day) {
         $byDays[] = $day;
       }
-      $rRule .= join(",", $byDays);
+      $rRule .= join(',', $byDays);
     }
     return $rRule;
   }
@@ -802,9 +802,9 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   protected function expandExcludeDate($excludeDate) {
     if(preg_match('#^\d{1,2}\.\d{1,2}\.?$#', $excludeDate)) {
-      $excludeDate = str_replace('..', '.', sprintf("%s.%s", $excludeDate, '0000'));
+      $excludeDate = str_replace('..', '.', sprintf('%s.%s', $excludeDate, '0000'));
     } else if(preg_match('#^\d{1,2}-\d{1,2}$#', $excludeDate)) {
-      $excludeDate = sprintf("%s-%s", '0000', $excludeDate);
+      $excludeDate = sprintf('%s-%s', '0000', $excludeDate);
     }
     return new \DateTime($excludeDate);
   }

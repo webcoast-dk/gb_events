@@ -70,7 +70,7 @@ class KeSearchIndexer {
    * @author  Morton Jonuschat <mj@gute-botschafter.de>
    */
   public function customIndexer(&$indexerConfig, &$indexerObject) {
-    # Set the passed indexer configuration as default
+    // Set the passed indexer configuration as default
     $this->indexerConfig = $indexerConfig;
     $this->indexerObject = $indexerObject;
 
@@ -87,7 +87,7 @@ class KeSearchIndexer {
    */
   protected function addTagsToPageRecords() {
     $tagChar = $this->indexerObject->extConf['prePostTagChar'];
-    # add tags which are defined by page properties
+    // add tags which are defined by page properties
     $fields = 'pages.*, GROUP_CONCAT(CONCAT("' . $tagChar . '", tx_kesearch_filteroptions.tag, "' . $tagChar . '")) as tags';
     $table = 'pages, tx_kesearch_filteroptions';
     $where = 'pages.uid IN (' . $this->indexPids . ')';
@@ -101,7 +101,7 @@ class KeSearchIndexer {
       $this->pageRecords[$row['uid']]['tags'] = $row['tags'];
     }
 
-    # add tags which are defined by filteroption records
+    // add tags which are defined by filteroption records
     $fields = 'automated_tagging, tag';
     $table = 'tx_kesearch_filteroptions';
     $where = 'automated_tagging <> "" ';
@@ -110,9 +110,9 @@ class KeSearchIndexer {
 
     $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($fields, $table, $where);
 
-    # index only pages of doktype standard, advanced and "not in menu"
+    // index only pages of doktype standard, advanced and "not in menu"
     $where = ' (doktype = 1 OR doktype = 2 OR doktype = 5) ';
-    # index only pages which are searchable
+    // index only pages which are searchable
     $where .= ' AND no_search <> 1 ';
 
     foreach($rows as $row) {

@@ -65,7 +65,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     // Start für Kalenderanzeige bestimmen
     $preDate = clone($startDate);
-    if($startDate->format("N") !== 1) {
+    if($startDate->format('N') !== 1) {
       $preDate->modify('last monday of previous month');
     }
 
@@ -75,7 +75,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     $stopDate->modify('+86399 seconds');
 
     $postDate = clone($stopDate);
-    if($stopDate->format("N") !== 7) {
+    if($stopDate->format('N') !== 7) {
       $postDate->modify('next sunday');
     }
 
@@ -88,7 +88,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     $days = array();
     $runDate = clone($preDate);
     while($runDate <= $postDate) {
-      $days[$runDate->format("Y-m-d")] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
+      $days[$runDate->format('Y-m-d')] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
       $runDate->modify('tomorrow');
     }
 
@@ -98,7 +98,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     $weeks = array();
-    for($i = 0; $i < floor(count($days)/7); $i++) {
+    $visibleWeeks = floor(count($days)/7);
+    for($i = 0; $i < $visibleWeeks; $i++) {
       $weeks[] = array_slice($days, $i*7, 7, TRUE);
     }
 

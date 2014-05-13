@@ -33,65 +33,65 @@ interface EventInterface {
    * @param \string $title
    * @return void
    */
-  function setTitle($title);
+  public function setTitle($title);
 
   /**
    * @return \string
    */
-  function getTitle();
+  public function getTitle();
 
   /**
    * @param \string $teaser
    * @return void
    */
-  function setTeaser($teaser);
+  public function setTeaser($teaser);
 
   /**
    * @return \string
    */
-  function getTeaser();
+  public function getTeaser();
 
   /**
    * @param \string $description
    * @return void
    */
-  function setDescription($description);
+  public function setDescription($description);
 
   /**
    * @return \string
    */
-  function getDescription();
+  public function getDescription();
 
   /**
     * Get plain description with no HTML
     *
     * @return \string
     */
-  function getPlainDescription();
+  public function getPlainDescription();
 
   /**
    * @param \string $location
    * @return void
    */
-  function setLocation($location);
+  public function setLocation($location);
 
   /**
    * @return \string
    */
-  function getLocation();
+  public function getLocation();
 
   /**
    * @param \DateTime $eventDate
    * @return void
    */
-  function setEventDate(\DateTime $eventDate);
+  public function setEventDate(\DateTime $eventDate);
 
   /**
    * This only returns the initial event date
    *
    * @return \DateTime
    */
-  function getEventDate();
+  public function getEventDate();
 
   /**
    * This returns the initial event dates including
@@ -102,95 +102,95 @@ interface EventInterface {
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
    */
-  function getEventDates(\DateTime $startDate, \DateTime $stopDate);
+  public function getEventDates(\DateTime $startDate, \DateTime $stopDate);
 
   /**
    * @param \string $eventTime
    * @return void
    */
-  function setEventTime($eventTime);
+  public function setEventTime($eventTime);
 
   /**
    * @return \string
    */
-  function getEventTime();
+  public function getEventTime();
 
   /**
    * @param \string $images
    * @return void
    */
-  function setImages($images);
+  public function setImages($images);
 
   /**
    * @return \array
    */
-  function getImages();
+  public function getImages();
 
   /**
    * @param \string $downloads
    * @return void
    */
-  function setDownloads($downloads);
+  public function setDownloads($downloads);
 
   /**
    * @return \array
    */
-  function getDownloads();
+  public function getDownloads();
 
   /**
    * @param \integer $recurringWeeks
    * @return void
    */
-  function setRecurringWeeks($recurringWeeks);
+  public function setRecurringWeeks($recurringWeeks);
 
   /**
    * @return \integer
    */
-  function getRecurringWeeks();
+  public function getRecurringWeeks();
 
   /**
    * @param \integer $recurringDays
    * @return void
    */
-  function setRecurringDays($recurringDays);
+  public function setRecurringDays($recurringDays);
 
   /**
    * @return \integer
    */
-  function getRecurringDays();
+  public function getRecurringDays();
 
   /**
    * @param \DateTime $recurringStop
    * @return void
    */
-  function setRecurringStop($recurringStop);
+  public function setRecurringStop($recurringStop);
 
   /**
    * @return \DateTime
    */
-  function getRecurringStop();
+  public function getRecurringStop();
 
   /**
    * @param \boolean $recurringExcludeHolidays
    * @return void
    */
-  function setRecurringExcludeHolidays($recurringExcludeHolidays);
+  public function setRecurringExcludeHolidays($recurringExcludeHolidays);
 
   /**
    * @return \boolean
    */
-  function getRecurringExcludeHolidays();
+  public function getRecurringExcludeHolidays();
 
   /**
    * @param \string $recurringExcludeDates
    * @return void
    */
-  function setRecurringExcludeDates(\string $recurringExcludeDates);
+  public function setRecurringExcludeDates(\string $recurringExcludeDates);
 
   /**
    * @return \string
    */
-  function getRecurringExcludeDates();
+  public function getRecurringExcludeDates();
 
   /**
    * Set the event stop date
@@ -198,19 +198,19 @@ interface EventInterface {
    * @param \DateTime $eventStopDate
    * @return void
    */
-  function setEventStopDate($eventStopDate);
+  public function setEventStopDate($eventStopDate);
 
   /**
    * Get the event stop date
    *
    * @return \DateTime
    */
-  function getEventStopDate();
+  public function getEventStopDate();
 
   /**
    * Is it a one-day event?
    *
    * @return \bool
    */
-   function getIsOneDayEvent();
+   public function getIsOneDayEvent();
 }
