@@ -545,6 +545,15 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     return $this->recurringExcludeHolidays;
   }
 
+	/**
+	 * Returns true if this event is recurring in any fashion.
+	 *
+	 * @return bool
+	 */
+	function getIsRecurringEvent() {
+	  return !($this->recurringDays == 0 && $this->recurringWeeks == 0);
+	}
+
   /**
    * Set the event stop date
    *
@@ -605,10 +614,17 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $iCalData[] = 'SUMMARY:' . $this->getTitle();
     $iCalData[] = 'DESCRIPTION:' . strip_tags($this->getDescription());
     $iCalData[] = 'CLASS:PUBLIC';
-    $iCalData[] = 'DTSTART:' . $startDate->format('Ymd\THis');
-    $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis');
+    if($this->getIsOneDayEvent()) {
+      $iCalData[] = 'DTSTART;VALUE=DATE:' . $startDate->format('Ymd');
+      $iCalData[] = 'DTEND;VALUE=DATE:' . $stopDate->format('Ymd');
+    } else {
+      $iCalData[] = 'DTSTART:' . $startDate->format('Ymd\THis');
+      $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis');
+    }
     $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis');
-    $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
+    if($this->getIsRecurringEvent()) {
+      $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
+    }
     $iCalData[] = 'END:VEVENT';
     $iCalData[] = 'END:VCALENDAR';
 
