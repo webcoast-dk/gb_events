@@ -545,14 +545,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     return $this->recurringExcludeHolidays;
   }
 
-	/**
-	 * Returns true if this event is recurring in any fashion.
-	 *
-	 * @return bool
-	 */
-	function getIsRecurringEvent() {
-	  return !($this->recurringDays == 0 && $this->recurringWeeks == 0);
-	}
+  /**
+   * Returns true if this event is recurring in any fashion.
+   *
+   * @return bool
+   */
+  function getIsRecurringEvent() {
+    return !($this->recurringDays == 0 && $this->recurringWeeks == 0);
+  }
 
   /**
    * Set the event stop date
