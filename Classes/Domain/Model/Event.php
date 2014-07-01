@@ -546,15 +546,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * Returns true if this event is recurring in any fashion.
-   *
-   * @return bool
-   */
-  function getIsRecurringEvent() {
-    return !($this->recurringDays == 0 && $this->recurringWeeks == 0);
-  }
-
-  /**
    * Set the event stop date
    *
    * @param \DateTime $eventStopDate
@@ -808,6 +799,15 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       return TRUE;
     }
     return FALSE;
+  }
+
+  /**
+   * Returns true if this event is recurring in any fashion.
+   *
+   * @return bool
+   */
+  protected function isRecurringEvent() {
+    return $this->recurringDays || $this->recurringWeeks;
   }
 
   /**
