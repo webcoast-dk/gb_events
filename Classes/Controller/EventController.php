@@ -156,4 +156,34 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     echo $event->iCalendarData();
     exit();
   }
+
+
+  /**
+  * exports all the future events (1 year) as ics file.
+  *
+  * @return string
+  */
+  public function exportAllAction() {
+    $this->response->setHeader('Cache-control', 'public', TRUE);
+    $this->response->setHeader('Content-Disposition', 'attachment; filename="termine.ics"', TRUE);
+    $this->response->setHeader('Content-Type', 'text/calendar', TRUE);
+    $this->response->setHeader('Content-Transfer-Encoding', 'binary', TRUE);
+    $this->response->sendHeaders();
+
+    $intro = array(
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:gb_events TYPO3 Extension",
+      "METHOD:PUBLISH"
+    );
+    $content = implode("\n", $intro) . "\n";
+
+    $events = $this->eventRepository->findAll();
+    foreach ($events as $event) {
+      $content .= $event->iCalendarData(false) . "\n";
+    }
+
+    $this->response->setContent($content . "END:VCALENDAR");
+    $this->view = null;
+  }
 }

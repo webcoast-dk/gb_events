@@ -580,9 +580,10 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Return an iCalendar file as string representation suitable for sending to the client
    *
+   * @param  bool $withIntroAndOutro
    * @return \string $iCalendarData
    */
-  public function iCalendarData() {
+  public function iCalendarData($withIntroAndOutro = true) {
     $now = new \DateTime();
     $startDate = clone($this->getEventDate());
     $startDate->add($this->getEventTimeAsDateInterval());
@@ -590,10 +591,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval('PT1H'));
 
     $iCalData = array();
-    $iCalData[] = 'BEGIN:VCALENDAR';
-    $iCalData[] = 'VERSION:2.0';
-    $iCalData[] = 'PRODID:gb_events TYPO3 Extension';
-    $iCalData[] = 'METHOD:PUBLISH';
+
+    if ($withIntroAndOutro) {
+      $iCalData[] = 'BEGIN:VCALENDAR';
+      $iCalData[] = 'VERSION:2.0';
+      $iCalData[] = 'PRODID:gb_events TYPO3 Extension';
+      $iCalData[] = 'METHOD:PUBLISH';
+    }
+
     $iCalData[] = 'BEGIN:VEVENT';
     $iCalData[] = 'UID:' . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
     $iCalData[] = 'LOCATION:' . $this->getLocation();
@@ -612,7 +617,10 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
     }
     $iCalData[] = 'END:VEVENT';
-    $iCalData[] = 'END:VCALENDAR';
+
+    if ($withIntroAndOutro) {
+      $iCalData[] = 'END:VCALENDAR';
+    }
 
     return join("\n", $iCalData);
   }
