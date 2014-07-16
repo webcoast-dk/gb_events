@@ -297,7 +297,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
     $this->initializeSettings();
-    $monthNames = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
 
@@ -783,7 +782,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Check if the given date is to be excluded from the list of recurring events
    *
-   * @param  DateTime $date
+   * @param  \DateTime $date
    * @return boolean
    */
   protected function isExcludedDate(\DateTime $date) {

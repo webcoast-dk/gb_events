@@ -130,7 +130,6 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays the upcoming events
    *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to display
    * @return \string The rendered view
    */
   public function upcomingAction() {
