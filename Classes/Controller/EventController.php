@@ -41,7 +41,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays all Events
    *
-   * @return \string The rendered view
+   * @return void
    */
   public function listAction() {
     $events = $this->eventRepository->findAll($this->settings['years']);
@@ -52,8 +52,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays all Events as a browseable calendar
    *
-   * @param \string $start
-   * @return \string The rendered view
+   * @param  string $start
+   * @return void
    */
   public function calendarAction($start = 'today') {
     // Startdatum setzen
@@ -120,8 +120,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays a single Event
    *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to display
-   * @return \string The rendered view
+   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
+   * @return void
    */
   public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
     $this->view->assign('event', $event);
@@ -131,7 +131,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays the upcoming events
    *
-   * @return \string The rendered view
+   * @return void
    */
   public function upcomingAction() {
     $events = $this->eventRepository->findUpcoming($this->settings['limit']);
