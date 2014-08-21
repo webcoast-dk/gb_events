@@ -65,7 +65,7 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     $events = $this->eventRepository->findAll($this->settings['years']);
     foreach ($events as $event) {
-      $content[] = $event->iCalendarData(FALSE);
+      $content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);
     }
     $content[] = 'END:VCALENDAR';
     echo join("\n", $content);

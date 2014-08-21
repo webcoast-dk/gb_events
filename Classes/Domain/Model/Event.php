@@ -600,7 +600,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     }
 
     $iCalData[] = 'BEGIN:VEVENT';
-    $iCalData[] = 'UID:' . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
+    $iCalData[] = 'UID:' . $this->getUniqueIdentifier();
     $iCalData[] = 'LOCATION:' . $this->getLocation();
     $iCalData[] = 'SUMMARY:' . $this->getTitle();
     $iCalData[] = 'DESCRIPTION:' . html_entity_decode(strip_tags($this->getDescription()), ENT_COMPAT | ENT_HTML401, 'UTF-8');
@@ -826,5 +826,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $excludeDate = sprintf('%s-%s', '0000', $excludeDate);
     }
     return new \DateTime($excludeDate);
+  }
+
+  /**
+   * Return a unique identifier
+   *
+   * @return string
+   */
+  public function getUniqueIdentifier() {
+    return md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
   }
 }
