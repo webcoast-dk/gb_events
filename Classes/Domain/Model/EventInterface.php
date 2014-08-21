@@ -28,7 +28,9 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
 /**
  * A single event
  */
+
 interface EventInterface {
+
   /**
    * @param \string $title
    * @return void
@@ -63,10 +65,10 @@ interface EventInterface {
   public function getDescription();
 
   /**
-    * Get plain description with no HTML
-    *
-    * @return \string
-    */
+   * Get plain description with no HTML
+   *
+   * @return \string
+   */
   public function getPlainDescription();
 
   /**
@@ -212,5 +214,12 @@ interface EventInterface {
    *
    * @return \bool
    */
-   public function getIsOneDayEvent();
+  public function getIsOneDayEvent();
+
+  /**
+   * Returns a unique identifier
+   *
+   * @return string
+   */
+  public function getUniqueIdentifier();
 }

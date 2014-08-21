@@ -8,9 +8,11 @@ if (!defined ('TYPO3_MODE')) {
   'Main',
   array(
     'Event' => 'list, calendar, upcoming, show, export',
+    'Export' => 'list, show',
   ),
   array(
     'Event' => 'list, calendar, upcoming, show, export',
+    'Export' => 'list, show',
   )
 );
 

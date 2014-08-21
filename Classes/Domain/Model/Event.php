@@ -590,15 +590,12 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval('PT1H'));
 
     $iCalData = array();
-    $iCalData[] = 'BEGIN:VCALENDAR';
-    $iCalData[] = 'VERSION:2.0';
-    $iCalData[] = 'PRODID:gb_events TYPO3 Extension';
-    $iCalData[] = 'METHOD:PUBLISH';
+
     $iCalData[] = 'BEGIN:VEVENT';
-    $iCalData[] = 'UID:' . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
+    $iCalData[] = 'UID:' . $this->getUniqueIdentifier();
     $iCalData[] = 'LOCATION:' . $this->getLocation();
     $iCalData[] = 'SUMMARY:' . $this->getTitle();
-    $iCalData[] = 'DESCRIPTION:' . strip_tags($this->getDescription());
+    $iCalData[] = 'DESCRIPTION:' . html_entity_decode(strip_tags($this->getDescription()), ENT_COMPAT | ENT_HTML401, 'UTF-8');
     $iCalData[] = 'CLASS:PUBLIC';
     if($this->getIsOneDayEvent()) {
       $iCalData[] = 'DTSTART;VALUE=DATE:' . $startDate->format('Ymd');
@@ -608,11 +605,10 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis');
     }
     $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis');
-    if($this->getIsRecurringEvent()) {
+    if($this->isRecurringEvent()) {
       $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
     }
     $iCalData[] = 'END:VEVENT';
-    $iCalData[] = 'END:VCALENDAR';
 
     return join("\n", $iCalData);
   }
@@ -818,5 +814,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $excludeDate = sprintf('%s-%s', '0000', $excludeDate);
     }
     return new \DateTime($excludeDate);
+  }
+
+  /**
+   * Return a unique identifier
+   *
+   * @return string
+   */
+  public function getUniqueIdentifier() {
+    return md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
   }
 }
