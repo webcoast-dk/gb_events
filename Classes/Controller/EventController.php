@@ -1,5 +1,6 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -142,19 +143,10 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    * Exports a single Event as iCalendar file
    *
    * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to export
-   * @return \string The rendered view
+   * @return void
    */
   public function exportAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
-    $this->response->setHeader('Cache-control', 'public', TRUE);
-    $this->response->setHeader('Content-Description', 'iCalendar Event File', TRUE);
-    $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $event->iCalendarFilename(). '"', TRUE);
-    $this->response->setHeader('Content-Type', 'text/calendar', TRUE);
-    $this->response->setHeader('Content-Transfer-Encoding', 'binary', TRUE);
-    $this->response->sendHeaders();
-
-    // $this->media is my domain model, add you own file path here :-)
-    echo $event->iCalendarData();
-    exit();
+    $this->forward('show', 'Export', NULL, array('event' => $event));
   }
 
 
