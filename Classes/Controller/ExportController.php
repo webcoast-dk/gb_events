@@ -51,13 +51,12 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    * @return \string The rendered view
    */
   public function listAction() {
-    $this->setHeaders();
     $events = $this->eventRepository->findAll($this->settings['years']);
     $content = array();
     foreach ($events as $event) {
       $content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);
     }
-    echo $this->renderCalendar(join("\n", $content));
+    $this->renderCalendar(join("\n", $content));
   }
 
   /**
@@ -67,17 +66,17 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    * @return void
    */
   public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
-    $this->setHeaders($event->iCalendarFilename());
-    $content = $event->iCalendarData();
-    echo $this->renderCalendar($content);
+    $this->renderCalendar($event->iCalendarData(), $event->iCalendarFilename());
   }
 
   /**
    * Set content headers for the iCalendar data
+   *
+   * @param  string $data
    * @param  string $filename
    * @return void
    */
-  protected function setHeaders($filename = 'calendar.ics') {
+  protected function setHeaders($content, $filename) {
     if(ob_get_contents()) {
       throw new \Exception('Some data has already been sent to the browser', 1408607681);
     }
@@ -91,24 +90,30 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     header('Content-Description: iCalendar Event File');
     header('Content-Transfer-Encoding: binary');
     header('Content-Disposition: attachment; filename="' . $filename .'"');
+    if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) OR empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+      header('Content-Length: '.strlen($content));
+    }
   }
 
   /**
    * Render the iCalendar events with the required wrap
    *
    * @param  string $events
+   * @param  string $filename
    * @return void
    */
-  protected function renderCalendar($events) {
+  protected function renderCalendar($events, $filename = 'calendar.ics') {
     if(trim($events) === '') {
       throw new \Exception('No events to process', 1408611856);
     }
-    $content = array(
+    $content = join("\n", array(
       ExportController::VCALENDAR_START,
       $events,
       ExportController::VCALENDAR_END
-    );
-    echo join("\n", $content);
+    ));
+    $this->setHeaders($content, $filename);
+
+    echo $content;
     die;
   }
 }
