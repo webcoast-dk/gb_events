@@ -598,7 +598,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $iCalData[] = 'UID:' . md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
     $iCalData[] = 'LOCATION:' . $this->getLocation();
     $iCalData[] = 'SUMMARY:' . $this->getTitle();
-    $iCalData[] = 'DESCRIPTION:' . strip_tags($this->getDescription());
+    $iCalData[] = 'DESCRIPTION:' . html_entity_decode(strip_tags($this->getDescription()), ENT_COMPAT | ENT_HTML401, 'UTF-8');
     $iCalData[] = 'CLASS:PUBLIC';
     if($this->getIsOneDayEvent()) {
       $iCalData[] = 'DTSTART;VALUE=DATE:' . $startDate->format('Ymd');
