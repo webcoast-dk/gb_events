@@ -371,11 +371,8 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
             $addCurrentDay = in_array('Saturday', $recurringDays);
             break;
           }
-          if($addCurrentDay) {
+          if($addCurrentDay && !$this->isExcludedDate($workDate)) {
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
-              if($this->isExcludedDate($workDate)) {
-                continue;
-              }
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
               if(!$this->settings['startDateOnly']) {
                 $re_StartDate = clone($workDate);
@@ -397,10 +394,9 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $myStopDate = clone($this->getEventStopDate());
     if(!$this->settings['startDateOnly']) {
       while($myStartDate <= $myStopDate) {
-        if($this->isExcludedDate($workDate)) {
-          continue;
+        if(!$this->isExcludedDate($workDate)) {
+          $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
         }
-        $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
         $myStartDate->modify('+1 day');
       }
     } else {
