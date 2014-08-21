@@ -608,7 +608,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis');
     }
     $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis');
-    if($this->getIsRecurringEvent()) {
+    if($this->isRecurringEvent()) {
       $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
     }
     $iCalData[] = 'END:VEVENT';
