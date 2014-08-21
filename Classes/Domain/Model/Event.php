@@ -580,10 +580,9 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Return an iCalendar file as string representation suitable for sending to the client
    *
-   * @param  bool $withIntroAndOutro
    * @return \string $iCalendarData
    */
-  public function iCalendarData($withIntroAndOutro = true) {
+  public function iCalendarData() {
     $now = new \DateTime();
     $startDate = clone($this->getEventDate());
     $startDate->add($this->getEventTimeAsDateInterval());
@@ -591,13 +590,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval('PT1H'));
 
     $iCalData = array();
-
-    if ($withIntroAndOutro) {
-      $iCalData[] = 'BEGIN:VCALENDAR';
-      $iCalData[] = 'VERSION:2.0';
-      $iCalData[] = 'PRODID:gb_events TYPO3 Extension';
-      $iCalData[] = 'METHOD:PUBLISH';
-    }
 
     $iCalData[] = 'BEGIN:VEVENT';
     $iCalData[] = 'UID:' . $this->getUniqueIdentifier();
@@ -617,10 +609,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
       $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
     }
     $iCalData[] = 'END:VEVENT';
-
-    if ($withIntroAndOutro) {
-      $iCalData[] = 'END:VCALENDAR';
-    }
 
     return join("\n", $iCalData);
   }

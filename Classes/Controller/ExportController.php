@@ -29,6 +29,15 @@ namespace GuteBotschafter\GbEvents\Controller;
  * ExportController
  */
 class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+  /**
+   * Prefix for iCalendar files
+   */
+  const VCALENDAR_START = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:gb_events TYPO3 Extension\nMETHOD:PUBLISH";
+
+  /**
+   * Postfix for iCalendar files
+   */
+  const VCALENDAR_END   = "END:VCALENDAR";
 
   /**
    * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
@@ -42,34 +51,13 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    * @return \string The rendered view
    */
   public function listAction() {
-    if(ob_get_contents()) {
-      throw new \Exception('Some data has already been sent to the browser', 1408607681);
-    }
-    header('Content-Type: text/calendar');
-    if(headers_sent()) {
-      throw new \Exception('Some data has already been sent to the browser', 1408607681);
-    }
-
-    header('Cache-Control: public');
-    header('Pragma: public');
-    header('Content-Description: iCalendar Event File');
-    header('Content-Disposition: attachment; filename="calendar.ics"');
-    header('Content-Transfer-Encoding: binary');
-
-    $content = array(
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:gb_events TYPO3 Extension',
-      'METHOD:PUBLIS',
-    );
-
+    $this->setHeaders();
     $events = $this->eventRepository->findAll($this->settings['years']);
+    $content = array();
     foreach ($events as $event) {
       $content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);
     }
-    $content[] = 'END:VCALENDAR';
-    echo join("\n", $content);
-    die;
+    echo $this->renderCalendar(join("\n", $content));
   }
 
   /**
@@ -79,6 +67,17 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    * @return void
    */
   public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
+    $this->setHeaders($event->iCalendarFilename());
+    $content = $event->iCalendarData();
+    echo $this->renderCalendar($content);
+  }
+
+  /**
+   * Set content headers for the iCalendar data
+   * @param  string $filename
+   * @return void
+   */
+  protected function setHeaders($filename = 'calendar.ics') {
     if(ob_get_contents()) {
       throw new \Exception('Some data has already been sent to the browser', 1408607681);
     }
@@ -90,13 +89,26 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     header('Cache-Control: public');
     header('Pragma: public');
     header('Content-Description: iCalendar Event File');
-    header('Content-Disposition: attachment; filename="' . $event->iCalendarFilename() .'"');
     header('Content-Transfer-Encoding: binary');
+    header('Content-Disposition: attachment; filename="' . $filename .'"');
+  }
 
-    if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) OR empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-      header('Content-Length: '.strlen($event->iCalendarData()));
+  /**
+   * Render the iCalendar events with the required wrap
+   *
+   * @param  string $events
+   * @return void
+   */
+  protected function renderCalendar($events) {
+    if(trim($events) === '') {
+      throw new \Exception('No events to process', 1408611856);
     }
-    echo $event->iCalendarData();
+    $content = array(
+      ExportController::VCALENDAR_START,
+      $events,
+      ExportController::VCALENDAR_END
+    );
+    echo join("\n", $content);
     die;
   }
 }
