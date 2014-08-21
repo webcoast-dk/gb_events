@@ -36,6 +36,41 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    */
   protected $eventRepository;
 
+  /**
+   * Displays all Events
+   *
+   * @return \string The rendered view
+   */
+  public function listAction() {
+    if(ob_get_contents()) {
+      throw new \Exception('Some data has already been sent to the browser', 1408607681);
+    }
+    header('Content-Type: text/calendar');
+    if(headers_sent()) {
+      throw new \Exception('Some data has already been sent to the browser', 1408607681);
+    }
+
+    header('Cache-Control: public');
+    header('Pragma: public');
+    header('Content-Description: iCalendar Event File');
+    header('Content-Disposition: attachment; filename="calendar.ics"');
+    header('Content-Transfer-Encoding: binary');
+
+    $content = array(
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:gb_events TYPO3 Extension',
+      'METHOD:PUBLIS',
+    );
+
+    $events = $this->eventRepository->findAll($this->settings['years']);
+    foreach ($events as $event) {
+      $content[] = $event->iCalendarData(FALSE);
+    }
+    $content[] = 'END:VCALENDAR';
+    echo join("\n", $content);
+    die;
+  }
 
   /**
    * Exports a single Event as iCalendar file
