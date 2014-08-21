@@ -149,7 +149,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
         if($grouped) {
           $days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $recurringEvent;
         } else {
-          $days[$eventDate->format('Y-m-d') . '_' . $event->getTitle()] = $recurringEvent;
+          $days[$eventDate->format('Y-m-d') . '_' . $event->getUniqueIdentifier()] = $recurringEvent;
         }
       }
     }
