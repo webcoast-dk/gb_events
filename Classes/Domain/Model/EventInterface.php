@@ -32,53 +32,53 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
 interface EventInterface {
 
   /**
-   * @param \string $title
+   * @param string $title
    * @return void
    */
   public function setTitle($title);
 
   /**
-   * @return \string
+   * @return string
    */
   public function getTitle();
 
   /**
-   * @param \string $teaser
+   * @param string $teaser
    * @return void
    */
   public function setTeaser($teaser);
 
   /**
-   * @return \string
+   * @return string
    */
   public function getTeaser();
 
   /**
-   * @param \string $description
+   * @param string $description
    * @return void
    */
   public function setDescription($description);
 
   /**
-   * @return \string
+   * @return string
    */
   public function getDescription();
 
   /**
    * Get plain description with no HTML
    *
-   * @return \string
+   * @return string
    */
   public function getPlainDescription();
 
   /**
-   * @param \string $location
+   * @param string $location
    * @return void
    */
   public function setLocation($location);
 
   /**
-   * @return \string
+   * @return string
    */
   public function getLocation();
 
@@ -107,35 +107,35 @@ interface EventInterface {
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate);
 
   /**
-   * @param \string $eventTime
+   * @param string $eventTime
    * @return void
    */
   public function setEventTime($eventTime);
 
   /**
-   * @return \string
+   * @return string
    */
   public function getEventTime();
 
   /**
-   * @param \string $images
+   * @param string $images
    * @return void
    */
   public function setImages($images);
 
   /**
-   * @return \array
+   * @return array
    */
   public function getImages();
 
   /**
-   * @param \string $downloads
+   * @param string $downloads
    * @return void
    */
   public function setDownloads($downloads);
 
   /**
-   * @return \array
+   * @return array
    */
   public function getDownloads();
 
@@ -184,13 +184,13 @@ interface EventInterface {
   public function getRecurringExcludeHolidays();
 
   /**
-   * @param \string $recurringExcludeDates
+   * @param string $recurringExcludeDates
    * @return void
    */
-  public function setRecurringExcludeDates(\string $recurringExcludeDates);
+  public function setRecurringExcludeDates(string $recurringExcludeDates);
 
   /**
-   * @return \string
+   * @return string
    */
   public function getRecurringExcludeDates();
 

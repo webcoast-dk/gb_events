@@ -36,17 +36,17 @@ namespace GuteBotschafter\GbEvents\Hooks;
 class KeSearchIndexer {
   /**
    * Pages to index
-   * @var \array
+   * @var array
    */
   protected $indexPids = '';
   /**
    * Array containing data of all pages
-   * @var \array
+   * @var array
    */
   protected $pageRecords;
   /**
    * Status information for user
-   * @var \string
+   * @var string
    */
   protected $content = '';
   /**
@@ -56,7 +56,7 @@ class KeSearchIndexer {
   protected $indexerObject;
   /**
    * The indexer configuration
-   * @var \array
+   * @var array
    */
   protected $indexerConfig;
 
@@ -64,9 +64,9 @@ class KeSearchIndexer {
    * Custom index for ke_search to index content provided
    * by the extension gb_events
    *
-   * @param   \array $indexerConfig
-   * @param   \array $indexerObject
-   * @return  \string $output
+   * @param   array $indexerConfig
+   * @param   array $indexerObject
+   * @return  string $output
    * @author  Morton Jonuschat <mj@gute-botschafter.de>
    */
   public function customIndexer(&$indexerConfig, &$indexerObject) {
@@ -117,7 +117,7 @@ class KeSearchIndexer {
 
     foreach($rows as $row) {
       $tempTags = array();
-      $pageList = \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->queryGen->getTreeList($row['automated_tagging'], 99, 0, $where));
+      $pageList = \TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->queryGen->getTreeList($row['automated_tagging'], 99, 0, $where));
       foreach($pageList as $uid) {
         if($this->pageRecords[$uid]['tags']) {
           $this->pageRecords[$uid]['tags'] .= ',' . $tagChar . $row['tag'] . $tagChar;

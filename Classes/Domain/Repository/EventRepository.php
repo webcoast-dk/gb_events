@@ -34,7 +34,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    * Find all events between $startDate and $stopDate
    * @param  \DateTime $startDate
    * @param  \DateTime $stopDate
-   * @return \array $events
+   * @return array $events
    */
   public function findAllBetween(\DateTime $startDate, \DateTime $stopDate) {
     $query = $this->createQuery();
@@ -53,7 +53,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   /**
    * Find all events (limited to a amount of years)
    * @param  \integer $years
-   * @return \array $events
+   * @return array $events
    */
   public function findAll($years = NULL) {
     if(intval($years) === 0) {
@@ -76,7 +76,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   /**
    * Find upcoming events (limited to a count of n)
    * @param  \integer $limit
-   * @return \array
+   * @return array
    */
   public function findUpcoming($limit = 3) {
     if(intval($limit) === 0) {
@@ -134,7 +134,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
    * @param \integer $limit
-   * @return \array $days
+   * @return array $days
    */
   protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $limit = NULL) {
     $today = new \DateTime('midnight');

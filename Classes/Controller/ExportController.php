@@ -48,7 +48,7 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
   /**
    * Displays all Events
    *
-   * @return \string The rendered view
+   * @return string The rendered view
    */
   public function listAction() {
     $events = $this->eventRepository->findAll($this->settings['years']);

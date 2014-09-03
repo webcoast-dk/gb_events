@@ -62,9 +62,9 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
    * Custom index for ke_search to index content provided
    * by the extension gb_events
    *
-   * @param   \array $indexerConfig
-   * @param   \array $indexerObject
-   * @return  \string $output
+   * @param   array $indexerConfig
+   * @param   array $indexerObject
+   * @return  string $output
    * @author  Morton Jonuschat <mj@gute-botschafter.de>
    */
   public function customIndexer(&$indexerConfig, &$indexerObject) {
@@ -75,7 +75,7 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
       return FALSE;
     }
 
-    foreach(\TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], TRUE) as $pid) {
+    foreach(\TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], TRUE) as $pid) {
       $this->indexEvents($pid);
     }
     $this->content .= '<p><b>Indexer "' . $this->indexerConfig['title'] . '": ' . $this->eventCount . ' events have been indexed.</b></p>' . "\n";
@@ -87,8 +87,8 @@ class EventIndexer extends \GuteBotschafter\GbEvents\Hooks\KeSearchIndexer {
    * Join all fields to make up the content auf the event record
    * This is the text information that will be indexed
    *
-   * @param  \array $event
-   * @return \string $content
+   * @param  array $event
+   * @return string $content
    */
   protected function renderEventContent($event) {
     $content = array(

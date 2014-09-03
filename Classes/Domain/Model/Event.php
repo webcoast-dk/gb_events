@@ -51,7 +51,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * The title of the event
    *
-   * @var \string
+   * @var string
    * @validate NotEmpty
    */
   protected $title;
@@ -59,14 +59,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * A short teaser text
    *
-   * @var \string
+   * @var string
    */
   protected $teaser;
 
   /**
    * A detailed description of the event
    *
-   * @var \string
+   * @var string
    * @validate NotEmpty
    */
   protected $description;
@@ -74,7 +74,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * The location of the event
    *
-   * @var \string
+   * @var string
    */
   protected $location;
 
@@ -89,21 +89,21 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * The time the event happens
    *
-   * @var \string
+   * @var string
    */
   protected $eventTime;
 
   /**
    * The images for this event
    *
-   * @var \string
+   * @var string
    */
   protected $images;
 
   /**
    * The downloads for this event
    *
-   * @var \string
+   * @var string
    */
   protected $downloads;
 
@@ -145,7 +145,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Dates on which recurring events do not occur
    *
-   * @var \string
+   * @var string
    */
   protected $recurringExcludeDates;
 
@@ -200,7 +200,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @param \string $title
+   * @param string $title
    * @return void
    */
   public function setTitle($title) {
@@ -208,14 +208,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \string
+   * @return string
    */
   public function getTitle() {
     return $this->title;
   }
 
   /**
-   * @param \string $teaser
+   * @param string $teaser
    * @return void
    */
   public function setTeaser($teaser) {
@@ -223,14 +223,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \string
+   * @return string
    */
   public function getTeaser() {
     return $this->teaser;
   }
 
   /**
-   * @param \string $description
+   * @param string $description
    * @return void
    */
   public function setDescription($description) {
@@ -238,7 +238,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \string
+   * @return string
    */
   public function getDescription() {
     return $this->description;
@@ -247,14 +247,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
     * Get plain description with no HTML
     *
-    * @return \string
+    * @return string
     */
   public function getPlainDescription() {
     return strip_tags($this->getDescription());
   }
 
   /**
-   * @param \string $location
+   * @param string $location
    * @return void
    */
   public function setLocation($location) {
@@ -262,7 +262,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \string
+   * @return string
    */
   public function getLocation() {
     return $this->location;
@@ -293,7 +293,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    *
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
-   * @return \array $eventDates
+   * @return array $eventDates
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
     $this->initializeSettings();
@@ -408,7 +408,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @param \string $eventTime
+   * @param string $eventTime
    * @return void
    */
   public function setEventTime($eventTime) {
@@ -416,14 +416,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \string
+   * @return string
    */
   public function getEventTime() {
     return $this->eventTime;
   }
 
   /**
-   * @param \string $images
+   * @param string $images
    * @return void
    */
   public function setImages($images) {
@@ -431,15 +431,15 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \array
+   * @return array
    */
   public function getImages() {
     $mapFunc = create_function('$i', 'return "uploads/tx_gbevents/" . $i;');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->images, TRUE));
+    return array_map($mapFunc, \TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->images, TRUE));
   }
 
   /**
-   * @param \string $downloads
+   * @param string $downloads
    * @return void
    */
   public function setDownloads($downloads) {
@@ -447,11 +447,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \array
+   * @return array
    */
   public function getDownloads() {
     $mapFunc = create_function('$i', 'return array("file" => "uploads/tx_gbevents/" . $i, "name" => basename($i));');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->downloads, TRUE));
+    return array_map($mapFunc, \TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->downloads, TRUE));
   }
 
   /**
@@ -470,7 +470,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \array
+   * @return array
    */
   protected function getRecurringWeeksAsText() {
     $weeks = array();
@@ -571,7 +571,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Return a suggested filename for sending the iCalendar file to the client
    *
-   * @return \string $filename;
+   * @return string $filename;
    */
   public function iCalendarFilename() {
     return sprintf('%s - %s.ics', $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
@@ -580,7 +580,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Return an iCalendar file as string representation suitable for sending to the client
    *
-   * @return \string $iCalendarData
+   * @return string $iCalendarData
    */
   public function iCalendarData() {
     $now = new \DateTime();
@@ -614,7 +614,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \array
+   * @return array
    */
   protected function getRecurringDaysAsText() {
     $days = array();
@@ -687,7 +687,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Builds iCalendar recurrence rule
    *
-   * @return \string $rRule
+   * @return string $rRule
    */
   protected function buildRecurrenceRule() {
     $rRule = '';
@@ -750,7 +750,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Gets the Dates on which recurring events do not occur.
    *
-   * @return \string
+   * @return string
    */
   public function getRecurringExcludeDates() {
     return $this->recurringExcludeDates;
@@ -759,7 +759,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Gets the Dates on which recurring events do not occur.
    *
-   * @return \string
+   * @return string
    */
   protected function getRecurringExcludeDatesArray() {
     return preg_split("#[\r\n]+|$#", $this->getRecurringExcludeDates());
@@ -768,10 +768,10 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Sets the Dates on which recurring events do not occur.
    *
-   * @param \string $recurringExcludeDates the recurring exclude dates
+   * @param string $recurringExcludeDates the recurring exclude dates
    * @return void
    */
-  public function setRecurringExcludeDates(\string $recurringExcludeDates) {
+  public function setRecurringExcludeDates(string $recurringExcludeDates) {
     $this->recurringExcludeDates = $recurringExcludeDates;
   }
 
@@ -804,7 +804,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Expand the given date to include a year (if missing) and convert to a
    * DateTime object
-   * @param  \string $excludeDate
+   * @param  string $excludeDate
    * @return \DateTime
    */
   protected function expandExcludeDate($excludeDate) {
