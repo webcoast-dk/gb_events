@@ -36,9 +36,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <td>{event.location}</td>
       <td>{event.eventDate -> f:format.date()}</td>
       <td>{event.eventTime}</td>
-      <td><f:link.action action="export" arguments="{event : event}"><f:translate key="tx_gbevents_domain_model_event.export" /></f:link.action></td>
+      <td><f:link.action action="show" controller="Export" arguments="{event : event}"><f:translate key="tx_gbevents_domain_model_event.export" /></f:link.action></td>
     </tr>
   </f:for>
 </table>
 
+<f:link.action action="list" controller="Export"><f:translate key="tx_gbevents_domain_model_event.export_all" /></f:link.action>
 </f:section>

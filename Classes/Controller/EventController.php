@@ -1,5 +1,6 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -40,7 +41,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays all Events
    *
-   * @return \string The rendered view
+   * @return void
    */
   public function listAction() {
     $events = $this->eventRepository->findAll($this->settings['years']);
@@ -51,8 +52,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays all Events as a browseable calendar
    *
-   * @param \string $start
-   * @return \string The rendered view
+   * @param  string $start
+   * @return void
    */
   public function calendarAction($start = 'today') {
     // Startdatum setzen
@@ -65,7 +66,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     // Start für Kalenderanzeige bestimmen
     $preDate = clone($startDate);
-    if($startDate->format("N") !== 1) {
+    if($startDate->format('N') !== 1) {
       $preDate->modify('last monday of previous month');
     }
 
@@ -75,7 +76,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     $stopDate->modify('+86399 seconds');
 
     $postDate = clone($stopDate);
-    if($stopDate->format("N") !== 7) {
+    if($stopDate->format('N') !== 7) {
       $postDate->modify('next sunday');
     }
 
@@ -88,7 +89,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     $days = array();
     $runDate = clone($preDate);
     while($runDate <= $postDate) {
-      $days[$runDate->format("Y-m-d")] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
+      $days[$runDate->format('Y-m-d')] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
       $runDate->modify('tomorrow');
     }
 
@@ -98,7 +99,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     $weeks = array();
-    for($i = 0; $i < floor(count($days)/7); $i++) {
+    $visibleWeeks = floor(count($days)/7);
+    for($i = 0; $i < $visibleWeeks; $i++) {
       $weeks[] = array_slice($days, $i*7, 7, TRUE);
     }
 
@@ -118,8 +120,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays a single Event
    *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to display
-   * @return \string The rendered view
+   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
+   * @return void
    */
   public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
     $this->view->assign('event', $event);
@@ -129,8 +131,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
   /**
    * Displays the upcoming events
    *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to display
-   * @return \string The rendered view
+   * @return void
    */
   public function upcomingAction() {
     $events = $this->eventRepository->findUpcoming($this->settings['limit']);
@@ -142,18 +143,11 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    * Exports a single Event as iCalendar file
    *
    * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to export
-   * @return \string The rendered view
+   * @return void
+   * @deprecated Will be removed in v7.0
    */
   public function exportAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
-    $this->response->setHeader('Cache-control', 'public', TRUE);
-    $this->response->setHeader('Content-Description', 'iCalendar Event File', TRUE);
-    $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $event->iCalendarFilename(). '"', TRUE);
-    $this->response->setHeader('Content-Type', 'text/calendar', TRUE);
-    $this->response->setHeader('Content-Transfer-Encoding', 'binary', TRUE);
-    $this->response->sendHeaders();
-
-    // $this->media is my domain model, add you own file path here :-)
-    echo $event->iCalendarData();
-    exit();
+    GeneralUtility::deprecationLog('[gb_events] EvecntController::export has been deprecated an will be removed in v7.0');
+    $this->forward('show', 'Export', NULL, array('event' => $event));
   }
 }
