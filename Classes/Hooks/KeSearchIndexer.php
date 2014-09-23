@@ -117,7 +117,7 @@ class KeSearchIndexer {
 
     foreach($rows as $row) {
       $tempTags = array();
-      $pageList = \TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->queryGen->getTreeList($row['automated_tagging'], 99, 0, $where));
+      $pageList = \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->queryGen->getTreeList($row['automated_tagging'], 99, 0, $where));
       foreach($pageList as $uid) {
         if($this->pageRecords[$uid]['tags']) {
           $this->pageRecords[$uid]['tags'] .= ',' . $tagChar . $row['tag'] . $tagChar;

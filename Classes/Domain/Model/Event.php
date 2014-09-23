@@ -435,7 +435,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getImages() {
     $mapFunc = create_function('$i', 'return "uploads/tx_gbevents/" . $i;');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->images, TRUE));
+    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->images, TRUE));
   }
 
   /**
@@ -451,7 +451,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getDownloads() {
     $mapFunc = create_function('$i', 'return array("file" => "uploads/tx_gbevents/" . $i, "name" => basename($i));');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\UtilityarrayUtility::trimExplode(',', $this->downloads, TRUE));
+    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->downloads, TRUE));
   }
 
   /**
