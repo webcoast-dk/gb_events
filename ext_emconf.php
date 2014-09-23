@@ -27,21 +27,21 @@ $EM_CONF[$_EXTKEY] = array (
   'modify_tables' => '',
   'clearCacheOnLoad' => 0,
   'lockType' => '',
-  'version' => '6.2.0',
-  'constraints' => 
+  'version' => '6.2.1',
+  'constraints' =>
   array (
-    'depends' => 
+    'depends' =>
     array (
       'typo3' => '6.2.0-6.2.99',
     ),
-    'conflicts' => 
+    'conflicts' =>
     array (
     ),
-    'suggests' => 
+    'suggests' =>
     array (
     ),
   ),
-  'comment' => 'Enhanced .ics/iCalendar support, now with iCal subscriptions. Additional code cleanups',
+  'comment' => 'Fix calls to ArrayUtility',
   'user' => 'gutebotschafter',
 );
 
