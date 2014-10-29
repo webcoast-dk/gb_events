@@ -45,7 +45,7 @@
                 <size>5</size>
                 <default>3</default>
               </config>
-              <displayCond>FIELD:switchableControllerActions:=:Event->upcoming;Event->list;Event->calendar;Event->show;Event->export</displayCond>
+              <displayCond>FIELD:switchableControllerActions:=:Event->upcoming;Event->list;Event->calendar;Event->show;Event->export;Export->list;Export->show</displayCond>
             </TCEforms>
           </settings.limit>
           <settings.years>
@@ -57,7 +57,7 @@
                 <size>5</size>
                 <default>1</default>
               </config>
-              <displayCond>FIELD:switchableControllerActions:=:Event->list;Event->upcoming;Event->calendar;Event->show;Event->export</displayCond>
+              <displayCond>FIELD:switchableControllerActions:=:Event->list;Event->upcoming;Event->calendar;Event->show;Event->export;Export->list;Export->show</displayCond>
             </TCEforms>
           </settings.years>
           <settings.startDateOnly>
@@ -74,4 +74,3 @@
     </sDEF>
   </sheets>
 </T3DataStructure>
-
