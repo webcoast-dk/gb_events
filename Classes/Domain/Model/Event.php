@@ -593,9 +593,9 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
 
     $iCalData[] = 'BEGIN:VEVENT';
     $iCalData[] = 'UID:' . $this->getUniqueIdentifier();
-    $iCalData[] = 'LOCATION:' . $this->getLocation();
-    $iCalData[] = 'SUMMARY:' . $this->getTitle();
-    $iCalData[] = 'DESCRIPTION:' . html_entity_decode(strip_tags($this->getDescription()), ENT_COMPAT | ENT_HTML401, 'UTF-8');
+    $iCalData[] = 'LOCATION:' . self::escapeTextForIcal($this->getLocation());
+    $iCalData[] = 'SUMMARY:' . self::escapeTextForIcal($this->getTitle());
+    $iCalData[] = 'DESCRIPTION:' . self::escapeTextForIcal($this->getDescription());
     $iCalData[] = 'CLASS:PUBLIC';
     if($this->getIsOneDayEvent()) {
       $iCalData[] = 'DTSTART;VALUE=DATE:' . $startDate->format('Ymd');
@@ -611,6 +611,23 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $iCalData[] = 'END:VEVENT';
 
     return join("\n", $iCalData);
+  }
+
+  /**
+   * Escapes given text for usage in ical format.
+   *
+   * @param $textInput
+   * @return mixed|string
+   *
+   * @see http://www.ietf.org/rfc/rfc2445.txt
+   */
+  protected static function escapeTextForIcal($textInput) {
+    $text = html_entity_decode(strip_tags($textInput), ENT_COMPAT | ENT_HTML401, 'UTF-8');
+    $text = str_replace(
+      array("\"", "\\", ",",":", ";", "\n"),
+      array("DQUOTE", "\\\\", "\,", "\":\"", "\;", "\n "),
+      $text);
+    return $text;
   }
 
   /**
