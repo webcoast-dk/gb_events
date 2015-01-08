@@ -597,20 +597,21 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $iCalData[] = 'SUMMARY:' . self::escapeTextForIcal($this->getTitle());
     $iCalData[] = 'DESCRIPTION:' . self::escapeTextForIcal($this->getDescription());
     $iCalData[] = 'CLASS:PUBLIC';
+
     if($this->getIsOneDayEvent()) {
       $iCalData[] = 'DTSTART;VALUE=DATE:' . $startDate->format('Ymd');
       $iCalData[] = 'DTEND;VALUE=DATE:' . $stopDate->format('Ymd');
     } else {
-      $iCalData[] = 'DTSTART:' . $startDate->format('Ymd\THis');
-      $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis');
+      $iCalData[] = 'DTSTART:' . $startDate->format('Ymd\THis\Z');
+      $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis\Z');
     }
-    $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis');
+    $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis\Z');
     if($this->isRecurringEvent()) {
       $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
     }
     $iCalData[] = 'END:VEVENT';
 
-    return join("\n", $iCalData);
+    return implode("\r\n", $iCalData);
   }
 
   /**
