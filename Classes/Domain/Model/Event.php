@@ -623,11 +623,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   protected static function escapeTextForIcal($textInput) {
     $text = html_entity_decode(strip_tags($textInput), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-    $text = str_replace(
-      array("\"", "\\", ",",":", ";", "\n"),
-      array("DQUOTE", "\\\\", "\,", "\":\"", "\;", "\n "),
-      $text);
-    return $text;
+    return str_replace(
+      array("\"", "\\", ",", ":", ";", "\n"),
+      array("DQUOTE", "\\\\", "\,", "\":\"", "\;", "\\n"),
+      $text
+    );
   }
 
   /**
