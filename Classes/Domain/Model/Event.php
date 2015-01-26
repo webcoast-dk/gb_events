@@ -583,11 +583,13 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return string $iCalendarData
    */
   public function iCalendarData() {
-    $now = new \DateTime();
+    $now = new \DateTime('now', new \DateTimeZone('UTC'));
     $startDate = clone($this->getEventDate());
     $startDate->add($this->getEventTimeAsDateInterval());
+    $startDate->setTimezone(new \DateTimeZone('UTC'));
     $stopDate = clone($this->getEventStopDate());
     $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval('PT1H'));
+    $stopDate->setTimezone(new \DateTimeZone('UTC'));
 
     $iCalData = array();
 
