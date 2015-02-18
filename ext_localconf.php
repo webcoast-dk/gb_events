@@ -16,6 +16,28 @@ if (!defined ('TYPO3_MODE')) {
   )
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+  'GuteBotschafter.' . $_EXTKEY,
+  'Upcoming',
+  array(
+    'Upcoming' => 'list',
+  ),
+  array(
+    'Upcoming' => 'list',
+  )
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+  'GuteBotschafter.' . $_EXTKEY,
+  'Calendar',
+  array(
+    'Calendar' => 'show',
+  ),
+  array(
+    'Calendar' => 'show',
+  )
+);
+
 // ke_search indexer
 if(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['registerIndexerConfiguration'][] = 'EXT:gb_events/Classes/Hooks/EventIndexer.php:GuteBotschafter\GbEvents\Hooks\EventIndexer';

@@ -27,9 +27,9 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  ***************************************************************/
 
 /**
- * Controller for the Event object
+ * Controller for the calendar view
  */
-class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class CalendarController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
   /**
    * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
@@ -39,25 +39,12 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 
   /**
-   * Displays all Events
-   *
-   * @return void
-   */
-  public function listAction() {
-    $events = $this->eventRepository->findAll($this->settings['years']);
-    $this->view->assign('events', $events);
-  }
-
-
-  /**
-   * Displays all Events as a browseable calendar
+   * Displays all events as a browseable calendar
    *
    * @param  string $start
    * @return void
    */
-  public function calendarAction($start = 'today') {
-    GeneralUtility::deprecationLog('[gb_events] EventController::calendar has been deprecated an will be removed in v7.1');
-
+  public function showAction($start = 'today') {
     // Startdatum setzen
     $startDate = new \DateTime('today');
     try {
@@ -116,28 +103,5 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
       'nextMonth' => $nextMonth->format('Y-m-d'),
       'prevMonth' => $previousMonth->format('Y-m-d')
     ));
-  }
-
-
-  /**
-   * Displays a single Event
-   *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
-   * @return void
-   */
-  public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
-    $this->view->assign('event', $event);
-  }
-
-
-  /**
-   * Displays the upcoming events
-   *
-   * @return void
-   */
-  public function upcomingAction() {
-    GeneralUtility::deprecationLog('[gb_events] EventController::upcoming has been deprecated an will be removed in v7.1');
-    $events = $this->eventRepository->findUpcoming($this->settings['limit']);
-    $this->view->assign('events', $events);
   }
 }

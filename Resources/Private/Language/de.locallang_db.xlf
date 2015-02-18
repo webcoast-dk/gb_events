@@ -8,6 +8,14 @@
         <source>Event calendar</source>
         <target>Terminkalender</target>
       </trans-unit>
+      <trans-unit id="tx_gbevents.upcoming.title" xml:space="preserve" approved="yes">
+        <source>Event calendar (Upcoming)</source>
+        <target>Terminkalender (Nächste Termine)</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents.calendar.title" xml:space="preserve" approved="yes">
+        <source>Event calendar (Calendar)</source>
+        <target>Terminkalender (Kalender)</target>
+      </trans-unit>
       <trans-unit id="flexform.default.sheetTitle" xml:space="preserve" approved="yes">
         <source>Defaults</source>
         <target>Einstellungen</target>
@@ -39,6 +47,10 @@
       <trans-unit id="flexform.default.settings.years" xml:space="preserve" approved="yes">
         <source>Limit output to this many years</source>
         <target>Termine der nächsten n Jahre</target>
+      </trans-unit>
+      <trans-unit id="flexform.default.settings.details_pid" xml:space="preserve">
+        <source>Show event details on this page</source>
+        <target>Seite für Termin-Details</target>
       </trans-unit>
       <trans-unit id="flexform.default.settings.startDateOnly" xml:space="preserve" approved="yes">
         <source>Show only start date in lists for events spanning multiple days</source>
