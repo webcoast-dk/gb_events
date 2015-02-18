@@ -48,6 +48,10 @@
         <source>Limit output to this many years</source>
         <target>Termine der nächsten n Jahre</target>
       </trans-unit>
+      <trans-unit id="flexform.default.settings.details_pid" xml:space="preserve">
+        <source>Show event details on this page</source>
+        <target>Seite für Termin-Details</target>
+      </trans-unit>
       <trans-unit id="flexform.default.settings.startDateOnly" xml:space="preserve" approved="yes">
         <source>Show only start date in lists for events spanning multiple days</source>
         <target>Bei mehrtägigen Terminen nur das Startdatum in der Listenansicht zeigen</target>

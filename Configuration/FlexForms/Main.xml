@@ -18,6 +18,25 @@
               </config>
             </TCEforms>
           </settings.years>
+          <settings.detailsPid>
+            <TCEforms>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.details_pid</label>
+              <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <allowed>pages</allowed>
+                <size>1</size>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <show_thumbs>1</show_thumbs>
+                <wizards>
+                  <suggest>
+                    <type>suggest</type>
+                  </suggest>
+                </wizards>
+              </config>
+            </TCEforms>
+          </settings.detailsPid>
           <settings.startDateOnly>
             <TCEforms>
               <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.startDateOnly</label>
