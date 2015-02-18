@@ -94,6 +94,32 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   }
 
   /**
+   * Find past events (limited to a count of n)
+   * @param  \integer $limit
+   * @return array
+   */
+  public function findBygone($limit = 3) {
+    if(intval($limit) === 0) {
+      $limit = 3;
+    }
+
+    $startDate = new \DateTime('midnight - 10 years');
+    $stopDate = new \DateTime('midnight - 1 second');
+    $cutOffDate = new \DateTime($limit . ' years ago midnight');
+
+    $query = $this->createQuery();
+    $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+    $conditions = $query->greaterThanOrEqual('event_date', $startDate);
+    $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
+    $events = array_filter(
+      $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, NULL, TRUE),
+      function($event) use (&$cutOffDate, &$stopDate) { return $event->getEventDate() >= $cutOffDate && $event->getEventDate() <= $stopDate; }
+    );
+    usort($events, function($a, $b) { return strcmp($a->getEventDate()->getTimestamp(), $b->getEventDate()->getTimestamp()); });
+    return array_reverse($events);
+  }
+
+  /**
    * Add conditions to retrieve recurring dates from the database
    *
    * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query The query object
@@ -136,12 +162,13 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    * @param \integer $limit
    * @return array $days
    */
-  protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $limit = NULL) {
+  protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $limit = NULL, $archive = FALSE) {
     $today = new \DateTime('midnight');
     $days = array();
     foreach($events as $event) {
       foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {
-        if(($grouped === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
+        if(($grouped === FALSE && $archive === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
+          print "<pre>" . print_r($event->getTitle(), true) . "</pre>";
           continue;
         }
         $recurringEvent = clone($event);
