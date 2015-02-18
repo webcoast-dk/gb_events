@@ -3,6 +3,7 @@ if (!defined ('TYPO3_MODE')){
   die ('Access denied.');
 }
 
+# Main Plugin (List and Details view, Export)
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
   'GuteBotschafter.' . $_EXTKEY,
   'Main',
@@ -10,7 +11,7 @@ if (!defined ('TYPO3_MODE')){
 );
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_main'] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('gbevents_main', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_main.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('gbevents_main', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/Main.xml');
 $TCA['tt_content']['types']['list']['subtypes_excludelist']['gbevents_main'] = 'layout,select_key,recursive';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Terminkalender');
