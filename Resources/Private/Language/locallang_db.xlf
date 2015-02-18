@@ -10,6 +10,9 @@
       <trans-unit id="tx_gbevents.upcoming.title" xml:space="preserve" approved="yes">
         <source>Event calendar (Upcoming)</source>
       </trans-unit>
+      <trans-unit id="tx_gbevents.calendar.title" xml:space="preserve" approved="yes">
+        <source>Event calendar (Calendar)</source>
+      </trans-unit>
       <trans-unit id="flexform.default.sheetTitle" xml:space="preserve">
         <source>Defaults</source>
       </trans-unit>

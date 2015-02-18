@@ -12,6 +12,10 @@
         <source>Event calendar (Upcoming)</source>
         <target>Terminkalender (Nächste Termine)</target>
       </trans-unit>
+      <trans-unit id="tx_gbevents.calendar.title" xml:space="preserve" approved="yes">
+        <source>Event calendar (Calendar)</source>
+        <target>Terminkalender (Kalender)</target>
+      </trans-unit>
       <trans-unit id="flexform.default.sheetTitle" xml:space="preserve" approved="yes">
         <source>Defaults</source>
         <target>Einstellungen</target>

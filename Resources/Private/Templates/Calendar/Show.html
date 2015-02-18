@@ -1,0 +1,39 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+<h1>Calendar View</h1>
+<table cellspacing="0">
+  <thead>
+    <tr>
+      <td>Montag</td>
+      <td>Dienstag</td>
+      <td>Mittwoch</td>
+      <td>Donnerstag</td>
+      <td>Freitag</td>
+      <td>Samstag</td>
+      <td>Sonntag</td>
+    </tr>
+  </thead>
+  <tbody>
+    <f:for each="{calendar}" as="week">
+      <tr>
+      <f:for each="{week}" as="day">
+      <td class="{f:if(condition:'{day.disabled}', then:'informative', else:'current')}{f:if(condition:'{day.events}', then:' event', else:'')}" >
+          <span class="date"><f:format.date format="d">{day.date}</f:format.date></span>
+          <f:if condition="{day.events}">
+            <ul>
+              <f:for each="{day.events}" as="event">
+              <li>{event.title}</li>
+              </f:for>
+            </ul>
+            </f:if>
+        </td>
+      </f:for>
+      </tr>
+    </f:for>
+  </tbody>
+</table>
+<f:link.action action="show" arguments="{start: prevMonth}">« {navigation.previous -> f:format.date(format: '%B %Y')}</f:link.action>
+{navigation.current -> f:format.date(format: '%B %Y')}
+<f:link.action action="show" arguments="{start: nextMonth}">{navigation.next -> f:format.date(format: '%B %Y')} »</f:link.action>
+</f:section>
