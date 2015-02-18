@@ -39,13 +39,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   public function findAllBetween(\DateTime $startDate, \DateTime $stopDate) {
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-    $conditions = $query->logicalOr(
-      // Einzelne Veranstaltung im gesuchten Zeitfenster
-      $query->logicalAnd(
-        $query->greaterThanOrEqual('event_date', $startDate),
-        $query->lessThanOrEqual('event_date', $stopDate)
-      )
-    );
+    $conditions = $this->getBaseConditions($query, $startDate, $stopDate);
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
     return $this->resolveRecurringEvents($query->execute(), $grouped = TRUE, $startDate, $stopDate);
   }
@@ -63,14 +57,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     $startDate = new \DateTime('midnight');
     $stopDate = new \DateTime(sprintf('midnight + %d years', intval($years)));
 
-    $query = $this->createQuery();
-    $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-    $conditions = $query->logicalAnd(
-      $query->greaterThanOrEqual('event_date', $startDate),
-      $query->lessThanOrEqual('event_date', $stopDate)
-    );
-    $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
-    return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate);
+    return $this->findAllBetween($startDate, $stopDate);
   }
 
   /**
@@ -187,5 +174,20 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     }
 
     return $days;
+  }
+
+  /**
+   * Returns query constraints for simple events.
+   *
+   * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query
+   * @param \DateTime                                     $startDate
+   * @param \DateTime                                     $stopDate
+   * @return array                                        $conditions
+   */
+  protected function getBaseConditions(\TYPO3\CMS\Extbase\Persistence\QueryInterface &$query, \DateTime $startDate, \DateTime $stopDate) {
+    return $query->logicalAnd(
+      $query->greaterThanOrEqual('event_date', $startDate),
+      $query->lessThanOrEqual('event_date', $stopDate)
+    )
   }
 }
