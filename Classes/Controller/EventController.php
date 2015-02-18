@@ -137,17 +137,4 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     $events = $this->eventRepository->findUpcoming($this->settings['limit']);
     $this->view->assign('events', $events);
   }
-
-
-  /**
-   * Exports a single Event as iCalendar file
-   *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to export
-   * @return void
-   * @deprecated Will be removed in v7.0
-   */
-  public function exportAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
-    GeneralUtility::deprecationLog('[gb_events] EvecntController::export has been deprecated an will be removed in v7.0');
-    $this->forward('show', 'Export', NULL, array('event' => $event));
-  }
 }
