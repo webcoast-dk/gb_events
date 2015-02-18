@@ -44,6 +44,9 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    * @return void
    */
   public function listAction() {
+    if($this->settings['displayMode'] === 'calendar') {
+      return $this->forward('show', 'Calendar');
+    }
     $events = $this->eventRepository->findAll($this->settings['years']);
     $this->view->assign('events', $events);
   }

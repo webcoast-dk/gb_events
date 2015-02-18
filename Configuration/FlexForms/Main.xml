@@ -7,6 +7,27 @@
         </TCEforms>
         <type>array</type>
         <el>
+          <settings.displayMode>
+            <TCEforms>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="0" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.list</numIndex>
+                    <numIndex index="1">list</numIndex>
+                  </numIndex>
+                  <numIndex index="1" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.calendar</numIndex>
+                    <numIndex index="1">calendar</numIndex>
+                  </numIndex>
+                </items>
+                <maxitems>1</maxitems>
+                <size>1</size>
+              </config>
+              <onChange>reload</onChange>
+            </TCEforms>
+          </settings.displayMode>
           <settings.years>
             <TCEforms>
               <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.years</label>
@@ -16,6 +37,7 @@
                 <size>5</size>
                 <default>1</default>
               </config>
+              <displayCond>FIELD:settings.displayMode:!=:calendar</displayCond>
             </TCEforms>
           </settings.years>
           <settings.detailsPid>
@@ -44,6 +66,7 @@
                 <type>check</type>
                 <default>0</default>
               </config>
+              <displayCond>FIELD:settings.displayMode:!=:calendar</displayCond>
             </TCEforms>
           </settings.startDateOnly>
         </el>

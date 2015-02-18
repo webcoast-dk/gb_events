@@ -20,25 +20,17 @@
         <source>Defaults</source>
         <target>Einstellungen</target>
       </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions" xml:space="preserve" approved="yes">
+      <trans-unit id="flexform.default.display_mode" xml:space="preserve" approved="yes">
         <source>Default view</source>
-        <target>Ausgabe view</target>
+        <target>Ausgabe</target>
       </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.list" xml:space="preserve" approved="yes">
+      <trans-unit id="flexform.default.display_mode.list" xml:space="preserve" approved="yes">
         <source>List of Events</source>
         <target>Terminliste</target>
       </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.upcoming" xml:space="preserve" approved="yes">
-        <source>Upcoming Events</source>
-        <target>Nächste Termine</target>
-      </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.calendar" xml:space="preserve" approved="yes">
+      <trans-unit id="flexform.default.display_mode.calendar" xml:space="preserve" approved="yes">
         <source>Calendar View</source>
         <target>Kalender</target>
-      </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.details" xml:space="preserve" approved="yes">
-        <source>Details</source>
-        <target>Einzelansicht</target>
       </trans-unit>
       <trans-unit id="flexform.default.settings.limit" xml:space="preserve" approved="yes">
         <source>No of events to show</source>

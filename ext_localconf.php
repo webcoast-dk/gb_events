@@ -8,10 +8,12 @@ if (!defined ('TYPO3_MODE')) {
   'Main',
   array(
     'Event' => 'list, calendar, upcoming, show, export',
+    'Calendar' => 'show',
     'Export' => 'list, show',
   ),
   array(
     'Event' => 'list, calendar, upcoming, show, export',
+    'Calendar' => 'show',
     'Export' => 'list, show',
   )
 );
@@ -24,17 +26,6 @@ if (!defined ('TYPO3_MODE')) {
   ),
   array(
     'Upcoming' => 'list',
-  )
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-  'GuteBotschafter.' . $_EXTKEY,
-  'Calendar',
-  array(
-    'Calendar' => 'show',
-  ),
-  array(
-    'Calendar' => 'show',
   )
 );
 

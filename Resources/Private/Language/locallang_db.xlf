@@ -16,20 +16,14 @@
       <trans-unit id="flexform.default.sheetTitle" xml:space="preserve">
         <source>Defaults</source>
       </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions" xml:space="preserve">
-        <source>Default view</source>
+      <trans-unit id="flexform.default.display_mode" xml:space="preserve">
+        <source>Display</source>
       </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.list" xml:space="preserve">
+      <trans-unit id="flexform.default.display_mode.list" xml:space="preserve">
         <source>List of Events</source>
       </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.upcoming" xml:space="preserve">
-        <source>Upcoming Events</source>
-      </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.calendar" xml:space="preserve">
+      <trans-unit id="flexform.default.display_mode.calendar" xml:space="preserve">
         <source>Calendar View</source>
-      </trans-unit>
-      <trans-unit id="flexform.default.switchableControllerActions.details" xml:space="preserve">
-        <source>Details</source>
       </trans-unit>
       <trans-unit id="flexform.default.settings.limit" xml:space="preserve">
         <source>No of events to show</source>
