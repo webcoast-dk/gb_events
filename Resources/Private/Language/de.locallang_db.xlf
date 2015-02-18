@@ -32,6 +32,10 @@
         <source>Calendar View</source>
         <target>Kalender</target>
       </trans-unit>
+      <trans-unit id="flexform.default.display_mode.calendar" xml:space="preserve" approved="yes">
+        <source>Archive</source>
+        <target>Archiv</target>
+      </trans-unit>
       <trans-unit id="flexform.default.settings.limit" xml:space="preserve" approved="yes">
         <source>No of events to show</source>
         <target>Anzahl der Termine</target>

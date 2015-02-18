@@ -18,6 +18,10 @@
                     <numIndex index="1">list</numIndex>
                   </numIndex>
                   <numIndex index="1" type="array">
+                    <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.archive</numIndex>
+                    <numIndex index="1">archive</numIndex>
+                  </numIndex>
+                  <numIndex index="2" type="array">
                     <numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.calendar</numIndex>
                     <numIndex index="1">calendar</numIndex>
                   </numIndex>
