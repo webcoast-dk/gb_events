@@ -56,6 +56,8 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    * @return void
    */
   public function calendarAction($start = 'today') {
+    GeneralUtility::deprecationLog('[gb_events] EventController::calendar has been deprecated an will be removed in v7.1');
+
     // Startdatum setzen
     $startDate = new \DateTime('today');
     try {
