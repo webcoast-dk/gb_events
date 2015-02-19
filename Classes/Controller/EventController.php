@@ -148,7 +148,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    */
   public function upcomingAction() {
     GeneralUtility::deprecationLog('[gb_events] EventController::upcoming has been deprecated an will be removed in v7.1');
-    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showActive']);
+    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showActive'], $this->settings['categories']);
     $this->view->assign('events', $events);
   }
 }
