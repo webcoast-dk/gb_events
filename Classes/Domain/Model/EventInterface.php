@@ -222,4 +222,11 @@ interface EventInterface {
    * @return string
    */
   public function getUniqueIdentifier();
+
+  /**
+   * Returns the event duration in seconds
+   *
+   * @return integer
+   */
+  public function getDuration();
 }

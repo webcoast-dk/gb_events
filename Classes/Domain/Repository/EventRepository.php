@@ -148,17 +148,26 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    * @param  \bool $grouped
    * @param  \DateTime $startDate
    * @param  \DateTime $stopDate
-   * @param  boolean $skipTodayCheck
+   * @param  boolean $checkDuration
    * @param  \integer $limit
    * @return array $days
    */
-  protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $skipTodayCheck = FALSE, $limit = NULL) {
+  protected function resolveRecurringEvents(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $checkDuration = FALSE, $limit = NULL) {
     $today = new \DateTime('midnight');
     $days = array();
     foreach($events as $event) {
       foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {
-        if(($grouped === FALSE && $skipTodayCheck === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
-          continue;
+        if($grouped === FALSE) {
+          if($checkDuration === FALSE && !$this->isVisibleEvent($eventDate)) {
+            continue;
+          }
+          if($checkDuration === TRUE && !$this->isVisibleEvent($eventDate, $event->getDuration())) {
+            continue;
+          }
+        } else {
+          if(!$this->isVisibleEvent($eventDate, 0, $startDate)) {
+            continue;
+          }
         }
         $recurringEvent = clone($event);
         $recurringEvent->setEventDate($eventDate);
@@ -176,6 +185,21 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     }
 
     return $days;
+  }
+
+  /**
+   * Check if the event is active at the given point in time
+   *
+   * @param \DateTime $eventDate
+   * @param integer   $duration
+   * @param \DateTime $currentDate
+   * @return boolean
+   */
+  protected function isVisibleEvent(\DateTime $eventDate, $duration = 0, \DateTime $currentDate = NULL) {
+    if(is_null($currentDate)) {
+      $currentDate = new \DateTime('midnight');
+    }
+    return ($eventDate->getTimestamp() + $duration) >= $currentDate->getTimestamp();
   }
 
   /**

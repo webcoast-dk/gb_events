@@ -844,4 +844,13 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   public function getUniqueIdentifier() {
     return md5($this->uid . ':' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
   }
+
+  /**
+   * Return the duration in seconds for an event
+   *
+   * @return integer $duration
+   */
+  public function getDuration() {
+    return $this->getEventStopDate()->getTimestamp()-$this->getEventDate()->getTimestamp();
+  }
 }
