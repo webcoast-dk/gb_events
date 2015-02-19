@@ -106,7 +106,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
       $runDate->modify('tomorrow');
     }
 
-    $events = $this->eventRepository->findAllBetween($preDate, $postDate);
+    $events = $this->eventRepository->findAllBetween($preDate, $postDate, FALSE, $this->settings['categories']);
     foreach($events as $eventDay => $eventsThisDay) {
       $days[$eventDay]['events'] = $eventsThisDay['events'];
     }
