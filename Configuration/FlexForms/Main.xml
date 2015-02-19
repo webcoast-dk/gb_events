@@ -88,6 +88,27 @@
               </displayCond>
             </TCEforms>
           </settings.showActive>
+          <settings.categories>
+            <TCEforms>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.categories:</label>
+              <config>
+                <type>select</type>
+                <autoSizeMax>50</autoSizeMax>
+                <foreign_table>sys_category</foreign_table>
+                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
+                <maxitems>9999</maxitems>
+                <renderMode>tree</renderMode>
+                <size>10</size>
+                <treeConfig>
+                  <appearance>
+                    <expandAll>1</expandAll>
+                    <showHeader>1</showHeader>
+                  </appearance>
+                  <parentField>parent</parentField>
+                </treeConfig>
+              </config>
+            </TCEforms>
+          </settings.categories>
         </el>
       </ROOT>
     </sDEF>

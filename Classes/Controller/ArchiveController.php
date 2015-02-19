@@ -44,7 +44,7 @@ class ArchiveController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
    * @return void
    */
   public function listAction() {
-    $events = $this->eventRepository->findBygone($this->settings['limit']);
+    $events = $this->eventRepository->findBygone($this->settings['limit'], $this->settings['categories']);
     $this->view->assign('events', $events);
   }
 }
