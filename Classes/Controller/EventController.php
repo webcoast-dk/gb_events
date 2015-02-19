@@ -54,7 +54,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         break;
         ;;
       default:
-        $events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showActive']);
+        $events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showActive'], $this->settings['categories']);
         $this->view->assign('events', $events);
     }
   }
