@@ -24,6 +24,8 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Core\Resource\FileReference;
 
 /**
  * A single event
@@ -93,17 +95,17 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   protected $eventTime;
 
-  /**
-   * The images for this event
-   *
-   * @var string
-   */
-  protected $images;
+	/**
+	 * images
+	 *
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 */
+	protected $images;
 
   /**
    * The downloads for this event
    *
-   * @var string
+   * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
    */
   protected $downloads;
 
@@ -148,6 +150,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @var string
    */
   protected $recurringExcludeDates;
+
+	public function __construct(){
+		$this->images = new ObjectStorage();
+		$this->downloads = new ObjectStorage();
+	}
 
   /**
    * Setup for the Event object
@@ -423,7 +430,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @param string $images
+   * @param ObjectStorage $images
    * @return void
    */
   public function setImages($images) {
@@ -431,15 +438,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return array
+   * @return ObjectStorage
    */
   public function getImages() {
-    $mapFunc = create_function('$i', 'return "uploads/tx_gbevents/" . $i;');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->images, TRUE));
+	  return $this->images;
   }
 
   /**
-   * @param string $downloads
+   * @param ObjectStorage $downloads
    * @return void
    */
   public function setDownloads($downloads) {
@@ -447,11 +453,10 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return array
+   * @return ObjectStorage
    */
   public function getDownloads() {
-    $mapFunc = create_function('$i', 'return array("file" => "uploads/tx_gbevents/" . $i, "name" => basename($i));');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->downloads, TRUE));
+	  return $this->downloads;
   }
 
   /**
@@ -853,4 +858,34 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   public function getDuration() {
     return $this->getEventStopDate()->getTimestamp()-$this->getEventDate()->getTimestamp();
   }
+
+	/**
+	 * @param FileReference $image
+	 */
+	public function addImage(FileReference $image){
+		$this->images->attach($image);
+	}
+
+	/**
+	 * @param FileReference $image
+	 */
+	public function removeImage(FileReference $image){
+		$this->images->detach($image);
+	}
+
+	/**
+	 * @param FileReference $download
+	 */
+	public function addDownload(FileReference $download){
+		$this->images->attach($download);
+	}
+
+	/**
+	 * @param FileReference $download
+	 */
+	public function removeDownload(FileReference $download){
+		$this->images->detach($download);
+	}
+
+
 }
