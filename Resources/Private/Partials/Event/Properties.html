@@ -59,7 +59,7 @@
     <tr>
       <td>
         <f:for each="{event.images}" as="image">
-          <f:image src="{image}" width="120" height="120" alt="Image" />
+          <f:image src="{image.uid}" treatIdAsReference="true" width="120" alt="Image" />
         </f:for>
       </td>
     </tr>
@@ -68,7 +68,11 @@
     <tr>
       <td>
         <f:for each="{event.downloads}" as="download">
-          <f:link.page pageUid="{download.file}">{download.name}</f:link.page>
+			<a href="{download.originalResource.publicUrl}">{download.originalResource.title}</a>
+			<f:if condition="{download.originalResource.description}">
+				<br/>
+				{download.originalResource.description}
+			</f:if>
         </f:for>
       </td>
     </tr>

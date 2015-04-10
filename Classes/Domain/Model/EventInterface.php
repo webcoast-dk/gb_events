@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * A single event
@@ -124,7 +125,7 @@ interface EventInterface {
   public function setImages($images);
 
   /**
-   * @return array
+   * @return ObjectStorage<FileReference>
    */
   public function getImages();
 
@@ -135,7 +136,7 @@ interface EventInterface {
   public function setDownloads($downloads);
 
   /**
-   * @return array
+   * @return ObjectStorage<FileReference>
    */
   public function getDownloads();
 
