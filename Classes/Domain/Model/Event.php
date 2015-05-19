@@ -4,7 +4,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2013 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
+ *  (c) 2011-2015 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
  *
  *  All rights reserved
  *
@@ -24,14 +24,17 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Utility\ArrayUtility;
 
 /**
  * A single event
  */
-class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements EventInterface {
+class Event extends AbstractEntity implements EventInterface {
   /**
    * Configuration Manager
-   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+   * @var ConfigurationManagerInterface
    * @inject
    */
   protected $configurationManager;
@@ -110,14 +113,14 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * The weeks of the month the event should occur at
    *
-   * @var \integer
+   * @var integer
    */
   protected $recurringWeeks;
 
   /**
    * The days of the week the event should occur at
    *
-   * @var \integer
+   * @var integer
    */
   protected $recurringDays;
 
@@ -138,7 +141,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Exclude national holidays from the recurring events list
    *
-   * @var \boolean
+   * @var boolean
    */
   protected $recurringExcludeHolidays;
 
@@ -156,7 +159,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function initializeSettings() {
     if(is_null($this->settings)) {
-      $this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+      $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
     }
   }
 
@@ -293,7 +296,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    *
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
-   * @return array $eventDates
+   * @return array
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
     $this->initializeSettings();
@@ -315,6 +318,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $recurringDays = $this->getRecurringDaysAsText();
     $eventDates = array();
     foreach($recurringMonths as $workDate) {
+      /** @var \DateTime $workDate */
       $workingMonth = $workDate->format('n');
 
       // Weeks have been selected, check every nth week / day combination
@@ -393,7 +397,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     $myStopDate = clone($this->getEventStopDate());
     if(!$this->settings['startDateOnly']) {
       while($myStartDate <= $myStopDate) {
-        if(!$this->isExcludedDate($workDate)) {
+        if(!$this->isExcludedDate($myStartDate)) {
           $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
         }
         $myStartDate->modify('+1 day');
@@ -435,7 +439,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getImages() {
     $mapFunc = create_function('$i', 'return "uploads/tx_gbevents/" . $i;');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->images, TRUE));
+    return array_map($mapFunc, ArrayUtility::trimExplode(',', $this->images, TRUE));
   }
 
   /**
@@ -451,11 +455,11 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   public function getDownloads() {
     $mapFunc = create_function('$i', 'return array("file" => "uploads/tx_gbevents/" . $i, "name" => basename($i));');
-    return array_map($mapFunc, \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->downloads, TRUE));
+    return array_map($mapFunc, ArrayUtility::trimExplode(',', $this->downloads, TRUE));
   }
 
   /**
-   * @param \integer $recurringWeeks
+   * @param integer $recurringWeeks
    * @return void
    */
   public function setRecurringWeeks($recurringWeeks) {
@@ -463,7 +467,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \integer
+   * @return integer
    */
   public function getRecurringWeeks() {
     return $this->recurringWeeks;
@@ -496,7 +500,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @param \integer $recurringDays
+   * @param integer $recurringDays
    * @return void
    */
   public function setRecurringDays($recurringDays) {
@@ -504,7 +508,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \integer
+   * @return integer
    */
   public function getRecurringDays() {
     return $this->recurringDays;
@@ -526,7 +530,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @param \boolean $recurringExcludeHolidays
+   * @param boolean $recurringExcludeHolidays
    * @return void
    */
   public function setRecurringExcludeHolidays($recurringExcludeHolidays) {
@@ -534,7 +538,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   }
 
   /**
-   * @return \boolean
+   * @return boolean
    */
   public function getRecurringExcludeHolidays() {
     return $this->recurringExcludeHolidays;
@@ -690,8 +694,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return string $rRule
    */
   protected function buildRecurrenceRule() {
-    $rRule = '';
-
     $shortDays = array(
       'Monday' => 'MO',
       'Tuesday' => 'TU',
@@ -759,7 +761,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
   /**
    * Gets the Dates on which recurring events do not occur.
    *
-   * @return string
+   * @return array
    */
   protected function getRecurringExcludeDatesArray() {
     return preg_split("#[\r\n]+|$#", $this->getRecurringExcludeDates());
@@ -771,7 +773,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @param string $recurringExcludeDates the recurring exclude dates
    * @return void
    */
-  public function setRecurringExcludeDates(string $recurringExcludeDates) {
+  public function setRecurringExcludeDates($recurringExcludeDates) {
     $this->recurringExcludeDates = $recurringExcludeDates;
   }
 
