@@ -44,6 +44,10 @@
         <source>Show only start date in lists for events spanning multiple days</source>
         <target>Bei mehrtägigen Terminen nur das Startdatum in der Listenansicht zeigen</target>
       </trans-unit>
+      <trans-unit id="flexform.default.settings.showStartedEvents" xml:space="preserve" approved="yes">
+        <source>Show multi-day events that have already begun</source>
+        <target>Mehrtätige Termine bis zum End-Datum anzeigen</target>
+      </trans-unit>
       <trans-unit id="tx_gbevents_domain_model_event" xml:space="preserve" approved="yes">
         <source>Event</source>
         <target>Termin</target>

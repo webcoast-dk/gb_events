@@ -403,7 +403,14 @@ class Event extends AbstractEntity implements EventInterface {
         $myStartDate->modify('+1 day');
       }
     } else {
-      $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
+      if($this->settings['showStartedEvents']) {
+        $today = new \DateTime('midnight');
+        if($myStartDate < $myStopDate && $today > $myStartDate && $today <= $myStopDate) {
+          $eventDates[$today->format('Y-m-d')] = clone($today);
+        }
+      } else {
+        $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
+      }
     }
 
     $eventDates[$this->getEventDate()->format('Y-m-d')] = $this->getEventDate();

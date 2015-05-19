@@ -35,6 +35,36 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class EventRepository extends Repository {
   /**
+   * @var ConfigurationManagerInterface
+   */
+  protected $configurationManager;
+
+  /**
+   * Extension settings
+   *
+   * @var array
+   */
+  protected $settings;
+
+  /**
+   * inject the configuration manager
+   *
+   * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+   */
+  public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
+    $this->configurationManager = $configurationManager;
+  }
+
+  /**
+   * Tasks to perform on repository initialization
+   *
+   * @return void
+   */
+  public function initializeObject() {
+    $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+  }
+
+  /**
    * Find all events between $startDate and $stopDate
    *
    * @param \DateTime $startDate
@@ -96,6 +126,15 @@ class EventRepository extends Repository {
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => QueryInterface::ORDER_ASCENDING));
     $conditions = $query->greaterThanOrEqual('event_date', $startDate);
+    if($this->settings['showStartedEvents']) {
+      $conditions = $query->logicalOr(
+        $conditions,
+        $query->logicalAnd(
+          $query->logicalNot($query->equals('event_stop_date', 0)),
+          $query->greaterThanOrEqual('event_stop_date', $startDate)
+        )
+      );
+    }
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
     return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $limit);
   }
@@ -148,11 +187,14 @@ class EventRepository extends Repository {
     $days = array();
     foreach($events as $event) {
       foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {
+        /** @var \DateTime $eventDate */
         if(($grouped === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
           continue;
         }
         $recurringEvent = clone($event);
-        $recurringEvent->setEventDate($eventDate);
+        if(!$this->settings['showStartedEvents']) {
+          $recurringEvent->setEventDate($eventDate);
+        }
         if($grouped) {
           $days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $recurringEvent;
         } else {
