@@ -195,7 +195,7 @@ class EventRepository extends Repository {
     $today = new \DateTime('midnight');
     $days = array();
     foreach($events as $event) {
-      foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {
+      foreach($event->getEventDates($startDate, $stopDate, $grouped) as $eventDate) {
         /** @var \DateTime $eventDate */
         if(($grouped === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
           continue;
