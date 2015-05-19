@@ -34,7 +34,8 @@ use TYPO3\CMS\Extbase\Utility\ArrayUtility;
 class Event extends AbstractEntity implements EventInterface {
   /**
    * Configuration Manager
-   * @var ConfigurationManagerInterface
+   *
+   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
    * @inject
    */
   protected $configurationManager;

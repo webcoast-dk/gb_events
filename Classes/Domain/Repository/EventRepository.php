@@ -101,8 +101,17 @@ class EventRepository extends Repository {
 
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => QueryInterface::ORDER_ASCENDING));
+    $conditions = $query->greaterThanOrEqual('event_date', $startDate);
+
+    if($this->settings['showStartedEvents']) {
+      $conditions = $query->logicalOr(
+        $conditions,
+        $query->greaterThanOrEqual('event_stop_date', $startDate)
+      );
+    }
+
     $conditions = $query->logicalAnd(
-      $query->greaterThanOrEqual('event_date', $startDate),
+      $conditions,
       $query->lessThanOrEqual('event_date', $stopDate)
     );
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
