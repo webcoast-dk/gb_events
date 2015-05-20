@@ -79,6 +79,13 @@ class EventRepository extends Repository {
       $query->logicalAnd(
         $query->greaterThanOrEqual('event_date', $startDate),
         $query->lessThanOrEqual('event_date', $stopDate)
+      ),
+      // Veranstaltung die im/nach dem Zeitfenster endet
+      $query->greaterThanOrEqual('event_stop_date', $startDate),
+      // Veranstaltung die das genze Zeitfenster beinhaltet
+      $query->logicalAnd(
+        $query->lessThanOrEqual('event_date', $startDate),
+        $query->greaterThanOrEqual('event_stop_date', $stopDate)
       )
     );
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate);
