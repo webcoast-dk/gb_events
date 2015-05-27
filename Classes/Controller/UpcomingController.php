@@ -44,7 +44,7 @@ class UpcomingController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
    * @return void
    */
   public function listAction() {
-    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showActive'], $this->settings['categories']);
+    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
     $this->view->assign('events', $events);
   }
 }

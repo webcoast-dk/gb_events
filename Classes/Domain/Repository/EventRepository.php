@@ -36,23 +36,23 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    *
    * @param  \DateTime  $startDate
    * @param  \DateTime  $stopDate
-   * @param  boolean    $showActive
+   * @param  boolean    $showStartedEvents
    * @param  string     $categories
    * @return array      $events
    */
-  public function findAllBetween(\DateTime $startDate, \DateTime $stopDate, $showActive = FALSE, $categories = NULL) {
-    $query = $this->queryAllBetween($startDate, $stopDate, $showActive, $categories);
-    return $this->resolveRecurringEvents($query->execute(), $grouped = TRUE, $startDate, $stopDate, $showActive);
+  public function findAllBetween(\DateTime $startDate, \DateTime $stopDate, $showStartedEvents = FALSE, $categories = NULL) {
+    $query = $this->queryAllBetween($startDate, $stopDate, $showStartedEvents, $categories);
+    return $this->resolveRecurringEvents($query->execute(), $grouped = TRUE, $startDate, $stopDate, $showStartedEvents);
   }
 
   /**
    * Find all events (limited to a amount of years)
    * @param  \integer   $years
-   * @param  boolean    $showActive
+   * @param  boolean    $showStartedEvents
    * @param  string     $categories
    * @return array      $events
    */
-  public function findAll($years = NULL, $showActive = FALSE, $categories = NULL) {
+  public function findAll($years = NULL, $showStartedEvents = FALSE, $categories = NULL) {
     if(intval($years) === 0) {
       $years = 1;
     }
@@ -60,18 +60,18 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     $startDate = new \DateTime('midnight');
     $stopDate = new \DateTime(sprintf('midnight + %d years', intval($years)));
 
-    $query = $this->queryAllBetween($startDate, $stopDate, $showActive, $categories);
-    return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $showActive);
+    $query = $this->queryAllBetween($startDate, $stopDate, $showStartedEvents, $categories);
+    return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $showStartedEvents);
   }
 
   /**
    * Find upcoming events (limited to a count of n)
    * @param  \integer   $limit
-   * @param  boolean    $showActive
+   * @param  boolean    $showStartedEvents
    * @param  string     $categories
    * @return array
    */
-  public function findUpcoming($limit = 3, $showActive = FALSE, $categories = NULL) {
+  public function findUpcoming($limit = 3, $showStartedEvents = FALSE, $categories = NULL) {
     if(intval($limit) === 0) {
       $limit = 3;
     }
@@ -83,7 +83,7 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
     $conditions = $query->greaterThanOrEqual('event_date', $startDate);
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate, $categories);
-    return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $showActive, $limit);
+    return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $showStartedEvents, $limit);
   }
 
   /**
@@ -236,15 +236,15 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    * @param   \TYPO3\CMS\Extbase\Persistence\QueryInterface                   $query
    * @param   \DateTime                                                       $startDate
    * @param   \DateTime                                                       $stopDate
-   * @param   boolean                                                         $showActive
+   * @param   boolean                                                         $showStartedEvents
    * @return  \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface  $conditions
    */
-  protected function getBaseConditions(\TYPO3\CMS\Extbase\Persistence\QueryInterface &$query, \DateTime $startDate, \DateTime $stopDate, $showActive = FALSE) {
+  protected function getBaseConditions(\TYPO3\CMS\Extbase\Persistence\QueryInterface &$query, \DateTime $startDate, \DateTime $stopDate, $showStartedEvents = FALSE) {
     $conditions = $query->logicalAnd(
       $query->greaterThanOrEqual('event_date', $startDate),
       $query->lessThanOrEqual('event_date', $stopDate)
     );
-    if($showActive == TRUE) {
+    if($showStartedEvents == TRUE) {
       $conditions = $query->logicalOr(
         $conditions,
         $query->logicalAnd(
@@ -261,14 +261,14 @@ class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
    *
    * @param  \DateTime  $startDate
    * @param  \DateTime  $stopDate
-   * @param  boolean    $showActive
+   * @param  boolean    $showStartedEvents
    * @param  string     $categories
    * @return array      $events
    */
-  protected function queryAllBetween(\DateTime $startDate, \DateTime $stopDate, $showActive = FALSE, $categories = NULL) {
+  protected function queryAllBetween(\DateTime $startDate, \DateTime $stopDate, $showStartedEvents = FALSE, $categories = NULL) {
     $query = $this->createQuery();
     $query->setOrderings(array('event_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-    $conditions = $this->getBaseConditions($query, $startDate, $stopDate, $showActive);
+    $conditions = $this->getBaseConditions($query, $startDate, $stopDate, $showStartedEvents);
     $this->applyRecurringConditions($query, $conditions, $startDate, $stopDate, $categories);
     return $query;
   }

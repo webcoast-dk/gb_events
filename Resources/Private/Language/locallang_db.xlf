@@ -40,7 +40,7 @@
       <trans-unit id="flexform.default.settings.startDateOnly" xml:space="preserve" approved="yes">
         <source>Show only start date in lists for events spanning multiple days</source>
       </trans-unit>
-      <trans-unit id="flexform.default.settings.showActive" xml:space="preserve">
+      <trans-unit id="flexform.default.settings.showStartedEvents" xml:space="preserve">
         <source>Show events spanning multiple days until the stop date has passed</source>
       </trans-unit>
       <trans-unit id="tx_gbevents_domain_model_event" xml:space="preserve">

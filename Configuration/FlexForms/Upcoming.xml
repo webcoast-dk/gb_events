@@ -48,7 +48,7 @@
           </settings.startDateOnly>
           <settings.showActive>
             <TCEforms>
-              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.showActive</label>
+              <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.showStartedEvents</label>
               <config>
                 <type>check</type>
                 <default>0</default>

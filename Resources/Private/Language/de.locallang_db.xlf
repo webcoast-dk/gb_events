@@ -52,7 +52,7 @@
         <source>Show only start date in lists for events spanning multiple days</source>
         <target>Bei mehrtägigen Terminen nur das Startdatum in der Listenansicht zeigen</target>
       </trans-unit>
-      <trans-unit id="flexform.default.settings.showActive" xml:space="preserve">
+      <trans-unit id="flexform.default.settings.showStartedEvents" xml:space="preserve">
         <source>Show events spanning multiple days until the stop date has passed</source>
         <target>Mehrtägige Termine bis zum Erreichen des Stopdatum anzeigen</target>
       </trans-unit>
