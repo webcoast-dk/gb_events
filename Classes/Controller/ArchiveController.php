@@ -1,6 +1,5 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -25,26 +24,26 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * ArchiveController
  */
-class ArchiveController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class ArchiveController extends ActionController {
 
-  /**
-   * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-   * @inject
-   */
-  protected $eventRepository;
+	/**
+	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
+	 * @inject
+	 */
+	protected $eventRepository;
 
-
-  /**
-   * Displays all Events
-   *
-   * @return void
-   */
-  public function listAction() {
-    $events = $this->eventRepository->findBygone($this->settings['limit'], $this->settings['categories']);
-    $this->view->assign('events', $events);
-  }
+	/**
+	 * Displays all Events
+	 *
+	 * @return void
+	 */
+	public function listAction() {
+		$events = $this->eventRepository->findBygone($this->settings['limit'], $this->settings['categories']);
+		$this->view->assign('events', $events);
+	}
 }

@@ -1,6 +1,5 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -25,130 +24,129 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use GuteBotschafter\GbEvents\Domain\Model\Event;
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller for the Event object
  */
-class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class EventController extends ActionController {
 
-  /**
-   * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-   * @inject
-   */
-  protected $eventRepository;
+	/**
+	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
+	 * @inject
+	 */
+	protected $eventRepository;
 
+	/**
+	 * Displays all Events
+	 *
+	 * @return void
+	 */
+	public function listAction() {
+		switch ($this->settings['displayMode']) {
+			case 'calendar':
+				$this->forward('show', 'Calendar');
+				return;
+				break;
+			case 'archive':
+				$this->forward('list', 'Archive');
+				return;
+				break;
+			default:
+				$events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
+				$this->view->assign('events', $events);
+		}
+	}
 
-  /**
-   * Displays all Events
-   *
-   * @return void
-   */
-  public function listAction() {
-    switch($this->settings['displayMode']) {
-      case 'calendar':
-        return $this->forward('show', 'Calendar');
-        break;
-        ;;
-      case 'archive':
-        return $this->forward('list', 'Archive');
-        break;
-        ;;
-      default:
-        $events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
-        $this->view->assign('events', $events);
-    }
-  }
+	/**
+	 * Displays all Events as a browseable calendar
+	 *
+	 * @param  string $start
+	 * @return void
+	 */
+	public function calendarAction($start = 'today') {
+		GeneralUtility::deprecationLog('[gb_events] EventController::calendar has been deprecated an will be removed in v7.1');
 
+		// Startdatum setzen
+		$startDate = new \DateTime('today');
+		try {
+			$startDate->modify($start);
+		} catch (\Exception $e) {
+			$startDate->modify('midnight');
+		}
 
-  /**
-   * Displays all Events as a browseable calendar
-   *
-   * @param  string $start
-   * @return void
-   */
-  public function calendarAction($start = 'today') {
-    GeneralUtility::deprecationLog('[gb_events] EventController::calendar has been deprecated an will be removed in v7.1');
+		// Start für Kalenderanzeige bestimmen
+		$preDate = clone($startDate);
+		if ($startDate->format('N') !== 1) {
+			$preDate->modify('last monday of previous month');
+		}
 
-    // Startdatum setzen
-    $startDate = new \DateTime('today');
-    try {
-      $startDate->modify($start);
-    } catch(Exception $e) {
-      $startDate->modify('midnight');
-    }
+		// Ende des Monats bestimmen
+		$stopDate = clone($startDate);
+		$stopDate->modify('last day of this month');
+		$stopDate->modify('+86399 seconds');
 
-    // Start für Kalenderanzeige bestimmen
-    $preDate = clone($startDate);
-    if($startDate->format('N') !== 1) {
-      $preDate->modify('last monday of previous month');
-    }
+		$postDate = clone($stopDate);
+		if ($stopDate->format('N') !== 7) {
+			$postDate->modify('next sunday');
+		}
 
-    // Ende des Monats bestimmen
-    $stopDate = clone($startDate);
-    $stopDate->modify('last day of this month');
-    $stopDate->modify('+86399 seconds');
+		// Navigational dates
+		$nextMonth = clone($startDate);
+		$nextMonth->modify('first day of next month');
+		$previousMonth = clone($startDate);
+		$previousMonth->modify('first day of previous month');
 
-    $postDate = clone($stopDate);
-    if($stopDate->format('N') !== 7) {
-      $postDate->modify('next sunday');
-    }
+		$days = array();
+		$runDate = clone($preDate);
+		while ($runDate <= $postDate) {
+			$days[$runDate->format('Y-m-d')] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
+			$runDate->modify('tomorrow');
+		}
 
-    // Navigational dates
-    $nextMonth = clone($startDate);
-    $nextMonth->modify('first day of next month');
-    $previousMonth = clone($startDate);
-    $previousMonth->modify('first day of previous month');
+		$events = $this->eventRepository->findAllBetween($preDate, $postDate, FALSE, $this->settings['categories']);
+		foreach ($events as $eventDay => $eventsThisDay) {
+			$days[$eventDay]['events'] = $eventsThisDay['events'];
+		}
 
-    $days = array();
-    $runDate = clone($preDate);
-    while($runDate <= $postDate) {
-      $days[$runDate->format('Y-m-d')] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
-      $runDate->modify('tomorrow');
-    }
+		$weeks = array();
+		$visibleWeeks = floor(count($days) / 7);
+		for ($i = 0; $i < $visibleWeeks; $i++) {
+			$weeks[] = array_slice($days, $i * 7, 7, TRUE);
+		}
 
-    $events = $this->eventRepository->findAllBetween($preDate, $postDate, FALSE, $this->settings['categories']);
-    foreach($events as $eventDay => $eventsThisDay) {
-      $days[$eventDay]['events'] = $eventsThisDay['events'];
-    }
+		$this->view->assignMultiple(array(
+			'calendar' => $weeks,
+			'navigation' => array(
+				'previous' => $previousMonth,
+				'current' => $startDate,
+				'next' => $nextMonth
+			),
+			'nextMonth' => $nextMonth->format('Y-m-d'),
+			'prevMonth' => $previousMonth->format('Y-m-d')
+		));
+	}
 
-    $weeks = array();
-    $visibleWeeks = floor(count($days)/7);
-    for($i = 0; $i < $visibleWeeks; $i++) {
-      $weeks[] = array_slice($days, $i*7, 7, TRUE);
-    }
+	/**
+	 * Displays a single Event
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
+	public function showAction(Event $event) {
+		$this->view->assign('event', $event);
+	}
 
-    $this->view->assignMultiple(array(
-      'calendar' => $weeks,
-      'navigation' => array(
-        'previous' => $previousMonth,
-        'current' => $startDate,
-        'next' => $nextMonth
-      ),
-      'nextMonth' => $nextMonth->format('Y-m-d'),
-      'prevMonth' => $previousMonth->format('Y-m-d')
-    ));
-  }
-
-
-  /**
-   * Displays a single Event
-   *
-   * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
-   * @return void
-   */
-  public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
-    $this->view->assign('event', $event);
-  }
-
-
-  /**
-   * Displays the upcoming events
-   *
-   * @return void
-   */
-  public function upcomingAction() {
-    GeneralUtility::deprecationLog('[gb_events] EventController::upcoming has been deprecated an will be removed in v7.1');
-    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
-    $this->view->assign('events', $events);
-  }
+	/**
+	 * Displays the upcoming events
+	 *
+	 * @return void
+	 */
+	public function upcomingAction() {
+		GeneralUtility::deprecationLog('[gb_events] EventController::upcoming has been deprecated an will be removed in v7.1');
+		$events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
+		$this->view->assign('events', $events);
+	}
 }

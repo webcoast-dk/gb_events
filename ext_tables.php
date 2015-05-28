@@ -1,13 +1,13 @@
 <?php
-if (!defined ('TYPO3_MODE')){
-  die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+	die ('Access denied.');
 }
 
 # Main Plugin (List and Details view, Export)
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-  'GuteBotschafter.' . $_EXTKEY,
-  'Main',
-  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.main.title'
+	'GuteBotschafter.' . $_EXTKEY,
+	'Main',
+	'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.main.title'
 );
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_main'] = 'pi_flexform';
@@ -16,9 +16,9 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist']['gbevents_main'] = '
 
 # Upcoming Plugin (List of upcoming events)
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-  'GuteBotschafter.' . $_EXTKEY,
-  'Upcoming',
-  'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.upcoming.title'
+	'GuteBotschafter.' . $_EXTKEY,
+	'Upcoming',
+	'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.upcoming.title'
 );
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_upcoming'] = 'pi_flexform';
@@ -26,7 +26,6 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['gbevents_upcoming'] = '
 $TCA['tt_content']['types']['list']['subtypes_excludelist']['gbevents_upcoming'] = 'layout,select_key,recursive';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Terminkalender');
-
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_gbevents_domain_model_event', 'EXT:gb_events/Resources/Private/Language/locallang_csh_tx_gbevents_domain_model_event.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_gbevents_domain_model_event');

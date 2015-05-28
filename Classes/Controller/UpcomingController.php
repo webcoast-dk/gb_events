@@ -1,6 +1,5 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -25,26 +24,26 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * UpcomingController
  */
-class UpcomingController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class UpcomingController extends ActionController {
 
-  /**
-   * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-   * @inject
-   */
-  protected $eventRepository;
+	/**
+	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
+	 * @inject
+	 */
+	protected $eventRepository;
 
-
-  /**
-   * Displays all Events
-   *
-   * @return void
-   */
-  public function listAction() {
-    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
-    $this->view->assign('events', $events);
-  }
+	/**
+	 * Displays all Events
+	 *
+	 * @return void
+	 */
+	public function listAction() {
+		$events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
+		$this->view->assign('events', $events);
+	}
 }

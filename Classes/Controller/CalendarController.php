@@ -1,6 +1,5 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -25,83 +24,83 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller for the calendar view
  */
-class CalendarController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class CalendarController extends ActionController {
 
-  /**
-   * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-   * @inject
-   */
-  protected $eventRepository;
+	/**
+	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
+	 * @inject
+	 */
+	protected $eventRepository;
 
+	/**
+	 * Displays all events as a browseable calendar
+	 *
+	 * @param  string $start
+	 * @return void
+	 */
+	public function showAction($start = 'today') {
+		// Startdatum setzen
+		$startDate = new \DateTime('today');
+		try {
+			$startDate->modify($start);
+		} catch (\Exception $e) {
+			$startDate->modify('midnight');
+		}
 
-  /**
-   * Displays all events as a browseable calendar
-   *
-   * @param  string $start
-   * @return void
-   */
-  public function showAction($start = 'today') {
-    // Startdatum setzen
-    $startDate = new \DateTime('today');
-    try {
-      $startDate->modify($start);
-    } catch(Exception $e) {
-      $startDate->modify('midnight');
-    }
+		// Start für Kalenderanzeige bestimmen
+		$preDate = clone($startDate);
+		if ($startDate->format('N') !== 1) {
+			$preDate->modify('last monday of previous month');
+		}
 
-    // Start für Kalenderanzeige bestimmen
-    $preDate = clone($startDate);
-    if($startDate->format('N') !== 1) {
-      $preDate->modify('last monday of previous month');
-    }
+		// Ende des Monats bestimmen
+		$stopDate = clone($startDate);
+		$stopDate->modify('last day of this month');
+		$stopDate->modify('+86399 seconds');
 
-    // Ende des Monats bestimmen
-    $stopDate = clone($startDate);
-    $stopDate->modify('last day of this month');
-    $stopDate->modify('+86399 seconds');
+		$postDate = clone($stopDate);
+		if ($stopDate->format('N') !== 7) {
+			$postDate->modify('next sunday');
+		}
 
-    $postDate = clone($stopDate);
-    if($stopDate->format('N') !== 7) {
-      $postDate->modify('next sunday');
-    }
+		// Navigational dates
+		$nextMonth = clone($startDate);
+		$nextMonth->modify('first day of next month');
+		$previousMonth = clone($startDate);
+		$previousMonth->modify('first day of previous month');
 
-    // Navigational dates
-    $nextMonth = clone($startDate);
-    $nextMonth->modify('first day of next month');
-    $previousMonth = clone($startDate);
-    $previousMonth->modify('first day of previous month');
+		$days = array();
+		$runDate = clone($preDate);
+		while ($runDate <= $postDate) {
+			$days[$runDate->format('Y-m-d')] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
+			$runDate->modify('tomorrow');
+		}
 
-    $days = array();
-    $runDate = clone($preDate);
-    while($runDate <= $postDate) {
-      $days[$runDate->format('Y-m-d')] = array('date' => clone($runDate), 'events' => array(), 'disabled' => (($runDate < $startDate) || ($runDate > $stopDate)));
-      $runDate->modify('tomorrow');
-    }
+		$events = $this->eventRepository->findAllBetween($preDate, $postDate, FALSE, $this->settings['categories']);
+		foreach ($events as $eventDay => $eventsThisDay) {
+			$days[$eventDay]['events'] = $eventsThisDay['events'];
+		}
 
-    $events = $this->eventRepository->findAllBetween($preDate, $postDate, FALSE, $this->settings['categories']);
-    foreach($events as $eventDay => $eventsThisDay) {
-      $days[$eventDay]['events'] = $eventsThisDay['events'];
-    }
+		$weeks = array();
+		$visibleWeeks = floor(count($days) / 7);
+		for ($i = 0; $i < $visibleWeeks; $i++) {
+			$weeks[] = array_slice($days, $i * 7, 7, TRUE);
+		}
 
-    $weeks = array();
-    $visibleWeeks = floor(count($days)/7);
-    for($i = 0; $i < $visibleWeeks; $i++) {
-      $weeks[] = array_slice($days, $i*7, 7, TRUE);
-    }
-
-    $this->view->assignMultiple(array(
-      'calendar' => $weeks,
-      'navigation' => array(
-        'previous' => $previousMonth,
-        'current' => $startDate,
-        'next' => $nextMonth
-      ),
-      'nextMonth' => $nextMonth->format('Y-m-d'),
-      'prevMonth' => $previousMonth->format('Y-m-d')
-    ));
-  }
+		$this->view->assignMultiple(array(
+			'calendar' => $weeks,
+			'navigation' => array(
+				'previous' => $previousMonth,
+				'current' => $startDate,
+				'next' => $nextMonth
+			),
+			'nextMonth' => $nextMonth->format('Y-m-d'),
+			'prevMonth' => $previousMonth->format('Y-m-d')
+		));
+	}
 }
