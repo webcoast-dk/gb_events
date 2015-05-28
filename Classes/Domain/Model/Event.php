@@ -95,12 +95,12 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   protected $eventTime;
 
-	/**
-	 * images
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
-	 */
-	protected $images;
+  /**
+   * images
+   *
+   * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+   */
+  protected $images;
 
   /**
    * The downloads for this event
@@ -151,10 +151,10 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   protected $recurringExcludeDates;
 
-	public function __construct(){
-		$this->images = new ObjectStorage();
-		$this->downloads = new ObjectStorage();
-	}
+  public function __construct() {
+    $this->images = new ObjectStorage();
+    $this->downloads = new ObjectStorage();
+  }
 
   /**
    * Setup for the Event object
@@ -441,7 +441,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return ObjectStorage
    */
   public function getImages() {
-	  return $this->images;
+    return $this->images;
   }
 
   /**
@@ -456,7 +456,7 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return ObjectStorage
    */
   public function getDownloads() {
-	  return $this->downloads;
+    return $this->downloads;
   }
 
   /**
@@ -859,33 +859,31 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
     return $this->getEventStopDate()->getTimestamp()-$this->getEventDate()->getTimestamp();
   }
 
-	/**
-	 * @param FileReference $image
-	 */
-	public function addImage(FileReference $image){
-		$this->images->attach($image);
-	}
+  /**
+   * @param FileReference $image
+   */
+  public function addImage(FileReference $image) {
+    $this->images->attach($image);
+  }
 
-	/**
-	 * @param FileReference $image
-	 */
-	public function removeImage(FileReference $image){
-		$this->images->detach($image);
-	}
+  /**
+   * @param FileReference $image
+   */
+  public function removeImage(FileReference $image) {
+    $this->images->detach($image);
+  }
 
-	/**
-	 * @param FileReference $download
-	 */
-	public function addDownload(FileReference $download){
-		$this->images->attach($download);
-	}
+  /**
+   * @param FileReference $download
+   */
+  public function addDownload(FileReference $download) {
+    $this->images->attach($download);
+  }
 
-	/**
-	 * @param FileReference $download
-	 */
-	public function removeDownload(FileReference $download){
-		$this->images->detach($download);
-	}
-
-
+  /**
+   * @param FileReference $download
+   */
+  public function removeDownload(FileReference $download) {
+    $this->images->detach($download);
+  }
 }
