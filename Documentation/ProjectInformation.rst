@@ -1,4 +1,4 @@
-﻿=====================
+=====================
 Project Information
 =====================
 
@@ -11,7 +11,7 @@ Releases
 Bugs and Known Issues
 -----------------------------------
 
-Bugs cen be reported using the `Bug Tracker`_. Please include detailed steps how to reproduce the error.
+Bugs can be reported using the `Bug Tracker`_. Please include detailed steps how to reproduce the error.
 
 .. _Bug Tracker: https://bitbucket.org/gutebotschafter/gb_events/issues
 
