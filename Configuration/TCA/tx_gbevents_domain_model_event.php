@@ -295,33 +295,12 @@ return array(
     'images' => array(
       'exclude' => 0,
       'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.images',
-      'config' => array(
-        'type' => 'group',
-        'internal_type' => 'file',
-        'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-        'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
-        'uploadfolder' => 'uploads/tx_gbevents',
-        'show_thumbs' => 1,
-        'size' => 5,
-        'minitems' => 0,
-        'maxitems' => 5,
-      ) ,
-    ) ,
+		'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig("images")
+	),
     'downloads' => array(
       'exclude' => 0,
       'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.downloads',
-      'config' => array(
-        'type' => 'group',
-        'internal_type' => 'file',
-        'allowed' => '',
-        'disallowed' => 'php,php3,php4,php5,phps',
-        'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
-        'uploadfolder' => 'uploads/tx_gbevents',
-        'show_thumbs' => 0,
-        'size' => 5,
-        'minitems' => 0,
-        'maxitems' => 5,
-      ) ,
+      'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig("downloads")
     ) ,
   ) ,
 );
