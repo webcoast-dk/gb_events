@@ -301,6 +301,6 @@ return array(
       'exclude' => 0,
       'label' => 'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.downloads',
       'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig("downloads")
-    ) ,
+    ),
   ) ,
 );

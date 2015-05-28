@@ -24,6 +24,8 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Core\Resource\FileReference;
 
@@ -32,11 +34,14 @@ use TYPO3\CMS\Core\Resource\FileReference;
  */
 class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements EventInterface {
   /**
-   * Configuration Manager
-   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-   * @inject
+   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
    */
   protected $configurationManager;
+
+  /**
+   * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+   */
+  protected $objectManager;
 
   /**
    * Extension settings
@@ -151,20 +156,34 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    */
   protected $recurringExcludeDates;
 
-  public function __construct() {
-    $this->images = new ObjectStorage();
-    $this->downloads = new ObjectStorage();
+  /**
+   * inject the objectManager
+   *
+   * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager $objectManager
+   */
+  public function injectObjectManager(ObjectManagerInterface $objectManager) {
+    $this->objectManager = $objectManager;
   }
 
   /**
-   * Setup for the Event object
+   * inject the configurationManager
+   *
+   * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface configurationManager configurationManager
+   * @return void
+   */
+  public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
+    $this->configurationManager = $configurationManager;
+  }
+
+  /**
+   * Tasks to perform on object initialization
    *
    * @return void
    */
-  public function initializeSettings() {
-    if(is_null($this->settings)) {
-      $this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-    }
+  public function initializeObject() {
+    $this->images = $this->objectManager->get('\\TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+    $this->downloads = $this->objectManager->get('\\TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+    $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
   }
 
   /**
@@ -173,7 +192,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return void
    */
   public function initializeExcludedDates() {
-    $this->initializeSettings();
     if(is_array($this->excludedDates)) {
       return;
     }
@@ -303,7 +321,6 @@ class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements Ev
    * @return array $eventDates
    */
   public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
-    $this->initializeSettings();
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
 
