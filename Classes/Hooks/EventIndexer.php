@@ -24,6 +24,10 @@ namespace GuteBotschafter\GbEvents\Hooks;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Form\FormEngine;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\ArrayUtility;
 
 /**
  *
@@ -32,7 +36,36 @@ namespace GuteBotschafter\GbEvents\Hooks;
  *
  */
 
-class EventIndexer extends KeSearchIndexer {
+class EventIndexer {
+	/**
+	 * Pages to index
+	 *
+	 * @var array
+	 */
+	protected $indexPids = '';
+	/**
+	 * Array containing data of all pages
+	 *
+	 * @var array
+	 */
+	protected $pageRecords;
+	/**
+	 * Status information for user
+	 *
+	 * @var string
+	 */
+	protected $content = '';
+	/**
+	 * The indexer object
+	 * TODO: Find correct type
+	 */
+	protected $indexerObject;
+	/**
+	 * The indexer configuration
+	 *
+	 * @var array
+	 */
+	protected $indexerConfig;
 	/**
 	 * Indexed events
 	 *
@@ -43,39 +76,39 @@ class EventIndexer extends KeSearchIndexer {
 	/**
 	 * Register the indexer configuration
 	 *
-	 * @param  array $params
-	 * @param  array $pObj
-	 * @return void
+	 * @param array                              $params
+	 * @param \TYPO3\CMS\Backend\Form\FormEngine $pObj
 	 */
-	function registerIndexerConfiguration(&$params, $pObj) {
+	function registerIndexerConfiguration(&$params, FormEngine $pObj) {
 		// add item to "type" field
 		$params['items'][] = array(
 			'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',
 			'gbevents_event',
-			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif'
+			ExtensionManagementUtility::extRelPath('gb_events') . 'Resources/Public/Icons/selicon_indexer_gbevents_event.gif'
 		);
-		$TCA['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
-		$TCA['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
+		$GLOBALS['TCA']['tx_kesearch_indexerconfig']['columns']['target_pid']['displayCond'] .= ',gbevents_event';
+		$GLOBALS['TCA']['tx_kesearch_indexerconfig']['columns']['sysfolder']['displayCond'] .= ',gbevents_event';
 	}
 
 	/**
 	 * Custom index for ke_search to index content provided
 	 * by the extension gb_events
 	 *
-	 * @param   array $indexerConfig
-	 * @param   array $indexerObject
-	 * @return  string $output
-	 * @author  Morton Jonuschat <mj@gute-botschafter.de>
+	 * @param array                $indexerConfig
+	 * @param \tx_kesearch_indexer $indexerObject
+	 * @return bool|string
 	 */
-	public function customIndexer(&$indexerConfig, &$indexerObject) {
-		parent::customIndexer($indexerConfig, $indexerObject);
+	public function customIndexer(&$indexerConfig, \tx_kesearch_indexer &$indexerObject) {
+		$this->indexerConfig = $indexerConfig;
+		$this->indexerObject = $indexerObject;
+		$this->content = '';
 
 		// bail out if we are passed a config that is not of our type
 		if ($indexerConfig['type'] !== 'gbevents_event') {
 			return FALSE;
 		}
 
-		foreach (\TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], TRUE) as $pid) {
+		foreach (ArrayUtility::trimExplode(',', $this->indexerConfig['sysfolder'], TRUE) as $pid) {
 			$this->indexEvents($pid);
 		}
 		$this->content .= '<p><b>Indexer "' . $this->indexerConfig['title'] . '": ' . $this->eventCount . ' events have been indexed.</b></p>' . "\n";
@@ -102,11 +135,10 @@ class EventIndexer extends KeSearchIndexer {
 	/**
 	 * Process all title/book records for a given page id
 	 *
-	 * @param  \integer $pageId
-	 * @return \void
+	 * @param int $pageId
 	 */
 	protected function indexEvents($pageId) {
-		$events = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$events = $this->getDatabaseConnection()->exec_SELECTquery(
 			'uid, pid, tstamp, title, location',
 			'tx_gbevents_domain_model_event',
 			'pid = ' . $pageId,
@@ -114,11 +146,11 @@ class EventIndexer extends KeSearchIndexer {
 			''
 		);
 
-		while ($event = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($events)) {
+		while ($event = $this->getDatabaseConnection()->sql_fetch_assoc($events)) {
 			$indexTitle = $event['title'];
 			$abstract = $event['title'] . "\n" . $event['location'];
 			$fullContent = $this->renderEventContent($event);
-			$tagContent = $this->pageTags[intval($this->indexerConfig['sysfolder'])]['tags'];
+			$tagContent = '';
 
 			$params = array(
 				'tx_gbevents_main[action]' => 'show',
@@ -136,7 +168,7 @@ class EventIndexer extends KeSearchIndexer {
 			// Honor hooks to modify the indexed data
 			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyEventIndexEntry'])) {
 				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyEventIndexEntry'] as $_classRef) {
-					$_procObj = &\TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
+					$_procObj = &GeneralUtility::getUserObj($_classRef);
 					$_procObj->modifyEventIndexEntry(
 						$indexTitle,
 						$abstract,
@@ -169,5 +201,12 @@ class EventIndexer extends KeSearchIndexer {
 
 			$this->eventCount++;
 		}
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection;
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

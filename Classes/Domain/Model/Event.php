@@ -342,6 +342,7 @@ class Event extends AbstractEntity implements EventInterface {
 		$recurringDays = $this->getRecurringDaysAsText();
 		$eventDates = array();
 		foreach ($recurringMonths as $workDate) {
+			/** @var \DateTime $workDate */
 			$workingMonth = $workDate->format('n');
 
 			// Weeks have been selected, check every nth week / day combination
@@ -420,7 +421,7 @@ class Event extends AbstractEntity implements EventInterface {
 		$myStopDate = clone($this->getEventStopDate());
 		if (!$this->settings['startDateOnly']) {
 			while ($myStartDate <= $myStopDate) {
-				if (!$this->isExcludedDate($workDate)) {
+				if (!$this->isExcludedDate($myStartDate)) {
 					$eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
 				}
 				$myStartDate->modify('+1 day');
@@ -735,8 +736,6 @@ class Event extends AbstractEntity implements EventInterface {
 	 * @return string $rRule
 	 */
 	protected function buildRecurrenceRule() {
-		$rRule = '';
-
 		$shortDays = array(
 			'Monday' => 'MO',
 			'Tuesday' => 'TU',
@@ -804,7 +803,7 @@ class Event extends AbstractEntity implements EventInterface {
 	/**
 	 * Gets the Dates on which recurring events do not occur.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	protected function getRecurringExcludeDatesArray() {
 		return preg_split("#[\r\n]+|$#", $this->getRecurringExcludeDates());
@@ -816,7 +815,7 @@ class Event extends AbstractEntity implements EventInterface {
 	 * @param string $recurringExcludeDates the recurring exclude dates
 	 * @return void
 	 */
-	public function setRecurringExcludeDates(string $recurringExcludeDates) {
+	public function setRecurringExcludeDates($recurringExcludeDates) {
 		$this->recurringExcludeDates = $recurringExcludeDates;
 	}
 

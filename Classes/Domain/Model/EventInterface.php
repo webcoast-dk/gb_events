@@ -187,7 +187,7 @@ interface EventInterface {
 	 * @param string $recurringExcludeDates
 	 * @return void
 	 */
-	public function setRecurringExcludeDates(string $recurringExcludeDates);
+	public function setRecurringExcludeDates($recurringExcludeDates);
 
 	/**
 	 * @return string

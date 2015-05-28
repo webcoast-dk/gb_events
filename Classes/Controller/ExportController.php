@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use GuteBotschafter\GbEvents\Domain\Model\Event;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -55,6 +56,7 @@ class ExportController extends ActionController {
 		$events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
 		$content = array();
 		foreach ($events as $event) {
+			/** @var Event $event */
 			$content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);
 		}
 		$this->renderCalendar(join("\n", $content));
@@ -63,18 +65,19 @@ class ExportController extends ActionController {
 	/**
 	 * Exports a single Event as iCalendar file
 	 *
-	 * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event the Event to export
-	 * @return void
+	 * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
+	 * @throws \Exception
 	 */
-	public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
+	public function showAction(Event $event) {
 		$this->renderCalendar($event->iCalendarData(), $event->iCalendarFilename());
 	}
 
 	/**
 	 * Set content headers for the iCalendar data
 	 *
-	 * @param  string $data
-	 * @param  string $filename
+	 * @param string $content
+	 * @param string $filename
+	 * @throws \Exception
 	 * @return void
 	 */
 	protected function setHeaders($content, $filename) {
@@ -101,7 +104,7 @@ class ExportController extends ActionController {
 	 *
 	 * @param  string $events
 	 * @param  string $filename
-	 * @return void
+	 * @throws \Exception
 	 */
 	protected function renderCalendar($events, $filename = 'calendar.ics') {
 		if (trim($events) === '') {

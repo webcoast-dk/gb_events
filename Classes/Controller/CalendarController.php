@@ -48,7 +48,7 @@ class CalendarController extends ActionController {
 		$startDate = new \DateTime('today');
 		try {
 			$startDate->modify($start);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$startDate->modify('midnight');
 		}
 

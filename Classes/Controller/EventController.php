@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use GuteBotschafter\GbEvents\Domain\Model\Event;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -46,11 +47,13 @@ class EventController extends ActionController {
 	public function listAction() {
 		switch ($this->settings['displayMode']) {
 			case 'calendar':
-				return $this->forward('show', 'Calendar');
-				break;;;
+				$this->forward('show', 'Calendar');
+				return;
+				break;
 			case 'archive':
-				return $this->forward('list', 'Archive');
-				break;;;
+				$this->forward('list', 'Archive');
+				return;
+				break;
 			default:
 				$events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
 				$this->view->assign('events', $events);
@@ -70,7 +73,7 @@ class EventController extends ActionController {
 		$startDate = new \DateTime('today');
 		try {
 			$startDate->modify($start);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$startDate->modify('midnight');
 		}
 
@@ -129,10 +132,10 @@ class EventController extends ActionController {
 	/**
 	 * Displays a single Event
 	 *
-	 * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
+	 * @param Event $event
 	 * @return void
 	 */
-	public function showAction(\GuteBotschafter\GbEvents\Domain\Model\Event $event) {
+	public function showAction(Event $event) {
 		$this->view->assign('event', $event);
 	}
 
