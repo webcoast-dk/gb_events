@@ -1,5 +1,6 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
+
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -31,20 +32,19 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class UpcomingController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
-  /**
-   * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-   * @inject
-   */
-  protected $eventRepository;
+	/**
+	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
+	 * @inject
+	 */
+	protected $eventRepository;
 
-
-  /**
-   * Displays all Events
-   *
-   * @return void
-   */
-  public function listAction() {
-    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
-    $this->view->assign('events', $events);
-  }
+	/**
+	 * Displays all Events
+	 *
+	 * @return void
+	 */
+	public function listAction() {
+		$events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
+		$this->view->assign('events', $events);
+	}
 }
