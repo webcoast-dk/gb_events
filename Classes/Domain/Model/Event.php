@@ -25,6 +25,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Core\Resource\FileReference;
@@ -32,7 +33,7 @@ use TYPO3\CMS\Core\Resource\FileReference;
 /**
  * A single event
  */
-class Event extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements EventInterface {
+class Event extends AbstractEntity implements EventInterface {
 	/**
 	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 	 */

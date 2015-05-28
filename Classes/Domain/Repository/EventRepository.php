@@ -26,11 +26,12 @@ namespace GuteBotschafter\GbEvents\Domain\Repository;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility as GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for GuteBotschafter\GbEvents\Domain\Model\Event
  */
-class EventRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class EventRepository extends Repository {
 	/**
 	 * Find all events between $startDate and $stopDate
 	 *

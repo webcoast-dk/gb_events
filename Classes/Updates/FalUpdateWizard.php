@@ -26,8 +26,9 @@ namespace GuteBotschafter\GbEvents\Updates;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Updates\AbstractUpdate;
 
-class FalUpdateWizard extends \TYPO3\CMS\Install\Updates\AbstractUpdate {
+class FalUpdateWizard extends AbstractUpdate {
 	const UPLOADS_FOLDER = "uploads/tx_gbevents/";
 	const FAL_FOLDER_IMAGES = "_migrated/gbevents_images";
 	const FAL_FOLDER_DOWNLOADS = "_migrated/gbevents_downloads";

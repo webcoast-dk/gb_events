@@ -1,8 +1,6 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
 
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,11 +24,13 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller for the Event object
  */
-class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class EventController extends ActionController {
 
 	/**
 	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
