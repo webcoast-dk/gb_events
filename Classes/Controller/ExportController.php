@@ -25,12 +25,11 @@ namespace GuteBotschafter\GbEvents\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use GuteBotschafter\GbEvents\Domain\Model\Event;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * ExportController
  */
-class ExportController extends ActionController {
+class ExportController extends BaseController {
 	/**
 	 * Prefix for iCalendar files
 	 */
@@ -40,12 +39,6 @@ class ExportController extends ActionController {
 	 * Postfix for iCalendar files
 	 */
 	const VCALENDAR_END = "END:VCALENDAR";
-
-	/**
-	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-	 * @inject
-	 */
-	protected $eventRepository;
 
 	/**
 	 * Displays all Events

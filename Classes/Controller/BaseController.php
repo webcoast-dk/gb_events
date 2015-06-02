@@ -24,18 +24,25 @@ namespace GuteBotschafter\GbEvents\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use GuteBotschafter\GbEvents\Domain\Repository\EventRepository;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * ArchiveController
  */
-class ArchiveController extends BaseController {
+abstract class BaseController extends ActionController {
 	/**
-	 * Displays all Events
+	 * @var EventRepository
+	 */
+	protected $eventRepository;
+
+	/**
+	 * inject the eventRepository
 	 *
+	 * @param \GuteBotschafter\GbEvents\Domain\Repository\EventRepository eventRepository
 	 * @return void
 	 */
-	public function listAction() {
-		$events = $this->eventRepository->findBygone($this->settings['limit'], $this->settings['categories']);
-		$this->view->assign('events', $events);
+	public function injectEventRepository(EventRepository $eventRepository) {
+		$this->eventRepository = $eventRepository;
 	}
 }

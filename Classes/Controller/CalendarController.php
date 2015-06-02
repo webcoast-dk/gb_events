@@ -24,19 +24,11 @@ namespace GuteBotschafter\GbEvents\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller for the calendar view
  */
-class CalendarController extends ActionController {
-
-	/**
-	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-	 * @inject
-	 */
-	protected $eventRepository;
-
+class CalendarController extends BaseController {
 	/**
 	 * Displays all events as a browseable calendar
 	 *

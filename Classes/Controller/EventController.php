@@ -26,19 +26,11 @@ namespace GuteBotschafter\GbEvents\Controller;
  ***************************************************************/
 use GuteBotschafter\GbEvents\Domain\Model\Event;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller for the Event object
  */
-class EventController extends ActionController {
-
-	/**
-	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
-	 * @inject
-	 */
-	protected $eventRepository;
-
+class EventController extends BaseController {
 	/**
 	 * Displays all Events
 	 *
