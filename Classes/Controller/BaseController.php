@@ -25,6 +25,7 @@ namespace GuteBotschafter\GbEvents\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use GuteBotschafter\GbEvents\Domain\Repository\EventRepository;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -32,9 +33,14 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 abstract class BaseController extends ActionController {
 	/**
-	 * @var EventRepository
+	 * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
 	 */
 	protected $eventRepository;
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper
+	 */
+	protected $dataMapper;
 
 	/**
 	 * inject the eventRepository
@@ -44,5 +50,48 @@ abstract class BaseController extends ActionController {
 	 */
 	public function injectEventRepository(EventRepository $eventRepository) {
 		$this->eventRepository = $eventRepository;
+	}
+
+	/**
+	 * Dynamically add the right tags to the page cache for a details or list view
+	 *
+	 * @param mixed $items
+	 * @param string|array  $additionalTags
+	 */
+	protected function addCacheTags($items, $additionalTags = NULL) {
+		if (TYPO3_MODE === 'BE') {
+			return;
+		}
+
+		if (!is_array($items) && !$items instanceof \Traversable && !$items instanceof \ArrayAccess) {
+			$items = array($items);
+		}
+		if(!is_array($additionalTags)) {
+			$additionalTags = array((string)$additionalTags);
+		}
+
+		$tags = $additionalTags;
+		foreach($items as $item) {
+			if($item instanceof AbstractEntity) {
+				$table = $this->getDataMapper()->convertClassNameToTableName(get_class($item));
+				$uid = $item->getUid();
+				$tags[] = sprintf('%s_%s', $table, $uid);
+			} elseif((string)$item !== '') {
+				$tags[] = (string)$item;
+			}
+		}
+
+		if (!empty($tags)) {
+			$GLOBALS['TSFE']->addCacheTags($tags);
+		}
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper
+	 */
+	protected function getDataMapper() {
+		if (!isset($this->dataMapper)) {
+			return $this->dataMapper = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Mapper\\DataMapper');
+		}
 	}
 }
