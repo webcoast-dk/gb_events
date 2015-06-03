@@ -84,6 +84,7 @@ class CalendarController extends BaseController {
 			$weeks[] = array_slice($days, $i * 7, 7, TRUE);
 		}
 
+		$this->addCacheTags($events, 'tx_gbevents_domain_model_event');
 		$this->view->assignMultiple(array(
 			'calendar' => $weeks,
 			'navigation' => array(

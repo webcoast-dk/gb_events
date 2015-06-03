@@ -48,6 +48,7 @@ class EventController extends BaseController {
 				break;
 			default:
 				$events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
+				$this->addCacheTags($events, 'tx_gbevents_domain_model_event');
 				$this->view->assign('events', $events);
 		}
 	}
@@ -109,6 +110,7 @@ class EventController extends BaseController {
 			$weeks[] = array_slice($days, $i * 7, 7, TRUE);
 		}
 
+		$this->addCacheTags($events, 'tx_gbevents_domain_model_event');
 		$this->view->assignMultiple(array(
 			'calendar' => $weeks,
 			'navigation' => array(
@@ -128,6 +130,7 @@ class EventController extends BaseController {
 	 * @return void
 	 */
 	public function showAction(Event $event) {
+		$this->addCacheTags($event);
 		$this->view->assign('event', $event);
 	}
 
@@ -139,6 +142,7 @@ class EventController extends BaseController {
 	public function upcomingAction() {
 		GeneralUtility::deprecationLog('[gb_events] EventController::upcoming has been deprecated an will be removed in v7.1');
 		$events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents'], $this->settings['categories']);
+		$this->addCacheTags($events, 'tx_gbevents_domain_model_event');
 		$this->view->assign('events', $events);
 	}
 }

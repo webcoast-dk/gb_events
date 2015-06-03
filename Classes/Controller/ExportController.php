@@ -52,6 +52,7 @@ class ExportController extends BaseController {
 			/** @var Event $event */
 			$content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);
 		}
+		$this->addCacheTags($events, 'tx_gbevents_domain_model_event');
 		$this->renderCalendar(join("\n", $content));
 	}
 
@@ -62,6 +63,7 @@ class ExportController extends BaseController {
 	 * @throws \Exception
 	 */
 	public function showAction(Event $event) {
+		$this->addCacheTags($event);
 		$this->renderCalendar($event->iCalendarData(), $event->iCalendarFilename());
 	}
 
