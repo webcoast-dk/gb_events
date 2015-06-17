@@ -27,7 +27,7 @@ $EM_CONF[$_EXTKEY] = array (
   'modify_tables' => '',
   'clearCacheOnLoad' => 0,
   'lockType' => '',
-  'version' => '6.2.3',
+  'version' => '6.2.4',
   'constraints' =>
   array (
     'depends' =>
@@ -41,7 +41,7 @@ $EM_CONF[$_EXTKEY] = array (
     array (
     ),
   ),
-  'comment' => 'Fix calls to ArrayUtility',
+  'comment' => 'Make it possible to show events that have started but not yet finished.',
   'user' => 'gutebotschafter',
 );
 
