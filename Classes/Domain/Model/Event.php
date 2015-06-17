@@ -296,9 +296,10 @@ class Event extends AbstractEntity implements EventInterface {
    *
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
+   * @param bool      $expandedList
    * @return array
    */
-  public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
+  public function getEventDates(\DateTime $startDate, \DateTime $stopDate, $expandedList = FALSE) {
     $this->initializeSettings();
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
@@ -377,7 +378,7 @@ class Event extends AbstractEntity implements EventInterface {
           if($addCurrentDay && !$this->isExcludedDate($workDate)) {
             if($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
               $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-              if(!$this->settings['startDateOnly']) {
+              if(!$this->settings['startDateOnly'] || $expandedList) {
                 $re_StartDate = clone($workDate);
                 $difference = $this->getEventDate()->diff($re_StartDate);
                 $re_StopDate = clone($this->getEventStopDate());
@@ -395,7 +396,7 @@ class Event extends AbstractEntity implements EventInterface {
     }
     $myStartDate = clone($this->getEventDate());
     $myStopDate = clone($this->getEventStopDate());
-    if(!$this->settings['startDateOnly']) {
+    if(!$this->settings['startDateOnly'] || $expandedList) {
       while($myStartDate <= $myStopDate) {
         if(!$this->isExcludedDate($myStartDate)) {
           $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);

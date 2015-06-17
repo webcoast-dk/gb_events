@@ -133,7 +133,7 @@ class EventRepository extends Repository {
     $today = new \DateTime('midnight');
     $days = array();
     foreach($events as $event) {
-      foreach($event->getEventDates($startDate, $stopDate) as $eventDate) {
+      foreach($event->getEventDates($startDate, $stopDate, $grouped) as $eventDate) {
         if(($grouped === FALSE && $skipTodayCheck === FALSE && $eventDate->format('U') < $today->format('U')) || ($grouped === TRUE && $eventDate->format('U') < $startDate->format('U'))) {
           continue;
         }
@@ -142,7 +142,9 @@ class EventRepository extends Repository {
         if($grouped) {
           $days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $recurringEvent;
         } else {
-          $days[$eventDate->format('Y-m-d') . '_' . $event->getUniqueIdentifier()] = $recurringEvent;
+          if($recurringEvent->getEventStopDate() >= $today) {
+            $days[$eventDate->format('Y-m-d') . '_' . $event->getUniqueIdentifier()] = $recurringEvent;
+          }
         }
       }
     }
