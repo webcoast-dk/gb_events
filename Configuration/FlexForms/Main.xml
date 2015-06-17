@@ -3,36 +3,26 @@
 		<sDEF>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>
-						LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.sheetTitle
-					</sheetTitle>
+					<sheetTitle>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.sheetTitle</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<settings.displayMode>
 						<TCEforms>
-							<label>
-								LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode
-							</label>
+							<label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode</label>
 							<config>
 								<type>select</type>
 								<items type="array">
 									<numIndex index="0" type="array">
-										<numIndex index="0">
-											LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.list
-										</numIndex>
+										<numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.list</numIndex>
 										<numIndex index="1">list</numIndex>
 									</numIndex>
 									<numIndex index="1" type="array">
-										<numIndex index="0">
-											LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.archive
-										</numIndex>
+										<numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.archive</numIndex>
 										<numIndex index="1">archive</numIndex>
 									</numIndex>
 									<numIndex index="2" type="array">
-										<numIndex index="0">
-											LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.calendar
-										</numIndex>
+										<numIndex index="0">LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.display_mode.calendar</numIndex>
 										<numIndex index="1">calendar</numIndex>
 									</numIndex>
 								</items>
@@ -44,9 +34,7 @@
 					</settings.displayMode>
 					<settings.years>
 						<TCEforms>
-							<label>
-								LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.years
-							</label>
+							<label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.years</label>
 							<config>
 								<type>input</type>
 								<eval>int</eval>
@@ -58,9 +46,7 @@
 					</settings.years>
 					<settings.detailsPid>
 						<TCEforms>
-							<label>
-								LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.details_pid
-							</label>
+							<label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.details_pid</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -79,9 +65,7 @@
 					</settings.detailsPid>
 					<settings.startDateOnly>
 						<TCEforms>
-							<label>
-								LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.startDateOnly
-							</label>
+							<label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.startDateOnly</label>
 							<config>
 								<type>check</type>
 								<default>0</default>
@@ -91,9 +75,7 @@
 					</settings.startDateOnly>
 					<settings.showStartedEvents>
 						<TCEforms>
-							<label>
-								LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.showStartedEvents
-							</label>
+							<label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.showStartedEvents</label>
 							<config>
 								<type>check</type>
 								<default>0</default>
@@ -108,9 +90,7 @@
 					</settings.showStartedEvents>
 					<settings.categories>
 						<TCEforms>
-							<label>
-								LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.categories:
-							</label>
+							<label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.categories</label>
 							<config>
 								<type>select</type>
 								<autoSizeMax>50</autoSizeMax>
