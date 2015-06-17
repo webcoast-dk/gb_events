@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
@@ -184,8 +185,14 @@ class Event extends AbstractEntity implements EventInterface {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->images = $this->objectManager->get('\\TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
-		$this->downloads = $this->objectManager->get('\\TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		if($this->objectManager === NULL) {
+			$this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		}
+		if($this->configurationManager === NULL) {
+			$this->configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
+		}
+		$this->images = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$this->downloads = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
 		$this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 	}
 
