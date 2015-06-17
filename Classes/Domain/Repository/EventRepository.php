@@ -193,9 +193,10 @@ class EventRepository extends Repository {
 	 * @return array
 	 */
 	protected function resolveRecurringEvents(QueryResultInterface $events, $grouped = FALSE, \DateTime $startDate, \DateTime $stopDate, $checkDuration = FALSE, $limit = 0) {
+		$today = new \DateTime('midnight today');
 		$days = array();
 		foreach ($events as $event) {
-			foreach ($event->getEventDates($startDate, $stopDate) as $eventDate) {
+			foreach ($event->getEventDates($startDate, $stopDate, $grouped) as $eventDate) {
 				/** @var \DateTime $eventDate */
 				if ($grouped === FALSE) {
 					if ($checkDuration === FALSE && !$this->isVisibleEvent($eventDate)) {
@@ -214,7 +215,9 @@ class EventRepository extends Repository {
 				if ($grouped) {
 					$days[$eventDate->format('Y-m-d')]['events'][$event->getUid()] = $recurringEvent;
 				} else {
-					$days[$eventDate->format('Y-m-d') . '_' . $event->getUniqueIdentifier()] = $recurringEvent;
+					if($recurringEvent->getEventStopDate() >= $today) {
+						$days[$eventDate->format('Y-m-d') . '_' . $event->getUniqueIdentifier()] = $recurringEvent;
+					}
 				}
 			}
 		}
