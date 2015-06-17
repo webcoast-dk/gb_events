@@ -51,7 +51,7 @@ class ExportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    * @return string The rendered view
    */
   public function listAction() {
-    $events = $this->eventRepository->findAll($this->settings['years']);
+    $events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents']);
     $content = array();
     foreach ($events as $event) {
       $content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);

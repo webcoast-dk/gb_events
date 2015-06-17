@@ -44,7 +44,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    * @return void
    */
   public function listAction() {
-    $events = $this->eventRepository->findAll($this->settings['years']);
+    $events = $this->eventRepository->findAll($this->settings['years'], (bool)$this->settings['showStartedEvents']);
     $this->view->assign('events', $events);
   }
 
@@ -134,7 +134,7 @@ class EventController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
    * @return void
    */
   public function upcomingAction() {
-    $events = $this->eventRepository->findUpcoming($this->settings['limit']);
+    $events = $this->eventRepository->findUpcoming($this->settings['limit'], (bool)$this->settings['showStartedEvents']);
     $this->view->assign('events', $events);
   }
 

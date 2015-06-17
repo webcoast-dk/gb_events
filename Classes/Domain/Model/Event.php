@@ -34,7 +34,6 @@ use TYPO3\CMS\Extbase\Utility\ArrayUtility;
 class Event extends AbstractEntity implements EventInterface {
   /**
    * Configuration Manager
-   *
    * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
    * @inject
    */
@@ -297,10 +296,9 @@ class Event extends AbstractEntity implements EventInterface {
    *
    * @param \DateTime $startDate
    * @param \DateTime $stopDate
-   * @param bool      $noSummarize This flag is used to indicate a calendar view
    * @return array
    */
-  public function getEventDates(\DateTime $startDate, \DateTime $stopDate, $noSummarize = FALSE) {
+  public function getEventDates(\DateTime $startDate, \DateTime $stopDate) {
     $this->initializeSettings();
     $oneDay = new \DateInterval('P1D');
     $oneMonth = new \DateInterval('P1M');
@@ -397,22 +395,15 @@ class Event extends AbstractEntity implements EventInterface {
     }
     $myStartDate = clone($this->getEventDate());
     $myStopDate = clone($this->getEventStopDate());
-    if($this->settings['startDateOnly'] && $noSummarize === FALSE) {
-      if($this->settings['showStartedEvents']) {
-        $today = new \DateTime('midnight');
-        if($myStartDate < $myStopDate && $today > $myStartDate && $today <= $myStopDate) {
-          $eventDates[$today->format('Y-m-d')] = clone($today);
-        }
-      } else {
-        $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
-      }
-    } else {
+    if(!$this->settings['startDateOnly']) {
       while($myStartDate <= $myStopDate) {
         if(!$this->isExcludedDate($myStartDate)) {
           $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
         }
         $myStartDate->modify('+1 day');
       }
+    } else {
+      $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
     }
 
     $eventDates[$this->getEventDate()->format('Y-m-d')] = $this->getEventDate();
