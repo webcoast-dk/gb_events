@@ -91,7 +91,8 @@ abstract class BaseController extends ActionController {
 	 */
 	protected function getDataMapper() {
 		if (!isset($this->dataMapper)) {
-			return $this->dataMapper = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Mapper\\DataMapper');
+			$this->dataMapper = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Mapper\\DataMapper');
 		}
+		return $this->dataMapper;
 	}
 }
