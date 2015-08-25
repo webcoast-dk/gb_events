@@ -24,17 +24,11 @@ namespace GuteBotschafter\GbEvents\Hooks;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Backend\Form\FormEngine;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ArrayUtility;
-
-/**
- *
- * @package gb_events
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
- */
 
 class EventIndexer {
 	/**
@@ -76,7 +70,7 @@ class EventIndexer {
 	/**
 	 * Register the indexer configuration
 	 *
-	 * @param array                              $params
+	 * @param array $params
 	 * @param \TYPO3\CMS\Backend\Form\FormEngine $pObj
 	 */
 	function registerIndexerConfiguration(&$params, FormEngine $pObj) {
@@ -94,7 +88,7 @@ class EventIndexer {
 	 * Custom index for ke_search to index content provided
 	 * by the extension gb_events
 	 *
-	 * @param array                $indexerConfig
+	 * @param array $indexerConfig
 	 * @param \tx_kesearch_indexer $indexerObject
 	 * @return bool|string
 	 */

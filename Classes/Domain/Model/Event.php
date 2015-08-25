@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -185,10 +186,10 @@ class Event extends AbstractEntity implements EventInterface {
 	 * @return void
 	 */
 	public function initializeObject() {
-		if($this->objectManager === NULL) {
+		if ($this->objectManager === NULL) {
 			$this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		}
-		if($this->configurationManager === NULL) {
+		if ($this->configurationManager === NULL) {
 			$this->configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
 		}
 		$this->images = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
@@ -328,7 +329,7 @@ class Event extends AbstractEntity implements EventInterface {
 	 *
 	 * @param \DateTime $startDate
 	 * @param \DateTime $stopDate
-	 * @param bool      $expandedList
+	 * @param bool $expandedList
 	 * @return array $eventDates
 	 */
 	public function getEventDates(\DateTime $startDate, \DateTime $stopDate, $expandedList = FALSE) {
@@ -363,7 +364,7 @@ class Event extends AbstractEntity implements EventInterface {
 								continue;
 							}
 							$eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-							if(!$this->settings['startDateOnly'] || $expandedList) {
+							if (!$this->settings['startDateOnly'] || $expandedList) {
 								$re_StartDate = clone($workDate);
 								$difference = $this->getEventDate()->diff($re_StartDate);
 								$re_StopDate = clone($this->getEventStopDate());
@@ -409,7 +410,7 @@ class Event extends AbstractEntity implements EventInterface {
 					if ($addCurrentDay && !$this->isExcludedDate($workDate)) {
 						if ($workDate >= $this->getEventDate() && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop()) && $workDate >= $startDate && $workDate <= $stopDate) {
 							$eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-							if(!$this->settings['startDateOnly'] || $expandedList) {
+							if (!$this->settings['startDateOnly'] || $expandedList) {
 								$re_StartDate = clone($workDate);
 								$difference = $this->getEventDate()->diff($re_StartDate);
 								$re_StopDate = clone($this->getEventStopDate());
@@ -427,7 +428,7 @@ class Event extends AbstractEntity implements EventInterface {
 		}
 		$myStartDate = clone($this->getEventDate());
 		$myStopDate = clone($this->getEventStopDate());
-		if(!$this->settings['startDateOnly'] || $expandedList) {
+		if (!$this->settings['startDateOnly'] || $expandedList) {
 			while ($myStartDate <= $myStopDate) {
 				if (!$this->isExcludedDate($myStartDate)) {
 					$eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);

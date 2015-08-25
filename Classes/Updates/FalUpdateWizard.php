@@ -25,6 +25,7 @@ namespace GuteBotschafter\GbEvents\Updates;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\AbstractUpdate;
 
@@ -134,7 +135,7 @@ class FalUpdateWizard extends AbstractUpdate {
 	/**
 	 * Performs the database update.
 	 *
-	 * @param array &$dbQueries      Queries done in this update
+	 * @param array &$dbQueries Queries done in this update
 	 * @param mixed &$customMessages Custom messages
 	 * @return boolean TRUE on success, FALSE on error
 	 */
@@ -164,7 +165,7 @@ class FalUpdateWizard extends AbstractUpdate {
 	/**
 	 * Processes the actual transformation from CSV to sys_file_references
 	 *
-	 * @param array  $record
+	 * @param array $record
 	 * @param string $field
 	 * @return void
 	 */

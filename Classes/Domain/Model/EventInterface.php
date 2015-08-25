@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**

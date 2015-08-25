@@ -24,6 +24,7 @@ namespace GuteBotschafter\GbEvents\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use GuteBotschafter\GbEvents\Domain\Repository\EventRepository;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -56,7 +57,7 @@ abstract class BaseController extends ActionController {
 	 * Dynamically add the right tags to the page cache for a details or list view
 	 *
 	 * @param mixed $items
-	 * @param string|array  $additionalTags
+	 * @param string|array $additionalTags
 	 */
 	protected function addCacheTags($items, $additionalTags = NULL) {
 		if (TYPO3_MODE === 'BE') {
@@ -66,17 +67,17 @@ abstract class BaseController extends ActionController {
 		if (!is_array($items) && !$items instanceof \Traversable && !$items instanceof \ArrayAccess) {
 			$items = array($items);
 		}
-		if(!is_array($additionalTags)) {
+		if (!is_array($additionalTags)) {
 			$additionalTags = array((string)$additionalTags);
 		}
 
 		$tags = $additionalTags;
-		foreach($items as $item) {
-			if($item instanceof AbstractEntity) {
+		foreach ($items as $item) {
+			if ($item instanceof AbstractEntity) {
 				$table = $this->getDataMapper()->convertClassNameToTableName(get_class($item));
 				$uid = $item->getUid();
 				$tags[] = sprintf('%s_%s', $table, $uid);
-			} elseif((string)$item !== '') {
+			} elseif ((string)$item !== '') {
 				$tags[] = (string)$item;
 			}
 		}
