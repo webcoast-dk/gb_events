@@ -1,65 +1,10 @@
-<f:layout name="Default"/>
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+		 xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-This Template is responsible for creating a table of domain objects.
+	<f:layout name="Default"/>
 
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/Kickstarter/settings.yaml:
-	Resources:
-		Private:
-			Templates:
-				List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the kickstarter
-
-<f:section name="main">
-	<h1>Listing for Event</h1>
-
-	<f:flashMessages/>
-
-	<table class="tx_gbevents">
-		<tr>
-			<th>
-				<f:translate key="tx_gbevents_domain_model_event.title"/>
-			</th>
-			<th>
-				<f:translate key="tx_gbevents_domain_model_event.teaser"/>
-			</th>
-			<th>
-				<f:translate key="tx_gbevents_domain_model_event.description"/>
-			</th>
-			<th>
-				<f:translate key="tx_gbevents_domain_model_event.location"/>
-			</th>
-			<th>
-				<f:translate key="tx_gbevents_domain_model_event.event_date"/>
-			</th>
-			<th>
-				<f:translate key="tx_gbevents_domain_model_event.event_time"/>
-			</th>
-			<th></th>
-		</tr>
-
-		<f:for each="{events}" as="event">
-			<tr>
-				<td>
-					<f:link.action action="show" arguments="{event : event}"> {event.title}</f:link.action>
-				</td>
-				<td>{event.teaser}</td>
-				<td>{event.description -> f:format.html()}</td>
-				<td>{event.location}</td>
-				<td>{event.eventDate -> f:format.date()}</td>
-				<td>{event.eventTime}</td>
-				<td>
-					<f:link.action action="show" controller="Export" arguments="{event : event}">
-						<f:translate key="tx_gbevents_domain_model_event.export"/>
-					</f:link.action>
-				</td>
-			</tr>
-		</f:for>
-	</table>
-
-	<f:link.action action="list" controller="Export">
-		<f:translate key="tx_gbevents_domain_model_event.export_all"/>
-	</f:link.action>
-</f:section>
+	<f:section name="main">
+		<h2>All events</h2>
+		<f:render partial="Event/Table" section="main" arguments="{events:events, settings:settings, exportEnabled: '1'}" />
+	</f:section>
+</div>

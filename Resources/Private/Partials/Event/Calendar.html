@@ -1,0 +1,54 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+		 xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:section name="main">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+					<th>Sunday</th>
+				</tr>
+			</thead>
+			<tbody>
+				<f:for each="{calendar}" as="week">
+					<tr>
+						<f:for each="{week}" as="day">
+							<td>
+								<span class="date"><f:format.date format="d">{day.date}</f:format.date></span>
+								<f:if condition="{day.events}">
+									<ul class="list list-unstyled">
+										<f:for each="{day.events}" as="event">
+											<li>{event.title}</li>
+										</f:for>
+									</ul>
+								</f:if>
+							</td>
+						</f:for>
+					</tr>
+				</f:for>
+			</tbody>
+			<tfoot>
+				<tr class="active">
+					<td colspan="2">
+						<f:link.action action="show" arguments="{start: prevMonth}">
+							« {navigation.previous -> f:format.date(format: '%B %Y')}
+						</f:link.action>
+					</td>
+					<td colspan="3">
+						{navigation.current -> f:format.date(format: '%B %Y')}
+					</td>
+					<td colspan="2">
+						<f:link.action action="show" arguments="{start: nextMonth}">
+							{navigation.next -> f:format.date(format: '%B %Y')} »
+						</f:link.action>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</f:section>
+</div>
