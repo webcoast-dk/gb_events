@@ -162,6 +162,12 @@ class Event extends AbstractEntity implements EventInterface {
 	protected $recurringExcludeDates;
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+	 * @lazy
+	 */
+	protected $categories;
+
+	/**
 	 * inject the objectManager
 	 *
 	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager $objectManager
@@ -194,6 +200,7 @@ class Event extends AbstractEntity implements EventInterface {
 		}
 		$this->images = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
 		$this->downloads = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+		$this->categories = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
 		$this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 	}
 
@@ -916,5 +923,19 @@ class Event extends AbstractEntity implements EventInterface {
 	 */
 	public function removeDownload(FileReference $download) {
 		$this->images->detach($download);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 */
+	public function getCategories() {
+		return $this->categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
+	 */
+	public function setCategories($categories) {
+		$this->categories = $categories;
 	}
 }
