@@ -4,7 +4,7 @@ namespace GuteBotschafter\GbEvents\Hooks;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012-2013 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
+ *  (c) 2012-2015 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
  *
  *  All rights reserved
  *

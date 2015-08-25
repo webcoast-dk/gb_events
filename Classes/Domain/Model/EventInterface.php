@@ -4,7 +4,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2013 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
+ *  (c) 2011-2015 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
  *
  *  All rights reserved
  *
