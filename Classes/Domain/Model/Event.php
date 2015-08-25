@@ -121,14 +121,14 @@ class Event extends AbstractEntity implements EventInterface {
 	/**
 	 * The weeks of the month the event should occur at
 	 *
-	 * @var \integer
+	 * @var integer
 	 */
 	protected $recurringWeeks;
 
 	/**
 	 * The days of the week the event should occur at
 	 *
-	 * @var \integer
+	 * @var integer
 	 */
 	protected $recurringDays;
 
@@ -149,7 +149,7 @@ class Event extends AbstractEntity implements EventInterface {
 	/**
 	 * Exclude national holidays from the recurring events list
 	 *
-	 * @var \boolean
+	 * @var boolean
 	 */
 	protected $recurringExcludeHolidays;
 
@@ -489,7 +489,7 @@ class Event extends AbstractEntity implements EventInterface {
 	}
 
 	/**
-	 * @param \integer $recurringWeeks
+	 * @param integer $recurringWeeks
 	 * @return void
 	 */
 	public function setRecurringWeeks($recurringWeeks) {
@@ -497,7 +497,7 @@ class Event extends AbstractEntity implements EventInterface {
 	}
 
 	/**
-	 * @return \integer
+	 * @return integer
 	 */
 	public function getRecurringWeeks() {
 		return $this->recurringWeeks;
@@ -530,7 +530,7 @@ class Event extends AbstractEntity implements EventInterface {
 	}
 
 	/**
-	 * @param \integer $recurringDays
+	 * @param integer $recurringDays
 	 * @return void
 	 */
 	public function setRecurringDays($recurringDays) {
@@ -538,7 +538,7 @@ class Event extends AbstractEntity implements EventInterface {
 	}
 
 	/**
-	 * @return \integer
+	 * @return integer
 	 */
 	public function getRecurringDays() {
 		return $this->recurringDays;
@@ -560,7 +560,7 @@ class Event extends AbstractEntity implements EventInterface {
 	}
 
 	/**
-	 * @param \boolean $recurringExcludeHolidays
+	 * @param boolean $recurringExcludeHolidays
 	 * @return void
 	 */
 	public function setRecurringExcludeHolidays($recurringExcludeHolidays) {
@@ -568,7 +568,7 @@ class Event extends AbstractEntity implements EventInterface {
 	}
 
 	/**
-	 * @return \boolean
+	 * @return boolean
 	 */
 	public function getRecurringExcludeHolidays() {
 		return $this->recurringExcludeHolidays;
@@ -596,7 +596,7 @@ class Event extends AbstractEntity implements EventInterface {
 	/**
 	 * Is it a one-day event?
 	 *
-	 * @return \bool
+	 * @return boolean
 	 */
 	public function getIsOneDayEvent() {
 		return $this->getEventStopDate() == $this->getEventDate();

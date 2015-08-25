@@ -140,24 +140,24 @@ interface EventInterface {
 	public function getDownloads();
 
 	/**
-	 * @param \integer $recurringWeeks
+	 * @param integer $recurringWeeks
 	 * @return void
 	 */
 	public function setRecurringWeeks($recurringWeeks);
 
 	/**
-	 * @return \integer
+	 * @return integer
 	 */
 	public function getRecurringWeeks();
 
 	/**
-	 * @param \integer $recurringDays
+	 * @param integer $recurringDays
 	 * @return void
 	 */
 	public function setRecurringDays($recurringDays);
 
 	/**
-	 * @return \integer
+	 * @return integer
 	 */
 	public function getRecurringDays();
 
@@ -173,13 +173,13 @@ interface EventInterface {
 	public function getRecurringStop();
 
 	/**
-	 * @param \boolean $recurringExcludeHolidays
+	 * @param boolean $recurringExcludeHolidays
 	 * @return void
 	 */
 	public function setRecurringExcludeHolidays($recurringExcludeHolidays);
 
 	/**
-	 * @return \boolean
+	 * @return boolean
 	 */
 	public function getRecurringExcludeHolidays();
 
@@ -212,7 +212,7 @@ interface EventInterface {
 	/**
 	 * Is it a one-day event?
 	 *
-	 * @return \bool
+	 * @return boolean
 	 */
 	public function getIsOneDayEvent();
 
