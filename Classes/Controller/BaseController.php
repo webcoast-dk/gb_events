@@ -28,6 +28,7 @@ namespace GuteBotschafter\GbEvents\Controller;
 use GuteBotschafter\GbEvents\Domain\Repository\EventRepository;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * ArchiveController
@@ -83,7 +84,7 @@ abstract class BaseController extends ActionController {
 		}
 
 		if (!empty($tags)) {
-			$GLOBALS['TSFE']->addCacheTags($tags);
+			$this->getTypoScriptFrontEndController()->addCacheTags($tags);
 		}
 	}
 
@@ -95,5 +96,12 @@ abstract class BaseController extends ActionController {
 			$this->dataMapper = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Mapper\\DataMapper');
 		}
 		return $this->dataMapper;
+	}
+
+	/**
+	 * @return TypoScriptFrontendController
+	 */
+	protected function getTypoScriptFrontEndController() {
+		return $GLOBALS['TSFE'];
 	}
 }

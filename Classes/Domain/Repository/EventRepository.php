@@ -88,6 +88,7 @@ class EventRepository extends Repository {
 
 		$query = $this->createQuery();
 		$query->setOrderings(array('event_date' => QueryInterface::ORDER_ASCENDING));
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions */
 		$conditions = $query->greaterThanOrEqual('event_date', $startDate);
 		$this->applyRecurringConditions($query, $conditions, $startDate, $stopDate, $categories);
 		return $this->resolveRecurringEvents($query->execute(), $grouped = FALSE, $startDate, $stopDate, $showStartedEvents, $limit);
@@ -111,6 +112,7 @@ class EventRepository extends Repository {
 
 		$query = $this->createQuery();
 		$query->setOrderings(array('event_date' => QueryInterface::ORDER_ASCENDING));
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions */
 		$conditions = $query->greaterThanOrEqual('event_date', $startDate);
 		$this->applyRecurringConditions($query, $conditions, $startDate, $stopDate, $categories);
 		$events = array_filter(

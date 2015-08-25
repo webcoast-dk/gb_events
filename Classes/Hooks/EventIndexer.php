@@ -51,7 +51,7 @@ class EventIndexer {
 	protected $content = '';
 	/**
 	 * The indexer object
-	 * TODO: Find correct type
+	 * @var \tx_kesearch_indexer
 	 */
 	protected $indexerObject;
 	/**
@@ -73,7 +73,7 @@ class EventIndexer {
 	 * @param array $params
 	 * @param \TYPO3\CMS\Backend\Form\FormEngine $pObj
 	 */
-	function registerIndexerConfiguration(&$params, FormEngine $pObj) {
+	function registerIndexerConfiguration(&$params, /** @noinspection PhpUnusedParameterInspection */ FormEngine $pObj) {
 		// add item to "type" field
 		$params['items'][] = array(
 			'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xml:tx_gbevents_kesearch_event.indexer_name',

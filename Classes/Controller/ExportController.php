@@ -51,7 +51,7 @@ class ExportController extends BaseController {
 		$content = array();
 		foreach ($events as $event) {
 			/** @var Event $event */
-			$content[$event->getUniqueIdentifier()] = $event->iCalendarData(FALSE);
+			$content[$event->getUniqueIdentifier()] = $event->iCalendarData();
 		}
 		$this->addCacheTags($events, 'tx_gbevents_domain_model_event');
 		$this->renderCalendar(join("\n", $content));
