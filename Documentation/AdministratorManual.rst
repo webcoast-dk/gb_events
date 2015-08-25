@@ -1,16 +1,16 @@
-﻿============================
+﻿====================
 Administrator Manual
-============================
+====================
 
 Target group: **Administrators**
 
 Installation
-=============
+============
 
 Install the extension as normal in the Extension Manager. Depending on your TYPO3 version you will need to confirm the creation of the necessary database tables.
 
 Configuration
-=======================
+=============
 
 This extension is built using Extbase and Fluid. Thus the normal options of configuring storage folders or extracting the templates apply.
 
@@ -63,6 +63,119 @@ forceExcludeHolidays
     Description
         Ignore the per event setting to exclude reccuring events on dates on the global
         exclusion list and forcefully prevent events to occur on these dates.
+
+    Default
+        false
+
+detailsPid
+""""""""""
+
+.. container:: table-row
+
+    Property
+        detailsPid
+
+    Data type
+        integer
+
+    Description
+        Uid of the page where the details view of an event should link to. This needs to be incorporated
+        into the template if you use your own templates. Normally set in the FlexForm config of the plugin.
+
+    Default
+        current page
+
+displayMode
+"""""""""""
+
+.. container:: table-row
+
+    Property
+        displayMode
+
+    Data type
+        string
+
+    Description
+        One of the values ``list``, ``archive`` or ``calendar``. This settings defines the initial output
+        of the extension when not using one of the dedicated plugins. Normally set in the FlexForm config
+        of the plugin. This setting is deprecated and will be removed with version 8.
+
+    Default
+        list
+
+limit
+"""""
+
+.. container:: table-row
+
+    Property
+        limit
+
+    Data type
+        integer
+
+    Description
+        Defines the number of events being shown in the upcoming events view. Normally set in the FlexForm config
+        of the plugin.
+
+    Default
+        3
+
+years
+"""""
+
+.. container:: table-row
+
+    Property
+        years
+
+    Data type
+        integer
+
+    Description
+        Number of years for which the next events will be retrieved/calculated. Normally set in the FlexForm config
+        of the plugin.
+
+    Default
+        1
+
+startDateOnly
+"""""""""""""
+
+.. container:: table-row
+
+    Property
+        startDateOnly
+
+    Data type
+        boolean
+
+    Description
+        Flag to toggle if days spanning multiple days will be displayed on each day of the event.
+        Setting this flag shows the event only on the first day of the events, once this day has
+        passed the events will not show up in the list views anymore.
+        Normally set in the FlexForm config of the plugin.
+
+    Default
+        false
+
+showStartedEvents
+"""""""""""""""""
+
+.. container:: table-row
+
+    Property
+        showStartedEvents
+
+    Data type
+        boolean
+
+    Description
+        Flag to toggle if events which span multiple days will be shown in the list views until the
+        last day of the event has passed. This toggle only has an effect when ``startDateOnly`` has
+        been enabled, otherwise the event will be shown on separately on each day of the event.
+        Normally set in the FlexForm config of the plugin.
 
     Default
         false
