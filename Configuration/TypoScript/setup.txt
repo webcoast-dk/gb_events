@@ -4,9 +4,11 @@ plugin.tx_gbevents {
     partialRootPath = {$plugin.tx_gbevents.view.partialRootPath}
     layoutRootPath = {$plugin.tx_gbevents.view.layoutRootPath}
   }
+
   persistence {
     storagePid = {$plugin.tx_gbevents.persistence.storagePid}
   }
+
   # objects {
   #   GuteBotschafter\GbEvents\Domain\Model\Event {
   #    className = GuteBotschafter\GbEvents\Domain\Model\FullEvent
