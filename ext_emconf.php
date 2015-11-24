@@ -22,14 +22,11 @@ $EM_CONF['gb_events'] = [
     'clearCacheOnLoad' => 0,
     'version' => '7.0.0-dev',
     'constraints' => [
-            'depends' => [
-                    'typo3' => '6.2.0-7.99.99',
-                ],
-            'conflicts' => [
-                ],
-            'suggests' => [
-                ],
+        'depends' => [
+            'php' => '5.5.0-7.0.99',
+            'typo3' => '6.2.0-7.6.99',
         ],
+    ],
     'autoload' => [
         'psr-4' => [
             'GuteBotschafter\\GbEvents\\' => 'Classes',
