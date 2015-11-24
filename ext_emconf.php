@@ -30,6 +30,7 @@ $EM_CONF['gb_events'] = [
     'version' => '6.2.4',
     'constraints' => [
         'depends' => [
+            'php' => '5.5.0-5.6.99',
             'typo3' => '6.2.0-7.6.99',
         ],
         'conflicts' => [
