@@ -1,15 +1,15 @@
-﻿=====================
+﻿===================
 Project Information
-=====================
+===================
 
 Releases
------------
+--------
 
 * The `source code`_ for the extension can be found on `BitBucket`_
 * Versions deemed `stable versions`_ are being released in the TYPO3 Extension Repository.
 
 Bugs and Known Issues
------------------------------------
+---------------------
 
 Bugs cen be reported using the `Bug Tracker`_. Please include detailed steps how to reproduce the error.
 
@@ -25,7 +25,7 @@ Note on Patches / Pull Requests
 * Send a pull request. Bonus points for topic branches.
 
 Change Log
------------
+----------
 
 All changes are documented in the `repository log`_. The main development happens in the develop branch which will be merged back into master once a new stable version is going to be published.
 

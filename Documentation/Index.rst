@@ -7,9 +7,9 @@
 .. Includes roles, substitutions, ...
 .. include:: _IncludedDirectives.rst
 
-=================
+==============
 Extension Name
-=================
+==============
 
 :Extension name: Event Calendar
 :Extension key: gb_events
@@ -34,7 +34,7 @@ The content of this document is related to TYPO3, a GNU/GPL CMS/Framework availa
 	AdministratorManual
 
 What does it do?
-=================
+================
 
 Provides a very simple calendar for upcoming events. Provides views for the next „n“ upcoming events, a list view and a monthly calendar view with pagination. Events can be set as recurring in certain intervals.
 

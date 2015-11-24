@@ -1,16 +1,16 @@
-﻿============================
+﻿====================
 Administrator Manual
-============================
+====================
 
 Target group: **Administrators**
 
 Installation
-=============
+============
 
 Install the extension as normal in the Extension Manager. Depending on your TYPO3 version you will need to confirm the creation of the necessary database tables.
 
 Configuration
-=======================
+=============
 
 This extension is built using Extbase and Fluid. Thus the normal options of configuring storage folders or extracting the templates apply.
 
