@@ -1,8 +1,16 @@
 plugin.tx_gbevents {
   view {
-    templateRootPath = {$plugin.tx_gbevents.view.templateRootPath}
-    partialRootPath = {$plugin.tx_gbevents.view.partialRootPath}
-    layoutRootPath = {$plugin.tx_gbevents.view.layoutRootPath}
+    templateRootPaths {
+      0 = {$plugin.tx_gbevents.view.templateRootPath}
+    }
+
+    partialRootPaths {
+      0 = {$plugin.tx_gbevents.view.partialRootPath}
+    }
+
+    layoutRootPaths {
+      0 = {$plugin.tx_gbevents.view.layoutRootPath}
+    }
   }
 
   persistence {
