@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="messages" date="2013-12-09T13:09:40Z"
-		  product-name="gb_events">
-		<header/>
+  <file source-language="en" datatype="plaintext" original="messages" date="2013-12-09T13:09:40Z"
+        product-name="gb_events">
+    <header/>
 
-		<body>
-			<trans-unit id="tx_gbevents_domain_model_event.title">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.teaser">
-				<source>Teaser</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.location">
-				<source>Location</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.event_date">
-				<source>Date</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.event_time">
-				<source>Time</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.event_stop_date">
-				<source>End Date</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.images">
-				<source>Images</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.downloads">
-				<source>Downloads</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.export_all">
-				<source>Download all events as .ics</source>
-			</trans-unit>
-			<trans-unit id="tx_gbevents_domain_model_event.export">
-				<source>Download event as .ics</source>
-			</trans-unit>
-			<trans-unit id="header.list">
-				<source>Upcoming Events</source>
-			</trans-unit>
-			<trans-unit id="table.date">
-				<source>Date</source>
-			</trans-unit>
-			<trans-unit id="table.place">
-				<source>Place/Event</source>
-			</trans-unit>
-			<trans-unit id="table.title">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="back">
-				<source>back</source>
-			</trans-unit>
-		</body>
-	</file>
+    <body>
+      <trans-unit id="tx_gbevents_domain_model_event.title">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.teaser">
+        <source>Teaser</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.description">
+        <source>Description</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.location">
+        <source>Location</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.event_date">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.event_time">
+        <source>Time</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.event_stop_date">
+        <source>End Date</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.images">
+        <source>Images</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.downloads">
+        <source>Downloads</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.export_all">
+        <source>Download all events as .ics</source>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.export">
+        <source>Download event as .ics</source>
+      </trans-unit>
+      <trans-unit id="header.list">
+        <source>Upcoming Events</source>
+      </trans-unit>
+      <trans-unit id="table.date">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="table.place">
+        <source>Place/Event</source>
+      </trans-unit>
+      <trans-unit id="table.title">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="back">
+        <source>back</source>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

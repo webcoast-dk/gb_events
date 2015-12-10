@@ -1,67 +1,67 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-		 xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-	<f:layout name="Default"/>
+  <f:layout name="Default"/>
 
-	<f:section name="main">
-		<div class="media">
-			<div class="media-left">
-				<f:if condition="{event.images}">
-					<f:for each="{event.images}" as="image">
-						<f:image src="{image.uid}" treatIdAsReference="true" width="240m"/>
-					</f:for>
-				</f:if>
-			</div>
+  <f:section name="main">
+    <div class="media">
+      <div class="media-left">
+        <f:if condition="{event.images}">
+          <f:for each="{event.images}" as="image">
+            <f:image src="{image.uid}" treatIdAsReference="true" width="240m"/>
+          </f:for>
+        </f:if>
+      </div>
 
-			<div class="media-body">
-				<h4 class="media-heading">{event.title}</h4>
-				<dl>
-					<dt>{f:translate(key: 'tx_gbevents_domain_model_event.title')}</dt>
-					<dd>{event.title}</dd>
+      <div class="media-body">
+        <h4 class="media-heading">{event.title}</h4>
+        <dl>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.title')}</dt>
+          <dd>{event.title}</dd>
 
-					<dt>{f:translate(key: 'tx_gbevents_domain_model_event.description')}</dt>
-					<dd>{event.description}</dd>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.description')}</dt>
+          <dd>{event.description}</dd>
 
-					<dt>{f:translate(key: 'tx_gbevents_domain_model_event.location')}</dt>
-					<dd>{event.location}</dd>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.location')}</dt>
+          <dd>{event.location}</dd>
 
-					<dt>{f:translate(key: 'tx_gbevents_domain_model_event.event_date')}</dt>
-					<dd>{f:render(section: 'eventDate', arguments: '{event : event}')}</dd>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.event_date')}</dt>
+          <dd>{f:render(section: 'eventDate', arguments: '{event : event}')}</dd>
 
-					<dt>{f:translate(key: 'tx_gbevents_domain_model_event.event_time')}</dt>
-					<dd>{event.eventTime}</dd>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.event_time')}</dt>
+          <dd>{event.eventTime}</dd>
 
-					<f:if condition="{event.downloads}">
-						<dt>{f:translate(key: 'tx_gbevents_domain_model_event.downloads')}</dt>
-						<dd>
-							<ul class="list list-unstyled">
-								<f:for each="{event.downloads}" as="download">
-									<li>
-										<f:link.page pageUid="{download.originalResource.publicUrl}" absolute="1"
-																 title="{download.originalResource.title}">
-											<f:if condition="{download.originalResource.title}">
-												<f:then>{download.originalResource.title}</f:then>
-												<f:else>{download.originalResource.name}</f:else>
-											</f:if>
-										</f:link.page>
-									</li>
-								</f:for>
-							</ul>
-						</dd>
-					</f:if>
-				</dl>
-			</div>
-		</div>
-	</f:section>
+          <f:if condition="{event.downloads}">
+            <dt>{f:translate(key: 'tx_gbevents_domain_model_event.downloads')}</dt>
+            <dd>
+              <ul class="list list-unstyled">
+                <f:for each="{event.downloads}" as="download">
+                  <li>
+                    <f:link.page pageUid="{download.originalResource.publicUrl}" absolute="1"
+                                 title="{download.originalResource.title}">
+                      <f:if condition="{download.originalResource.title}">
+                        <f:then>{download.originalResource.title}</f:then>
+                        <f:else>{download.originalResource.name}</f:else>
+                      </f:if>
+                    </f:link.page>
+                  </li>
+                </f:for>
+              </ul>
+            </dd>
+          </f:if>
+        </dl>
+      </div>
+    </div>
+  </f:section>
 
-	<f:section name="eventDate">
-		<f:if condition="{event.isOneDayEvent}">
-			<f:then>
-				{event.eventDate -> f:format.date(format:'d.m.Y')}
-			</f:then>
-			<f:else>
-				{event.eventDate -> f:format.date(format:'d.m.')} – {event.eventStopDate -> f:format.date(format:'d.m.Y')}
-			</f:else>
-		</f:if>
-	</f:section>
+  <f:section name="eventDate">
+    <f:if condition="{event.isOneDayEvent}">
+      <f:then>
+        {event.eventDate -> f:format.date(format:'d.m.Y')}
+      </f:then>
+      <f:else>
+        {event.eventDate -> f:format.date(format:'d.m.')} – {event.eventStopDate -> f:format.date(format:'d.m.Y')}
+      </f:else>
+    </f:if>
+  </f:section>
 </div>
