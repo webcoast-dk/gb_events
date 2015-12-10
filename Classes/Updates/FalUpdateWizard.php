@@ -184,7 +184,7 @@ class FalUpdateWizard extends AbstractUpdate
      */
     protected function migrateRecord(array $record, $field)
     {
-        $files = GeneralUtility::trimExplode(', ', $record[$field], true);
+        $files = GeneralUtility::trimExplode(',', $record[$field], true);
         if (!empty($files)) {
             if ($field === 'images') {
                 $targetDirectory = $this->imageDirectory;
@@ -194,6 +194,7 @@ class FalUpdateWizard extends AbstractUpdate
                 $folder = self::FAL_FOLDER_DOWNLOADS;
             }
 
+            $missingFiles = 0;
             foreach ($files as $index => $file) {
                 if (file_exists(PATH_site . self::UPLOADS_FOLDER . $file)) {
                     GeneralUtility::upload_copy_move(
@@ -220,7 +221,17 @@ class FalUpdateWizard extends AbstractUpdate
                     ];
 
                     $this->getDatabaseConnection()->exec_INSERTquery('sys_file_reference', $dataArray);
+                } else {
+                    $missingFiles++;
                 }
+            }
+
+            if ($missingFiles === count($files)) {
+                $this->getDatabaseConnection()->exec_UPDATEquery(
+                    'tx_gbevents_domain_model_event',
+                    'uid=' . (int)$record['uid'],
+                    [$field => 0]
+                );
             }
         }
     }
@@ -242,12 +253,14 @@ class FalUpdateWizard extends AbstractUpdate
             'uid_foreign'
         );
 
-        foreach ($rows as $row) {
-            $this->getDatabaseConnection()->exec_UPDATEquery(
-                'tx_gbevents_domain_model_event',
-                'uid=' . (int)$row['uid'],
-                [$field => $row['count']]
-            );
+        if (!empty($rows)) {
+            foreach ($rows as $row) {
+                $this->getDatabaseConnection()->exec_UPDATEquery(
+                    'tx_gbevents_domain_model_event',
+                    'uid=' . (int)$row['uid'],
+                    [$field => $row['count']]
+                );
+            }
         }
     }
 
