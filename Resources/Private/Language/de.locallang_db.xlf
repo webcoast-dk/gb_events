@@ -45,6 +45,10 @@
         <source>Limit output to this many years</source>
         <target>Termine der nächsten n Jahre</target>
       </trans-unit>
+      <trans-unit id="flexform.default.settings.categories">
+        <source>Limit output to these categories</source>
+        <target>Termine aus diesen Kategorien zeigen</target>
+      </trans-unit>
       <trans-unit id="flexform.default.settings.details_pid">
         <source>Show event details on this page</source>
         <target>Seite für Termin-Details</target>
