@@ -61,9 +61,9 @@
               <label>LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:flexform.default.settings.categories</label>
               <config>
                 <type>select</type>
-                <autoSizeMax>50</autoSizeMax>
+                <autoSizeMax>15</autoSizeMax>
                 <foreign_table>sys_category</foreign_table>
-                <foreign_table_where>AND sys_category.sys_language_uid IN (-1, 0) ORDER BYsys_category.sorting ASC</foreign_table_where>
+                <foreign_table_where>AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
                 <maxitems>9999</maxitems>
                 <renderMode>tree</renderMode>
                 <size>10</size>
