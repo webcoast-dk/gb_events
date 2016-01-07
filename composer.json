@@ -9,7 +9,7 @@
     "calendar",
     "locations"
   ],
-  "version": "7.0.0-dev",
+  "version": "7.0.0",
   "minimum-stability": "stable",
   "license": "proprietary",
   "homepage": "http://www.gute-botschafter.de/",
