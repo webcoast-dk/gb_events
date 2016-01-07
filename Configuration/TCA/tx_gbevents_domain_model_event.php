@@ -153,6 +153,7 @@ return [
                 'rows' => 15,
                 'eval' => 'trim,required',
             ],
+            'defaultExtras' => 'richtext[]:rte_transform[mode=ts_css]'
         ],
         'location' => [
             'exclude' => 0,
