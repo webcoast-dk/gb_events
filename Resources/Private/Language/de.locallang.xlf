@@ -1,74 +1,71 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xliff version="1.0">
-  <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2013-12-09T13:09:40Z" product-name="gb_events">
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2013-12-09T13:09:40Z"
+        product-name="gb_events">
     <header/>
 
     <body>
-      <trans-unit id="tx_gbevents_domain_model_event" xml:space="preserve" approved="yes">
-        <source>A single event</source>
-        <target>Ein einzelnes Event</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.title" xml:space="preserve" approved="yes">
-        <source>The title of the event</source>
-        <target>Titel der Veranstaltung</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.teaser" xml:space="preserve" approved="yes">
-        <source>A short teaser text</source>
-        <target>Kurzbeschreibung</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.description" xml:space="preserve" approved="yes">
-        <source>A detailed description of the event</source>
-        <target>Beschreibung</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.location" xml:space="preserve" approved="yes">
-        <source>The location of the event</source>
-        <target>Ort</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.event_date" xml:space="preserve" approved="yes">
-        <source>The date when the event happens</source>
-        <target>Datum (Start der Veranstaltung)</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.event_time" xml:space="preserve" approved="yes">
-        <source>The time the event happens</source>
-        <target>Uhrzeit</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.event_stop_date" xml:space="preserve" approved="yes">
-        <source>The date when the event ends</source>
-        <target>Datum (Ende der Veranstaltung)</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.images" xml:space="preserve" approved="yes">
-        <source>Images</source>
-        <target>Bilder</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.downloads" xml:space="preserve" approved="yes">
-        <source>Downloads</source>
-        <target>Downloads</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.export_all" xml:space="preserve">
-        <source>Download all events as .ics</source>
-        <target>Alle Termine im iCal-Format</target>
-      </trans-unit>
-      <trans-unit id="tx_gbevents_domain_model_event.export" xml:space="preserve">
-        <source>Download event as .ics</source>
-        <target>Termin im iCal-Format</target>
-      </trans-unit>
-      <trans-unit id="header.list" xml:space="preserve" approved="yes">
-        <source>Upcoming Events</source>
-        <target>Terminübersicht</target>
-      </trans-unit>
-      <trans-unit id="table.date" xml:space="preserve" approved="yes">
-        <source>Date</source>
-        <target>Datum</target>
-      </trans-unit>
-      <trans-unit id="table.place" xml:space="preserve" approved="yes">
-        <source>Place/Event</source>
-        <target>Ort/Anlass</target>
-      </trans-unit>
-      <trans-unit id="table.title" xml:space="preserve" approved="yes">
+      <trans-unit id="tx_gbevents_domain_model_event.title">
         <source>Title</source>
         <target>Titel</target>
       </trans-unit>
-      <trans-unit id="back" xml:space="preserve" approved="yes">
+      <trans-unit id="tx_gbevents_domain_model_event.teaser">
+        <source>Teaser</source>
+        <target>Kurzbeschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.description">
+        <source>Description</source>
+        <target>Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.location">
+        <source>Location</source>
+        <target>Ort</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.event_date">
+        <source>Date</source>
+        <target>Datum (Start der Veranstaltung)</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.event_time">
+        <source>Time</source>
+        <target>Uhrzeit</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.event_stop_date">
+        <source>End Date</source>
+        <target>Datum (Ende der Veranstaltung)</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.images">
+        <source>Images</source>
+        <target>Bilder</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.downloads">
+        <source>Downloads</source>
+        <target>Downloads</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.export_all">
+        <source>Download all events as .ics</source>
+        <target>Alle Termine im iCal-Format</target>
+      </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.export">
+        <source>Download event as .ics</source>
+        <target>Termin im iCal-Format</target>
+      </trans-unit>
+      <trans-unit id="header.list">
+        <source>Upcoming Events</source>
+        <target>Terminübersicht</target>
+      </trans-unit>
+      <trans-unit id="table.date">
+        <source>Date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="table.place">
+        <source>Place/Event</source>
+        <target>Ort/Anlass</target>
+      </trans-unit>
+      <trans-unit id="table.title">
+        <source>Title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="back">
         <source>back</source>
         <target>zurück</target>
       </trans-unit>

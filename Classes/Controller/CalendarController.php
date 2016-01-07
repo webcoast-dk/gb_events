@@ -25,55 +25,19 @@ namespace GuteBotschafter\GbEvents\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use GuteBotschafter\GbEvents\Domain\Model\Event;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
- * Controller for the Event object
+ * Controller for the calendar view
  */
-class EventController extends BaseController
+class CalendarController extends BaseController
 {
     /**
-     * Displays all Events
-     *
-     * @return void
-     */
-    public function listAction()
-    {
-        switch ($this->settings['displayMode']) {
-            case 'calendar':
-                $this->forward('show', 'Calendar');
-
-                return;
-                break;
-            case 'archive':
-                $this->forward('list', 'Archive');
-
-                return;
-                break;
-            default:
-                $events = $this->eventRepository->findAll(
-                    $this->settings['years'],
-                    (bool)$this->settings['showStartedEvents'],
-                    $this->settings['categories']
-                );
-                $this->addCacheTags($events, 'tx_gbevents_domain_model_event');
-                $this->view->assign('events', $events);
-        }
-    }
-
-    /**
-     * Displays all Events as a browseable calendar
+     * Displays all events as a browseable calendar
      *
      * @param  string $start
      * @return void
      */
-    public function calendarAction($start = 'today')
+    public function showAction($start = 'today')
     {
-        GeneralUtility::deprecationLog(
-            '[gb_events] EventController::calendar has been deprecated an will be removed in v7.1'
-        );
-
         // Startdatum setzen
         $startDate = new \DateTime('today');
         try {
@@ -142,36 +106,5 @@ class EventController extends BaseController
             'nextMonth' => $nextMonth->format('Y-m-d'),
             'prevMonth' => $previousMonth->format('Y-m-d'),
         ]);
-    }
-
-    /**
-     * Displays a single Event
-     *
-     * @param Event $event
-     * @return void
-     */
-    public function showAction(Event $event)
-    {
-        $this->addCacheTags($event);
-        $this->view->assign('event', $event);
-    }
-
-    /**
-     * Displays the upcoming events
-     *
-     * @return void
-     */
-    public function upcomingAction()
-    {
-        GeneralUtility::deprecationLog(
-            '[gb_events] EventController::upcoming has been deprecated an will be removed in v7.1'
-        );
-        $events = $this->eventRepository->findUpcoming(
-            $this->settings['limit'],
-            (bool)$this->settings['showStartedEvents'],
-            $this->settings['categories']
-        );
-        $this->addCacheTags($events, 'tx_gbevents_domain_model_event');
-        $this->view->assign('events', $events);
     }
 }

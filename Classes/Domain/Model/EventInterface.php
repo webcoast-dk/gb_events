@@ -4,7 +4,7 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2013 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
+ *  (c) 2011-2015 Morton Jonuschat <m.jonuschat@gute-botschafter.de>, Gute Botschafter GmbH
  *
  *  All rights reserved
  *
@@ -25,201 +25,209 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /**
  * A single event
  */
+interface EventInterface
+{
+    /**
+     * @param string $title
+     * @return void
+     */
+    public function setTitle($title);
 
-interface EventInterface {
+    /**
+     * @return string
+     */
+    public function getTitle();
 
-  /**
-   * @param string $title
-   * @return void
-   */
-  public function setTitle($title);
+    /**
+     * @param string $teaser
+     * @return void
+     */
+    public function setTeaser($teaser);
 
-  /**
-   * @return string
-   */
-  public function getTitle();
+    /**
+     * @return string
+     */
+    public function getTeaser();
 
-  /**
-   * @param string $teaser
-   * @return void
-   */
-  public function setTeaser($teaser);
+    /**
+     * @param string $description
+     * @return void
+     */
+    public function setDescription($description);
 
-  /**
-   * @return string
-   */
-  public function getTeaser();
+    /**
+     * @return string
+     */
+    public function getDescription();
 
-  /**
-   * @param string $description
-   * @return void
-   */
-  public function setDescription($description);
+    /**
+     * Get plain description with no HTML
+     *
+     * @return string
+     */
+    public function getPlainDescription();
 
-  /**
-   * @return string
-   */
-  public function getDescription();
+    /**
+     * @param string $location
+     * @return void
+     */
+    public function setLocation($location);
 
-  /**
-   * Get plain description with no HTML
-   *
-   * @return string
-   */
-  public function getPlainDescription();
+    /**
+     * @return string
+     */
+    public function getLocation();
 
-  /**
-   * @param string $location
-   * @return void
-   */
-  public function setLocation($location);
+    /**
+     * @param \DateTime $eventDate
+     * @return void
+     */
+    public function setEventDate(\DateTime $eventDate);
 
-  /**
-   * @return string
-   */
-  public function getLocation();
+    /**
+     * This only returns the initial event date
+     *
+     * @return \DateTime
+     */
+    public function getEventDate();
 
-  /**
-   * @param \DateTime $eventDate
-   * @return void
-   */
-  public function setEventDate(\DateTime $eventDate);
+    /**
+     * This returns the initial event dates including
+     * all recurring events up to and including the
+     * stopDate, taking the defined end of recurrance
+     * into account
+     *
+     * @param \DateTime $startDate
+     * @param \DateTime $stopDate
+     */
+    public function getEventDates(\DateTime $startDate, \DateTime $stopDate);
 
-  /**
-   * This only returns the initial event date
-   *
-   * @return \DateTime
-   */
-  public function getEventDate();
+    /**
+     * @param string $eventTime
+     * @return void
+     */
+    public function setEventTime($eventTime);
 
-  /**
-   * This returns the initial event dates including
-   * all recurring events up to and including the
-   * stopDate, taking the defined end of recurrance
-   * into account
-   *
-   * @param \DateTime $startDate
-   * @param \DateTime $stopDate
-   */
-  public function getEventDates(\DateTime $startDate, \DateTime $stopDate);
+    /**
+     * @return string
+     */
+    public function getEventTime();
 
-  /**
-   * @param string $eventTime
-   * @return void
-   */
-  public function setEventTime($eventTime);
+    /**
+     * @param string $images
+     * @return void
+     */
+    public function setImages($images);
 
-  /**
-   * @return string
-   */
-  public function getEventTime();
+    /**
+     * @return ObjectStorage<FileReference>
+     */
+    public function getImages();
 
-  /**
-   * @param string $images
-   * @return void
-   */
-  public function setImages($images);
+    /**
+     * @param string $downloads
+     * @return void
+     */
+    public function setDownloads($downloads);
 
-  /**
-   * @return array
-   */
-  public function getImages();
+    /**
+     * @return ObjectStorage<FileReference>
+     */
+    public function getDownloads();
 
-  /**
-   * @param string $downloads
-   * @return void
-   */
-  public function setDownloads($downloads);
+    /**
+     * @param integer $recurringWeeks
+     * @return void
+     */
+    public function setRecurringWeeks($recurringWeeks);
 
-  /**
-   * @return array
-   */
-  public function getDownloads();
+    /**
+     * @return integer
+     */
+    public function getRecurringWeeks();
 
-  /**
-   * @param \integer $recurringWeeks
-   * @return void
-   */
-  public function setRecurringWeeks($recurringWeeks);
+    /**
+     * @param integer $recurringDays
+     * @return void
+     */
+    public function setRecurringDays($recurringDays);
 
-  /**
-   * @return \integer
-   */
-  public function getRecurringWeeks();
+    /**
+     * @return integer
+     */
+    public function getRecurringDays();
 
-  /**
-   * @param \integer $recurringDays
-   * @return void
-   */
-  public function setRecurringDays($recurringDays);
+    /**
+     * @param \DateTime $recurringStop
+     * @return void
+     */
+    public function setRecurringStop($recurringStop);
 
-  /**
-   * @return \integer
-   */
-  public function getRecurringDays();
+    /**
+     * @return \DateTime
+     */
+    public function getRecurringStop();
 
-  /**
-   * @param \DateTime $recurringStop
-   * @return void
-   */
-  public function setRecurringStop($recurringStop);
+    /**
+     * @param boolean $recurringExcludeHolidays
+     * @return void
+     */
+    public function setRecurringExcludeHolidays($recurringExcludeHolidays);
 
-  /**
-   * @return \DateTime
-   */
-  public function getRecurringStop();
+    /**
+     * @return boolean
+     */
+    public function getRecurringExcludeHolidays();
 
-  /**
-   * @param \boolean $recurringExcludeHolidays
-   * @return void
-   */
-  public function setRecurringExcludeHolidays($recurringExcludeHolidays);
+    /**
+     * @param string $recurringExcludeDates
+     * @return void
+     */
+    public function setRecurringExcludeDates($recurringExcludeDates);
 
-  /**
-   * @return \boolean
-   */
-  public function getRecurringExcludeHolidays();
+    /**
+     * @return string
+     */
+    public function getRecurringExcludeDates();
 
-  /**
-   * @param string $recurringExcludeDates
-   * @return void
-   */
-  public function setRecurringExcludeDates(string $recurringExcludeDates);
+    /**
+     * Set the event stop date
+     *
+     * @param \DateTime $eventStopDate
+     * @return void
+     */
+    public function setEventStopDate($eventStopDate);
 
-  /**
-   * @return string
-   */
-  public function getRecurringExcludeDates();
+    /**
+     * Get the event stop date
+     *
+     * @return \DateTime
+     */
+    public function getEventStopDate();
 
-  /**
-   * Set the event stop date
-   *
-   * @param \DateTime $eventStopDate
-   * @return void
-   */
-  public function setEventStopDate($eventStopDate);
+    /**
+     * Is it a one-day event?
+     *
+     * @return boolean
+     */
+    public function getIsOneDayEvent();
 
-  /**
-   * Get the event stop date
-   *
-   * @return \DateTime
-   */
-  public function getEventStopDate();
+    /**
+     * Returns a unique identifier
+     *
+     * @return string
+     */
+    public function getUniqueIdentifier();
 
-  /**
-   * Is it a one-day event?
-   *
-   * @return \bool
-   */
-  public function getIsOneDayEvent();
-
-  /**
-   * Returns a unique identifier
-   *
-   * @return string
-   */
-  public function getUniqueIdentifier();
+    /**
+     * Returns the event duration in seconds
+     *
+     * @return integer
+     */
+    public function getDuration();
 }

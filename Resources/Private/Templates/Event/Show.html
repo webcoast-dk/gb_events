@@ -1,20 +1,67 @@
-<f:layout name="Default" />
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-This Template is responsible for displaying a single view for a domain object
+  <f:layout name="Default"/>
 
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/Kickstarter/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        Show.html: keep
+  <f:section name="main">
+    <div class="media">
+      <div class="media-left">
+        <f:if condition="{event.images}">
+          <f:for each="{event.images}" as="image">
+            <f:image src="{image.uid}" treatIdAsReference="true" width="240m"/>
+          </f:for>
+        </f:if>
+      </div>
 
-Otherwise your changes will be overwritten the next time you save the extension in the kickstarter
+      <div class="media-body">
+        <h4 class="media-heading">{event.title}</h4>
+        <dl>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.title')}</dt>
+          <dd>{event.title}</dd>
 
-<f:section name="main">
-<h1>Single View for Event</h1>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.description')}</dt>
+          <dd>{event.description}</dd>
 
-<f:flashMessages />
-<f:render partial="Event/Properties" arguments="{event:event}" />
-<f:link.action action="list">Back to list</f:link.action><br />
-</f:section>
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.location')}</dt>
+          <dd>{event.location}</dd>
+
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.event_date')}</dt>
+          <dd>{f:render(section: 'eventDate', arguments: '{event : event}')}</dd>
+
+          <dt>{f:translate(key: 'tx_gbevents_domain_model_event.event_time')}</dt>
+          <dd>{event.eventTime}</dd>
+
+          <f:if condition="{event.downloads}">
+            <dt>{f:translate(key: 'tx_gbevents_domain_model_event.downloads')}</dt>
+            <dd>
+              <ul class="list list-unstyled">
+                <f:for each="{event.downloads}" as="download">
+                  <li>
+                    <f:link.page pageUid="{download.originalResource.publicUrl}" absolute="1"
+                                 title="{download.originalResource.title}">
+                      <f:if condition="{download.originalResource.title}">
+                        <f:then>{download.originalResource.title}</f:then>
+                        <f:else>{download.originalResource.name}</f:else>
+                      </f:if>
+                    </f:link.page>
+                  </li>
+                </f:for>
+              </ul>
+            </dd>
+          </f:if>
+        </dl>
+      </div>
+    </div>
+  </f:section>
+
+  <f:section name="eventDate">
+    <f:if condition="{event.isOneDayEvent}">
+      <f:then>
+        {event.eventDate -> f:format.date(format:'d.m.Y')}
+      </f:then>
+      <f:else>
+        {event.eventDate -> f:format.date(format:'d.m.')} – {event.eventStopDate -> f:format.date(format:'d.m.Y')}
+      </f:else>
+    </f:if>
+  </f:section>
+</div>

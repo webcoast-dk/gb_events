@@ -1,0 +1,69 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+  <f:section name="main">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>{f:translate(key: 'tx_gbevents_domain_model_event.event_date')}</th>
+        <th>{f:translate(key: 'tx_gbevents_domain_model_event.title')}</th>
+        <th>{f:translate(key: 'tx_gbevents_domain_model_event.location')}</th>
+        <f:if condition="{exportEnabled}">
+          <th></th>
+        </f:if>
+      </tr>
+      </thead>
+      <tbody>
+      <f:for each="{events}" as="event">
+        <tr>
+          <td>
+            <f:render section="eventDate" arguments="{event : event}"/>
+          <td>
+            <f:link.action action="show" pageUid="{settings.detailsPid}" arguments="{event : event}">{event.title}
+            </f:link.action>
+          </td>
+          <td>{event.location}</td>
+          <f:if condition="{exportEnabled}">
+            <td>
+              <f:link.action action="show" controller="Export" arguments="{event : event}"
+                             title="{f:translate(key: 'tx_gbevents_domain_model_event.export')}">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </f:link.action>
+            </td>
+          </f:if>
+        </tr>
+      </f:for>
+      </tbody>
+      <f:if condition="{exportEnabled}">
+        <tfoot>
+        <tr>
+          <td colspan="4">
+            <f:link.action action="list" controller="Export" class="btn btn-primary pull-right">
+              <span class="glyphicon glyphicon-calendar"></span>
+              <f:translate key="tx_gbevents_domain_model_event.export_all"/>
+            </f:link.action>
+          </td>
+        </tr>
+        </tfoot>
+      </f:if>
+    </table>
+  </f:section>
+
+  <f:section name="eventDate">
+    <f:if condition="{settings.startDateOnly}">
+      <f:then>
+        <f:if condition="{event.isOneDayEvent}">
+          <f:then>
+            {event.eventDate -> f:format.date(format:'d.m.Y')}
+          </f:then>
+          <f:else>
+            {event.eventDate -> f:format.date(format:'d.m.')} – {event.eventStopDate -> f:format.date(format:'d.m.Y')}
+          </f:else>
+        </f:if>
+      </f:then>
+      <f:else>
+        {event.eventDate -> f:format.date(format:'d.m.Y')}
+      </f:else>
+    </f:if>
+  </f:section>
+</div>
