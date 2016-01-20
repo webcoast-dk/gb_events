@@ -8,7 +8,7 @@
  * https://github.com/t3elmar/Ext
  *********************************************************************/
 
-$EM_CONF['gb_events'] = [
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Event calendar',
     'description' => 'A simple calendar for upcoming events.',
     'category' => 'plugin',
@@ -42,3 +42,5 @@ $EM_CONF['gb_events'] = [
     'comment' => 'Make it possible to show events that have started but not yet finished.',
     'user' => 'gutebotschafter',
 ];
+
+?>
