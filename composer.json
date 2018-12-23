@@ -1,66 +1,72 @@
 {
-  "name": "gutebotschafter/gb-events",
-  "type": "typo3-cms-extension",
-  "description": "A simple calendar for upcoming events",
-  "keywords": [
-    "TYPO3",
-    "extension",
-    "events",
-    "calendar",
-    "locations"
-  ],
-  "version": "7.0.1",
-  "minimum-stability": "stable",
-  "license": "proprietary",
-  "homepage": "http://www.gute-botschafter.de/",
-  "authors": [
-    {
-      "name": "Morton Jonuschat",
-      "email": "m.jonuschat@gute-botschafter.de",
-      "role": "Developer",
-      "homepage": "http://www.gute-botschafter.de/"
-    }
-  ],
-  "require": {
-    "php": ">= 5.5",
-    "typo3/cms-core": "~6.2.14|~7.6.0"
-  },
-  "require-dev": {
-    "namelesscoder/typo3-repository-client": "1.1.x-dev"
-  },
-  "autoload": {
-    "psr-4": {
-      "GuteBotschafter\\GbEvents\\": "Classes"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "GuteBotschafter\\GbEvents\\Tests\\": "Tests",
-      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
-      "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
-    }
-  },
-  "replace": {
-    "gb_events": "self.version",
-    "typo3-ter/gb-events": "self.version"
-  },
-  "config": {
-    "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/ext_scaffold ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/ext_scaffold"
-    ]
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-develop": "7.0.x-dev"
+    "name": "gutebotschafter/gb-events",
+    "type": "typo3-cms-extension",
+    "description": "A simple calendar for upcoming events",
+    "keywords": [
+        "TYPO3",
+        "extension",
+        "events",
+        "calendar",
+        "locations"
+    ],
+    "version": "8.0.0-dev",
+    "minimum-stability": "stable",
+    "license": "GPL-2.0-or-later",
+    "homepage": "http://www.gute-botschafter.de/",
+    "authors": [
+        {
+            "name": "Morton Jonuschat",
+            "email": "m.jonuschat@gute-botschafter.de",
+            "role": "Developer",
+            "homepage": "http://www.gute-botschafter.de/"
+        },
+        {
+            "name": "Thorben Nissen",
+            "email": "thorben.nissen@kapp-hamburg.de",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "typo3/cms-extbase": "^8.5.0|^9.5.0",
+        "typo3/cms-fluid": "^8.5.0|^9.5.0"
     },
-    "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+    "require-dev": {
+        "namelesscoder/typo3-repository-client": "1.1.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "GuteBotschafter\\GbEvents\\": "Classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GuteBotschafter\\GbEvents\\Tests\\": "Tests",
+            "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
+            "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
+        }
+    },
+    "replace": {
+        "gb_events": "self.version",
+        "typo3-ter/gb-events": "self.version"
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/Web/typo3conf/ext/",
+            "[ -L .Build/Web/typo3conf/ext/ext_scaffold ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/ext_scaffold"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "8.x-dev"
+        },
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web"
+        }
     }
-  }
 }
