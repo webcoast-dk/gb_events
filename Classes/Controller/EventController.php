@@ -70,7 +70,7 @@ class EventController extends BaseController
      */
     public function showAction(Event $event)
     {
-        $this->addCacheTags($event);
+        $this->addCacheTags($event, 'tx_gbevents_domain_model_event');
         $this->view->assign('event', $event);
     }
 }
