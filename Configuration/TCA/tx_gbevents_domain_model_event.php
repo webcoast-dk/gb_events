@@ -54,16 +54,11 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_language',
-                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'special' => 'languages',
                 'items' => [
                     [
-                        'LLL:EXT:lang/locallang_general.php:LGL.allLanguages',
+                        'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
                         -1,
-                    ],
-                    [
-                        'LLL:EXT:lang/locallang_general.php:LGL.default_value',
-                        0,
                     ],
                 ],
             ],
@@ -205,7 +200,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'size' => 12,
-                'eval' => 'date',
+                'eval' => 'date,int',
                 'checkbox' => 1,
             ],
         ],
@@ -288,7 +283,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'size' => 12,
-                'eval' => 'datetime',
+                'eval' => 'datetime,int',
                 'checkbox' => 1,
             ],
         ],
