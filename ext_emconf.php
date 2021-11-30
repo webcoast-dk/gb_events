@@ -16,15 +16,13 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 'm.jonuschat@gute-botschafter.de',
     'author_company' => 'Gute Botschafter GmbH',
     'state' => 'stable',
-    'uploadfolder' => '1',
-    'createDirs' => '',
-    'modify_tables' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '7.0.1',
+    'version' => '10.0.0',
     'constraints' => [
         'depends' => [
-            'php' => '5.5.0-7.0.99',
-            'typo3' => '8.5.0-9.5.99',
+            'typo3' => '10.4.0-11.5.99',
+            'extbase' => '10.4.0-11.5.99',
+            'fluid' => '10.4.0-11.5.99',
         ],
     ],
     'autoload' => [
@@ -39,8 +37,4 @@ $EM_CONF[$_EXTKEY] = [
             'TYPO3\\CMS\\Fluid\\Tests\\' => '.Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/',
         ],
     ],
-    'comment' => 'Make it possible to show events that have started but not yet finished.',
-    'user' => 'gutebotschafter',
 ];
-
-?>

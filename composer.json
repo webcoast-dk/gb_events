@@ -9,7 +9,6 @@
         "calendar",
         "locations"
     ],
-    "version": "8.0.0-dev",
     "minimum-stability": "stable",
     "license": "GPL-2.0-or-later",
     "homepage": "http://www.gute-botschafter.de/",
@@ -27,9 +26,8 @@
         }
     ],
     "require": {
-        "php": "^7.0",
-        "typo3/cms-extbase": "^8.5.0|^9.5.0",
-        "typo3/cms-fluid": "^8.5.0|^9.5.0"
+        "typo3/cms-extbase": "^10.4 || ^11.5",
+        "typo3/cms-fluid": "^10.4 || ^11.5"
     },
     "require-dev": {
         "namelesscoder/typo3-repository-client": "1.1.x-dev"
@@ -47,7 +45,6 @@
         }
     },
     "replace": {
-        "gb_events": "self.version",
         "typo3-ter/gb-events": "self.version"
     },
     "config": {
@@ -62,7 +59,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "8.x-dev"
+            "dev-release/10.x": "10.x-dev"
         },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
