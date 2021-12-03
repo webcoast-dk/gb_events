@@ -137,6 +137,9 @@
       <trans-unit id="tx_gbevents_domain_model_event.recurring_exclude_dates">
         <source>Event does not happen on these dates (One entry per line, format YYYY-MM-DD or MM-DD)</source>
       </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.url_segment">
+        <source>URL segment</source>
+      </trans-unit>
       <trans-unit id="tx_gbevents_kesearch_event.indexer_name">
         <source>Events</source>
       </trans-unit>

@@ -182,6 +182,10 @@
         <target>Termin findet an den folgenden Tagen nicht statt (Ein Termin pro Zeile, Format TT.MM. oder TT.MM.JJJJ)
         </target>
       </trans-unit>
+      <trans-unit id="tx_gbevents_domain_model_event.url_segment">
+        <source>URL segment</source>
+        <target>URL-Segment</target>
+      </trans-unit>
       <trans-unit id="tx_gbevents_kesearch_event.indexer_name">
         <source>Events</source>
         <target>Termine</target>

@@ -29,3 +29,5 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['customIndexer'][] =
         \GuteBotschafter\GbEvents\Hooks\EventIndexer::class;
 }
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\GuteBotschafter\GbEvents\Update\EventsSlugUpdater::class] = \GuteBotschafter\GbEvents\Update\EventsSlugUpdater::class;
