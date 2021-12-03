@@ -7,10 +7,10 @@ if (!defined('TYPO3_MODE')) {
     'GuteBotschafter.GbEvents',
     'Main',
     [
-        'Event' => 'list, show',
-        'Archive' => 'list',
-        'Calendar' => 'show',
-        'Export' => 'list, show',
+        \GuteBotschafter\GbEvents\Controller\EventController::class => 'list, show',
+        \GuteBotschafter\GbEvents\Controller\ArchiveController::class => 'list',
+        \GuteBotschafter\GbEvents\Controller\CalendarController::class => 'show',
+        \GuteBotschafter\GbEvents\Controller\ExportController::class => 'list, show',
     ]
 );
 
@@ -18,7 +18,7 @@ if (!defined('TYPO3_MODE')) {
     'GuteBotschafter.GbEvents',
     'Upcoming',
     [
-        'Upcoming' => 'list',
+        \GuteBotschafter\GbEvents\Controller\UpcomingController::class => 'list',
     ]
 );
 
