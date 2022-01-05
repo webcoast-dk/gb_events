@@ -25,18 +25,14 @@ namespace GuteBotschafter\GbEvents\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * A single event
  */
-class Event extends AbstractEntity implements EventInterface
+class Event extends AbstractEntity
 {
     /**
      * The title of the event
@@ -282,140 +278,6 @@ class Event extends AbstractEntity implements EventInterface
     }
 
     /**
-     * This returns the initial event dates including
-     * all recurring events up to and including the
-     * stopDate, taking the defined end of recurrance
-     * into account
-     *
-     * @param \DateTime $startDate
-     * @param \DateTime $stopDate
-     * @param bool $expandedList
-     * @return array $eventDates
-     */
-    public function getEventDates(\DateTime $startDate, \DateTime $stopDate, $expandedList = false)
-    {
-        $oneDay = new \DateInterval('P1D');
-        $oneMonth = new \DateInterval('P1M');
-
-        $startMonth = clone($startDate);
-        $startMonth->modify('first day of this month');
-        $stopMonth = clone($stopDate);
-        $stopMonth->modify('last day of this month');
-        $recurringMonths = [];
-
-        while ($startMonth <= $stopMonth) {
-            $recurringMonths[] = clone($startMonth);
-            $startMonth->add($oneMonth);
-        }
-
-        $recurringWeeks = $this->getRecurringWeeksAsText();
-        $recurringDays = $this->getRecurringDaysAsText();
-        $eventDates = [];
-        foreach ($recurringMonths as $workDate) {
-            /** @var \DateTime $workDate */
-            $workingMonth = $workDate->format('n');
-
-            // Weeks have been selected, check every nth week / day combination
-            if (count($recurringWeeks) !== 0) {
-                foreach ($this->getRecurringWeeksAsText() as $week) {
-                    foreach ($this->getRecurringDaysAsText() as $day) {
-                        $workDate->modify(sprintf('%s %s of this month', $week, $day));
-                        if ($workingMonth === $workDate->format('n')
-                            && $workDate >= $this->getEventDate()
-                            && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop())
-                            && $workDate >= $startDate
-                            && $workDate <= $stopDate
-                        ) {
-                            if ($this->isExcludedDate($workDate)) {
-                                continue;
-                            }
-                            $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-                            if (!$this->settings['startDateOnly'] || $expandedList) {
-                                $re_StartDate = clone($workDate);
-                                $difference = $this->getEventDate()->diff($re_StartDate);
-                                $re_StopDate = clone($this->getEventStopDate());
-                                $re_StopDate->add($difference);
-                                while ($re_StartDate <= $re_StopDate) {
-                                    $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
-                                    $re_StartDate->modify('+1 day');
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                // Check the weekdays only, ignoring the weeks of the month
-                $stopDay = clone($workDate);
-                $stopDay->modify('last day of this month');
-                while ($workDate <= $stopDay) {
-                    $addCurrentDay = false;
-                    switch ($workDate->format('w')) {
-                        case 0:
-                        case 7:
-                            $addCurrentDay = in_array('Sunday', $recurringDays);
-                            break;
-                        case 1:
-                            $addCurrentDay = in_array('Monday', $recurringDays);
-                            break;
-                        case 2:
-                            $addCurrentDay = in_array('Tuesday', $recurringDays);
-                            break;
-                        case 3:
-                            $addCurrentDay = in_array('Wednesday', $recurringDays);
-                            break;
-                        case 4:
-                            $addCurrentDay = in_array('Thursday', $recurringDays);
-                            break;
-                        case 5:
-                            $addCurrentDay = in_array('Friday', $recurringDays);
-                            break;
-                        case 6:
-                            $addCurrentDay = in_array('Saturday', $recurringDays);
-                            break;
-                    }
-                    if ($addCurrentDay && !$this->isExcludedDate($workDate)) {
-                        if ($workDate >= $this->getEventDate()
-                            && (is_null($this->getRecurringStop()) || $workDate <= $this->getRecurringStop())
-                            && $workDate >= $startDate
-                            && $workDate <= $stopDate
-                        ) {
-                            $eventDates[$workDate->format('Y-m-d')] = clone($workDate);
-                            if (!$this->settings['startDateOnly'] || $expandedList) {
-                                $re_StartDate = clone($workDate);
-                                $difference = $this->getEventDate()->diff($re_StartDate);
-                                $re_StopDate = clone($this->getEventStopDate());
-                                $re_StopDate->add($difference);
-                                while ($re_StartDate <= $re_StopDate) {
-                                    $eventDates[$re_StartDate->format('Y-m-d')] = clone($re_StartDate);
-                                    $re_StartDate->modify('+1 day');
-                                }
-                            }
-                        }
-                    }
-                    $workDate->add($oneDay);
-                }
-            }
-        }
-        $myStartDate = clone($this->getEventDate());
-        $myStopDate = clone($this->getEventStopDate());
-        if (!$this->settings['startDateOnly'] || $expandedList) {
-            while ($myStartDate <= $myStopDate) {
-                if (!$this->isExcludedDate($myStartDate)) {
-                    $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
-                }
-                $myStartDate->modify('+1 day');
-            }
-        } else {
-            $eventDates[$myStartDate->format('Y-m-d')] = clone($myStartDate);
-        }
-
-        $eventDates[$this->getEventDate()->format('Y-m-d')] = $this->getEventDate();
-        ksort($eventDates);
-
-        return $eventDates;
-    }
-
-    /**
      * @param string $eventTime
      * @return void
      */
@@ -481,34 +343,6 @@ class Event extends AbstractEntity implements EventInterface
     public function getRecurringWeeks()
     {
         return $this->recurringWeeks;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRecurringWeeksAsText()
-    {
-        $weeks = [];
-        if ($this->getRecurringWeeks() & 1) {
-            $weeks[] = 'first';
-        }
-        if ($this->getRecurringWeeks() & 2) {
-            $weeks[] = 'second';
-        }
-        if ($this->getRecurringWeeks() & 4) {
-            $weeks[] = 'third';
-        }
-        if ($this->getRecurringWeeks() & 8) {
-            $weeks[] = 'fourth';
-        }
-        if ($this->getRecurringWeeks() & 16) {
-            $weeks[] = 'fifth';
-        }
-        if ($this->getRecurringWeeks() & 32) {
-            $weeks[] = 'last';
-        }
-
-        return $weeks;
     }
 
     /**
@@ -593,212 +427,8 @@ class Event extends AbstractEntity implements EventInterface
         return $this->getEventStopDate() == $this->getEventDate();
     }
 
-    /**
-     * Return a suggested filename for sending the iCalendar file to the client
-     *
-     * @return string $filename;
-     */
-    public function iCalendarFilename()
-    {
-        return sprintf('%s - %s.ics', $this->getTitle(), $this->getEventDate()->format('Y-m-d'));
-    }
 
-    /**
-     * Return an iCalendar file as string representation suitable for sending to the client
-     *
-     * @return string $iCalendarData
-     */
-    public function iCalendarData()
-    {
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
-        $startDate = clone($this->getEventDate());
-        $startDate->add($this->getEventTimeAsDateInterval());
-        $startDate->setTimezone(new \DateTimeZone('UTC'));
-        $stopDate = clone($this->getEventStopDate());
-        $stopDate->add($this->getEventTimeAsDateInterval())->add(new \DateInterval('PT1H'));
-        $stopDate->setTimezone(new \DateTimeZone('UTC'));
 
-        $iCalData = [];
-
-        $iCalData[] = 'BEGIN:VEVENT';
-        $iCalData[] = 'UID:' . $this->getUniqueIdentifier();
-        $iCalData[] = 'LOCATION:' . self::escapeTextForIcal($this->getLocation());
-        $iCalData[] = 'SUMMARY:' . self::escapeTextForIcal($this->getTitle());
-        $iCalData[] = 'DESCRIPTION:' . self::escapeTextForIcal($this->getDescription());
-        $iCalData[] = 'CLASS:PUBLIC';
-
-        if ($this->getIsOneDayEvent()) {
-            $iCalData[] = 'DTSTART;VALUE=DATE:' . $startDate->format('Ymd');
-            $iCalData[] = 'DTEND;VALUE=DATE:' . $stopDate->format('Ymd');
-        } else {
-            $iCalData[] = 'DTSTART:' . $startDate->format('Ymd\THis\Z');
-            $iCalData[] = 'DTEND:' . $stopDate->format('Ymd\THis\Z');
-        }
-        $iCalData[] = 'DTSTAMP:' . $now->format('Ymd\THis\Z');
-        if ($this->isRecurringEvent()) {
-            $iCalData[] = 'RRULE:' . $this->buildRecurrenceRule();
-        }
-        $iCalData[] = 'END:VEVENT';
-
-        return implode("\r\n", $iCalData);
-    }
-
-    /**
-     * Escapes given text for usage in ical format.
-     *
-     * @param $textInput
-     * @return mixed|string
-     *
-     * @see http://www.ietf.org/rfc/rfc2445.txt
-     */
-    protected static function escapeTextForIcal($textInput)
-    {
-        $text = html_entity_decode(strip_tags($textInput), ENT_COMPAT | ENT_HTML401, 'UTF-8');
-
-        return str_replace(
-            ["\"", "\\", ",", ":", ";", "\n"],
-            ["DQUOTE", "\\\\", "\,", "\":\"", "\;", "\\n"],
-            $text
-        );
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRecurringDaysAsText()
-    {
-        $days = [];
-        if ($this->getRecurringDays() === 0 && $this->getRecurringWeeks() !== 0) {
-            switch ($this->getEventDate()->format('w')) {
-                case 0:
-                case 7:
-                    $days[] = 'Sunday';
-                    break;
-                case 1:
-                    $days[] = 'Monday';
-                    break;
-                case 2:
-                    $days[] = 'Tuesday';
-                    break;
-                case 3:
-                    $days[] = 'Wednesday';
-                    break;
-                case 4:
-                    $days[] = 'Thursday';
-                    break;
-                case 5:
-                    $days[] = 'Friday';
-                    break;
-                case 6:
-                    $days[] = 'Saturday';
-                    break;
-            }
-        } else {
-            if ($this->getRecurringDays() & 1) {
-                $days[] = 'Monday';
-            }
-            if ($this->getRecurringDays() & 2) {
-                $days[] = 'Tuesday';
-            }
-            if ($this->getRecurringDays() & 4) {
-                $days[] = 'Wednesday';
-            }
-            if ($this->getRecurringDays() & 8) {
-                $days[] = 'Thursday';
-            }
-            if ($this->getRecurringDays() & 16) {
-                $days[] = 'Friday';
-            }
-            if ($this->getRecurringDays() & 32) {
-                $days[] = 'Saturday';
-            }
-            if ($this->getRecurringDays() & 64) {
-                $days[] = 'Sunday';
-            }
-        }
-
-        return $days;
-    }
-
-    /**
-     * Tries an intelligent guess as to the start time of an event
-     *
-     * @return \DateInterval
-     */
-    protected function getEventTimeAsDateInterval()
-    {
-        $hours = $minutes = 0;
-        $matches = [];
-        if (preg_match('#(\d{1,2}):?(\d{2})#', $this->getEventTime(), $matches)) {
-            $hours = $matches[1];
-            $minutes = $matches[2];
-        }
-
-        return new \DateInterval(sprintf('PT%dH%dM0S', $hours, $minutes));
-    }
-
-    /**
-     * Builds iCalendar recurrence rule
-     *
-     * @return string $rRule
-     */
-    protected function buildRecurrenceRule()
-    {
-        $shortDays = [
-            'Monday' => 'MO',
-            'Tuesday' => 'TU',
-            'Wednesday' => 'WE',
-            'Thursday' => 'TH',
-            'Friday' => 'FR',
-            'Saturday' => 'SA',
-            'Sunday' => 'SU',
-        ];
-
-        $weeks = [];
-        if ($this->getRecurringWeeks() & 1) {
-            $weeks[] = '1';
-        }
-        if ($this->getRecurringWeeks() & 2) {
-            $weeks[] = '2';
-        }
-        if ($this->getRecurringWeeks() & 4) {
-            $weeks[] = '3';
-        }
-        if ($this->getRecurringWeeks() & 8) {
-            $weeks[] = '4';
-        }
-        if ($this->getRecurringWeeks() & 16) {
-            $weeks[] = '5';
-        }
-        if ($this->getRecurringWeeks() & 32) {
-            $weeks[] = '-1';
-        }
-
-        $days = $this->getRecurringDaysAsText();
-        foreach ($days as $index => $value) {
-            $days[$index] = $shortDays[$value];
-        }
-
-        if (count($weeks) !== 0) {
-            $rRule = 'FREQ=MONTHLY;BYDAY=';
-            $byDays = [];
-            foreach ($weeks as $week) {
-                foreach ($days as $day) {
-                    $byDays[] = sprintf('%s%s', $week, $day);
-                }
-            }
-            $rRule .= join(",", $byDays);
-        } else {
-            $rRule = 'FREQ=WEEKLY;BYDAY=';
-            $byDays = [];
-            foreach ($days as $day) {
-                $byDays[] = $day;
-            }
-            $rRule .= join(',', $byDays);
-        }
-
-        return $rRule;
-    }
 
     /**
      * Gets the Dates on which recurring events do not occur.
@@ -808,16 +438,6 @@ class Event extends AbstractEntity implements EventInterface
     public function getRecurringExcludeDates()
     {
         return $this->recurringExcludeDates;
-    }
-
-    /**
-     * Gets the Dates on which recurring events do not occur.
-     *
-     * @return array
-     */
-    protected function getRecurringExcludeDatesArray()
-    {
-        return preg_split("#[\r\n]+|$#", $this->getRecurringExcludeDates());
     }
 
     /**
@@ -832,56 +452,13 @@ class Event extends AbstractEntity implements EventInterface
     }
 
     /**
-     * Check if the given date is to be excluded from the list of recurring events
-     *
-     * @param  \DateTime $date
-     * @return boolean
-     */
-    protected function isExcludedDate(\DateTime $date)
-    {
-        // $this->initializeExcludedDates();
-        // if (array_key_exists($date->format('Y'), $this->excludedDates)
-        //     && array_key_exists($date->format('m-d'), $this->excludedDates[$date->format('Y')])
-        // ) {
-        //     return true;
-        // }
-        // if (array_key_exists('0000', $this->excludedDates)
-        //     && array_key_exists($date->format('m-d'), $this->excludedDates['0000'])
-        // ) {
-        //     return true;
-        // }
-
-        return false;
-    }
-
-    /**
      * Returns true if this event is recurring in any fashion.
      *
      * @return bool
      */
-    protected function isRecurringEvent()
+    public function isRecurringEvent()
     {
         return $this->recurringDays || $this->recurringWeeks;
-    }
-
-    /**
-     * Expand the given date to include a year (if missing) and convert to a
-     * DateTime object
-     *
-     * @param  string $excludeDate
-     * @return \DateTime
-     */
-    protected function expandExcludeDate($excludeDate)
-    {
-        if (preg_match('#^\d{1,2}\.\d{1,2}\.?$#', $excludeDate)) {
-            $excludeDate = str_replace('..', '.', sprintf('%s.%s', $excludeDate, '0000'));
-        } else {
-            if (preg_match('#^\d{1,2}-\d{1,2}$#', $excludeDate)) {
-                $excludeDate = sprintf('%s-%s', '0000', $excludeDate);
-            }
-        }
-
-        return new \DateTime($excludeDate);
     }
 
     /**

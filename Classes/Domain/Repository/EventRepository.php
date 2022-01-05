@@ -25,7 +25,9 @@ namespace GuteBotschafter\GbEvents\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Exception;
 use GuteBotschafter\GbEvents\Domain\Model\Event;
+use GuteBotschafter\GbEvents\Utility\DateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\AndInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
@@ -39,6 +41,16 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class EventRepository extends Repository
 {
+    protected array $settings = [];
+
+    protected DateUtility $dateUtility;
+
+    public function injectSettings(array $settings)
+    {
+        $this->settings = $settings;
+        $this->dateUtility = GeneralUtility::makeInstance(DateUtility::class, $this->settings);
+    }
+
     /**
      * Find all events between $startDate and $stopDate
      *
@@ -68,10 +80,13 @@ class EventRepository extends Repository
     /**
      * Find all events (limited to a amount of years)
      *
-     * @param int $years
-     * @param bool $showStartedEvents
+     * @param int    $years
+     * @param bool   $showStartedEvents
      * @param string $categories
-     * @return array
+     *
+     * @throws Exception
+     *
+     * @return QueryResultInterface|Event[]
      */
     public function findAll($years = 1, $showStartedEvents = false, $categories = null)
     {
@@ -86,7 +101,7 @@ class EventRepository extends Repository
 
         return $this->resolveRecurringEvents(
             $query->execute(),
-            $grouped = false,
+            false,
             $startDate,
             $stopDate,
             $showStartedEvents
@@ -164,11 +179,11 @@ class EventRepository extends Repository
     /**
      * Add conditions to retrieve recurring dates from the database
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface|\TYPO3\CMS\Extbase\Persistence\Generic\Query $query
+     * @param QueryInterface|\TYPO3\CMS\Extbase\Persistence\Generic\Query    $query
      * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions
-     * @param \DateTime $startDate
-     * @param \DateTime $stopDate
-     * @param string $categories
+     * @param \DateTime                                                      $startDate
+     * @param \DateTime                                                      $stopDate
+     * @param string                                                         $categories
      */
     protected function applyRecurringConditions(
         QueryInterface &$query,
@@ -202,9 +217,9 @@ class EventRepository extends Repository
     /**
      * Add conditions to filter the selected records by category
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface|\TYPO3\CMS\Extbase\Persistence\Generic\Query $query
+     * @param QueryInterface|\TYPO3\CMS\Extbase\Persistence\Generic\Query    $query
      * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $conditions
-     * @param array $categories
+     * @param array                                                          $categories
      */
     protected function applyCategoryFilters(QueryInterface $query, ConstraintInterface &$conditions, $categories)
     {
@@ -227,7 +242,7 @@ class EventRepository extends Repository
      * Resolve the recurring events into current dates honoring start and stopdates as well as limits
      * on the amount of dates returned
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $events
+     * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface<Event>|Event[] $events
      * @param bool $grouped
      * @param \DateTime $startDate
      * @param \DateTime $stopDate
@@ -246,7 +261,7 @@ class EventRepository extends Repository
         $today = new \DateTime('midnight today');
         $days = [];
         foreach ($events as $event) {
-            foreach ($event->getEventDates($startDate, $stopDate, $grouped) as $eventDate) {
+            foreach ($this->dateUtility->getEventDates($event, $startDate, $stopDate, $grouped) as $eventDate) {
                 /** @var \DateTime $eventDate */
                 if ($grouped === false) {
                     if ($checkDuration === false && !$this->isVisibleEvent($eventDate)) {
@@ -300,10 +315,11 @@ class EventRepository extends Repository
     /**
      * Returns query constraints for simple events.
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface|\TYPO3\CMS\Extbase\Persistence\Generic\Query $query
-     * @param \DateTime $startDate
-     * @param \DateTime $stopDate
-     * @param bool $showStartedEvents
+     * @param QueryInterface|\TYPO3\CMS\Extbase\Persistence\Generic\Query $query
+     * @param \DateTime                                                   $startDate
+     * @param \DateTime                                                   $stopDate
+     * @param bool                                                        $showStartedEvents
+     *
      * @return AndInterface|OrInterface
      */
     protected function getBaseConditions(
@@ -336,7 +352,8 @@ class EventRepository extends Repository
      * @param \DateTime $stopDate
      * @param bool $showStartedEvents
      * @param null $categories
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
+     *
+     * @return QueryInterface
      */
     protected function queryAllBetween(
         \DateTime $startDate,

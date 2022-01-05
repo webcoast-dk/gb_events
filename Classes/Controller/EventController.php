@@ -26,6 +26,7 @@ namespace GuteBotschafter\GbEvents\Controller;
  ***************************************************************/
 
 use GuteBotschafter\GbEvents\Domain\Model\Event;
+use GuteBotschafter\GbEvents\Utility\DateUtility;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -43,13 +44,9 @@ class EventController extends BaseController
         switch ($this->settings['displayMode']) {
             case 'calendar':
                 $this->forward('show', 'Calendar');
-
-                return;
                 break;
             case 'archive':
                 $this->forward('list', 'Archive');
-
-                return;
                 break;
             default:
                 $events = $this->eventRepository->findAll(

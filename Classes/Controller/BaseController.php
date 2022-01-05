@@ -57,6 +57,13 @@ abstract class BaseController extends ActionController
         $this->eventRepository = $eventRepository;
     }
 
+    protected function initializeAction()
+    {
+        parent::initializeAction();
+
+        $this->eventRepository->injectSettings($this->settings);
+    }
+
     /**
      * Dynamically add the right tags to the page cache for a details or list view
      *

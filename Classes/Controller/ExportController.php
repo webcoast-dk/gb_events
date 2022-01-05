@@ -26,6 +26,7 @@ namespace GuteBotschafter\GbEvents\Controller;
  ***************************************************************/
 
 use GuteBotschafter\GbEvents\Domain\Model\Event;
+use GuteBotschafter\GbEvents\Utility\ICalUtility;
 
 /**
  * ExportController
@@ -57,7 +58,7 @@ class ExportController extends BaseController
         $content = [];
         foreach ($events as $event) {
             /** @var Event $event */
-            $content[$event->getUniqueIdentifier()] = $event->iCalendarData();
+            $content[$event->getUniqueIdentifier()] = ICalUtility::iCalendarData($event);
         }
         $this->addCacheTags($events, 'tx_gbevents_domain_model_event');
         $this->renderCalendar(join("\n", $content));
@@ -72,7 +73,7 @@ class ExportController extends BaseController
     public function showAction(Event $event)
     {
         $this->addCacheTags($event);
-        $this->renderCalendar($event->iCalendarData(), $event->iCalendarFilename());
+        $this->renderCalendar(ICalUtility::iCalendarData($event), ICalUtility::iCalendarFilename($event));
     }
 
     /**
