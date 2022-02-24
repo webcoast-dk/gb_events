@@ -39,12 +39,12 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,title, url_segment,teaser,description,location,event_date,event_time,event_stop_date,images,downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring,recurring_weeks,recurring_days,recurring_stop,recurring_exclude_holidays,recurring_exclude_dates,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.access,starttime,endtime',
+            'showitem' => 'title, url_segment,teaser,description,location,event_date,event_time,event_stop_date,images,downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring,recurring_weeks,recurring_days,recurring_stop,recurring_exclude_holidays,recurring_exclude_dates,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.access, hidden, --palette--;;access_times',
         ],
     ],
     'palettes' => [
-        '1' => [
-            'showitem' => '',
+        'access_times' => [
+            'showitem' => 'starttime, endtime',
         ],
     ],
     'columns' => [
@@ -55,12 +55,6 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'special' => 'languages',
-                'items' => [
-                    [
-                        'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                        -1,
-                    ],
-                ],
             ],
         ],
         'l10n_parent' => [
@@ -83,19 +77,12 @@ return [
                 'type' => 'passthrough',
             ],
         ],
-        't3ver_label' => [
-            'displayCond' => 'FIELD:t3ver_label:REQ:true',
-            'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
-            'config' => [
-                'type' => 'none',
-                'cols' => 27,
-            ],
-        ],
         'hidden' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
+                'renderType' => 'checkboxToggle'
             ],
         ],
         'starttime' => [
