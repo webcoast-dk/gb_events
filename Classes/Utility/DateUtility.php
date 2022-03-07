@@ -341,6 +341,6 @@ class DateUtility
      */
     protected function getRecurringExcludeDatesArray(Event $event): array
     {
-        return preg_split("#[\r\n]+|$#", $event->getRecurringExcludeDates());
+        return preg_split("#[\r\n]+|$#", $event->getRecurringExcludeDates() ?? '');
     }
 }
