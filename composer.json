@@ -26,8 +26,8 @@
         }
     ],
     "require": {
-        "typo3/cms-extbase": "^10.4 || ^11.5",
-        "typo3/cms-fluid": "^10.4 || ^11.5"
+        "typo3/cms-extbase": "^11.5 || ^12.4",
+        "typo3/cms-fluid": "^11.5 || ^12.4"
     },
     "require-dev": {
         "namelesscoder/typo3-repository-client": "1.1.x-dev"
@@ -59,7 +59,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-release/10.x": "10.x-dev"
+            "dev-master": "11.x-dev"
         },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",

@@ -1,6 +1,8 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,12 +33,9 @@ namespace GuteBotschafter\GbEvents\Controller;
 class CalendarController extends BaseController
 {
     /**
-     * Displays all events as a browseable calendar
-     *
-     * @param  string $start
-     * @return void
+     * Displays all events as a browsable calendar
      */
-    public function showAction($start = 'today')
+    public function showAction(string $start = 'today'): ResponseInterface
     {
         // Startdatum setzen
         $startDate = new \DateTime('today');
@@ -106,5 +105,7 @@ class CalendarController extends BaseController
             'nextMonth' => $nextMonth->format('Y-m-d'),
             'prevMonth' => $previousMonth->format('Y-m-d'),
         ]);
+
+        return $this->htmlResponse();
     }
 }

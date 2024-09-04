@@ -27,6 +27,8 @@ namespace GuteBotschafter\GbEvents\Controller;
 
 use GuteBotschafter\GbEvents\Domain\Model\Event;
 use GuteBotschafter\GbEvents\Utility\ICalUtility;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 
 /**
  * ExportController
@@ -45,10 +47,8 @@ class ExportController extends BaseController
 
     /**
      * Displays all Events
-     *
-     * @return string The rendered view
      */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
         $events = $this->eventRepository->findAll(
             $this->settings['years'],
@@ -61,57 +61,48 @@ class ExportController extends BaseController
             $content[$event->getUniqueIdentifier()] = ICalUtility::iCalendarData($event);
         }
         $this->addCacheTags($events, 'tx_gbevents_domain_model_event');
-        $this->renderCalendar(join("\n", $content));
+
+        return $this->renderCalendar(join("\n", $content));
     }
 
     /**
      * Exports a single Event as iCalendar file
-     *
-     * @param \GuteBotschafter\GbEvents\Domain\Model\Event $event
-     * @throws \Exception
      */
     public function showAction(Event $event)
     {
         $this->addCacheTags($event);
-        $this->renderCalendar(ICalUtility::iCalendarData($event), ICalUtility::iCalendarFilename($event));
+
+        return $this->renderCalendar(ICalUtility::iCalendarData($event), ICalUtility::iCalendarFilename($event));
     }
 
     /**
      * Set content headers for the iCalendar data
-     *
-     * @param string $content
-     * @param string $filename
-     * @throws \Exception
-     * @return void
      */
-    protected function setHeaders($content, $filename)
+    protected function setHeaders(ResponseInterface $response, string $content, string $filename): ResponseInterface
     {
         if (ob_get_contents()) {
             throw new \Exception('Some data has already been sent to the browser', 1408607681);
         }
-        header('Content-Type: text/calendar');
-        if (headers_sent()) {
-            throw new \Exception('Some data has already been sent to the browser', 1408607681);
+
+        $response = $response
+            ->withHeader('Content-Type', 'text/calendar')
+            ->withHeader('Content-Transfer-Encoding', 'binary')
+            ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->withHeader('Cache-Control', 'public')
+            ->withHeader('Pragma', 'public')
+            ->withHeader('Content-Description', 'iCalendar Event File');
+
+        if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) or empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+            $response = $response->withHeader('Content-Length', strlen($content));
         }
 
-        header('Cache-Control: public');
-        header('Pragma: public');
-        header('Content-Description: iCalendar Event File');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) or empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-            header('Content-Length: ' . strlen($content));
-        }
+        return $response;
     }
 
     /**
      * Render the iCalendar events with the required wrap
-     *
-     * @param  string $events
-     * @param  string $filename
-     * @throws \Exception
      */
-    protected function renderCalendar($events, $filename = 'calendar.ics')
+    protected function renderCalendar(string $events, string $filename = 'calendar.ics'): ResponseInterface
     {
         if (trim($events) === '') {
             throw new \Exception('No events to process', 1408611856);
@@ -121,9 +112,10 @@ class ExportController extends BaseController
             $events,
             ExportController::VCALENDAR_END,
         ]);
-        $this->setHeaders($content, $filename);
 
-        echo $content;
-        die;
+        $response = $this->responseFactory->createResponse();
+        $response->getBody()->write($content);
+
+        return $this->setHeaders($response, $content, $filename);
     }
 }

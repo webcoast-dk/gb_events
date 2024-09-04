@@ -27,7 +27,9 @@ namespace GuteBotschafter\GbEvents\Controller;
 
 use GuteBotschafter\GbEvents\Domain\Model\Event;
 use GuteBotschafter\GbEvents\Utility\DateUtility;
+use Psr\Http\Message\ResponseInterface;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 
 /**
  * Controller for the Event object
@@ -39,15 +41,14 @@ class EventController extends BaseController
      *
      * @return void
      */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
         switch ($this->settings['displayMode']) {
             case 'calendar':
-                $this->forward('show', 'Calendar');
+                return (new ForwardResponse('show'))->withControllerName(CalendarController::class);
                 break;
             case 'archive':
-                $this->forward('list', 'Archive');
-                break;
+                return (new ForwardResponse('list'))->withControllerName(ArchiveController::class);
             default:
                 $events = $this->eventRepository->findAll(
                     $this->settings['years'],
@@ -56,6 +57,8 @@ class EventController extends BaseController
                 );
                 $this->addCacheTags($events, 'tx_gbevents_domain_model_event');
                 $this->view->assign('events', $events);
+
+                return $this->htmlResponse();
         }
     }
 
@@ -65,9 +68,11 @@ class EventController extends BaseController
      * @param Event $event
      * @return void
      */
-    public function showAction(Event $event)
+    public function showAction(Event $event): ResponseInterface
     {
         $this->addCacheTags($event, 'tx_gbevents_domain_model_event');
         $this->view->assign('event', $event);
+
+        return $this->htmlResponse();
     }
 }
