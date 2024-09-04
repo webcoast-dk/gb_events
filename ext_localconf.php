@@ -1,10 +1,10 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'GuteBotschafter.GbEvents',
+    'GbEvents',
     'Main',
     [
         \GuteBotschafter\GbEvents\Controller\EventController::class => 'list, show',
@@ -15,7 +15,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'GuteBotschafter.GbEvents',
+    'GbEvents',
     'Upcoming',
     [
         \GuteBotschafter\GbEvents\Controller\UpcomingController::class => 'list',

@@ -26,6 +26,8 @@ namespace GuteBotschafter\GbEvents\Controller;
  ***************************************************************/
 
 use GuteBotschafter\GbEvents\Domain\Repository\EventRepository;
+use Symfony\Contracts\Service\Attribute\Required;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
@@ -39,25 +41,26 @@ abstract class BaseController extends ActionController
     /**
      * @var \GuteBotschafter\GbEvents\Domain\Repository\EventRepository
      */
-    protected $eventRepository;
+    protected EventRepository $eventRepository;
 
     /**
      * @var DataMapper
      */
-    protected $dataMapper;
+    protected DataMapper $dataMapper;
 
-    /**
-     * inject the eventRepository
-     *
-     * @param \GuteBotschafter\GbEvents\Domain\Repository\EventRepository eventRepository
-     * @return void
-     */
-    public function injectEventRepository(EventRepository $eventRepository)
+    #[Required]
+    public function setDataMapper(DataMapper $dataMapper): void
+    {
+        $this->dataMapper = $dataMapper;
+    }
+
+    #[Required]
+    public function setEventRepository(EventRepository $eventRepository): void
     {
         $this->eventRepository = $eventRepository;
     }
 
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         parent::initializeAction();
 
@@ -72,7 +75,7 @@ abstract class BaseController extends ActionController
      */
     protected function addCacheTags($items, $additionalTags = null)
     {
-        if (TYPO3_MODE === 'BE') {
+        if (ApplicationType::fromRequest($this->request)->isBackend()) {
             return;
         }
 
@@ -86,7 +89,7 @@ abstract class BaseController extends ActionController
         $tags = $additionalTags;
         foreach ($items as $item) {
             if ($item instanceof AbstractEntity) {
-                $table = $this->getDataMapper()->convertClassNameToTableName(get_class($item));
+                $table = $this->dataMapper->convertClassNameToTableName(get_class($item));
                 $uid = $item->getUid();
                 $tags[] = sprintf('%s_%s', $table, $uid);
             } elseif ((string)$item !== '') {
@@ -99,22 +102,7 @@ abstract class BaseController extends ActionController
         }
     }
 
-    /**
-     * @return DataMapper
-     */
-    protected function getDataMapper()
-    {
-        if (!isset($this->dataMapper)) {
-            $this->dataMapper = $this->objectManager->get(DataMapper::class);
-        }
-
-        return $this->dataMapper;
-    }
-
-    /**
-     * @return TypoScriptFrontendController
-     */
-    protected function getTypoScriptFrontEndController()
+    protected function getTypoScriptFrontEndController(): TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];
     }

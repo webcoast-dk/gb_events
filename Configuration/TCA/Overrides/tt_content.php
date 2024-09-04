@@ -4,7 +4,7 @@
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 ExtensionUtility::registerPlugin(
-    'GuteBotschafter.GbEvents',
+    'GbEvents',
     'Main',
     'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.main.title'
 );
@@ -17,7 +17,7 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['gbevents
 
 # Upcoming Plugin (List of upcoming events)
 ExtensionUtility::registerPlugin(
-    'GuteBotschafter.GbEvents',
+    'GbEvents',
     'Upcoming',
     'LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents.upcoming.title'
 );

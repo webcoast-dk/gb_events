@@ -2,16 +2,9 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
-
-ExtensionManagementUtility::makeCategorizable(
-    'gb_events',
-    'tx_gbevents_domain_model_event',
-    'categories',
-    []
-);
 
 return [
     'ctrl' => [
@@ -39,7 +32,7 @@ return [
     ],
     'types' => [
         '1' => [
-            'showitem' => 'title, url_segment,teaser,description,location,event_date,event_time,event_stop_date,images,downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring,recurring_weeks,recurring_days,recurring_stop,recurring_exclude_holidays,recurring_exclude_dates,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.access, hidden, --palette--;;access_times',
+            'showitem' => 'title, url_segment,teaser,description,location,event_date,event_time,event_stop_date,images,downloads,--div--;LLL:EXT:gb_events/Resources/Private/Language/locallang_db.xlf:tx_gbevents_domain_model_event.recurring,recurring_weeks,recurring_days,recurring_stop,recurring_exclude_holidays,recurring_exclude_dates,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.access, hidden, --palette--;;access_times, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.categories,categories',
         ],
     ],
     'palettes' => [
@@ -317,5 +310,12 @@ return [
                 'default' => ''
             ]
         ],
+        'categories' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:sys_category.categories',
+            'exclude' => 1,
+            'config' => [
+                'type' => 'categories',
+            ]
+        ]
     ],
 ];

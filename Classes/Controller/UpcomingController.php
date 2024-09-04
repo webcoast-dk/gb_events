@@ -1,6 +1,8 @@
 <?php
 namespace GuteBotschafter\GbEvents\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -32,17 +34,17 @@ class UpcomingController extends BaseController
 {
     /**
      * Displays all Events
-     *
-     * @return void
      */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
         $events = $this->eventRepository->findUpcoming(
             $this->settings['limit'],
-            (bool)$this->settings['showStartedEvents'],
+            (bool)($this->settings['showStartedEvents'] ?? false),
             $this->settings['categories']
         );
         $this->addCacheTags($events, 'tx_gbevents_domain_model_event');
         $this->view->assign('events', $events);
+
+        return $this->htmlResponse();
     }
 }
